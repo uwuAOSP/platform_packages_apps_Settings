@@ -20,4 +20,36 @@
     <string-array name="charging_control_mode_values_fine_grained_control" translatable="false">
         <item>3</item>
     </string-array>
+
+    <!-- Network Traffic -->
+    <string-array name="network_traffic_mode_entries" translatable="false">
+        <item>@string/network_traffic_mode_disable</item>
+        <item>@string/network_traffic_mode_up</item>
+        <item>@string/network_traffic_mode_down</item>
+        <item>@string/network_traffic_mode_all</item>
+    </string-array>
+
+    <string-array name="network_traffic_mode_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="network_traffic_units_entries" translatable="false">
+        <item>@string/network_traffic_units_kilobits</item>
+        <item>@string/network_traffic_units_megabits</item>
+        <item>@string/network_traffic_units_kilobytes</item>
+        <item>@string/network_traffic_units_megabytes</item>
+        <item>@string/network_traffic_units_auto</item>
+    </string-array>
+
+    <string-array name="network_traffic_units_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
 </resources>
