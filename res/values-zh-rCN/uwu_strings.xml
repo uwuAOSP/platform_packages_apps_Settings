@@ -359,4 +359,9 @@
     <string name="language_picker_page">语言选择页面</string>
     <string name="search_region">搜索区域</string>
     <string name="search_region_page">搜索区域页面</string>
+
+    <!-- Per-app volume -->
+    <string name="app_volume">应用音量控制</string>
+    <string name="app_volume_title">控制特定应用的音量</string>
+    <string name="app_volume_summary">在音量条中显示应用音量控制按钮</string>
 </resources>
