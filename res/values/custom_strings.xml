@@ -406,4 +406,8 @@
     <string name="software_update_up_to_date_header">Your device is up to date</string>
     <string name="software_update_up_to_specific_date_summary">Updated to %1$s</string>
     <string name="system_update_entry_title">System update</string>
+    <!-- Per-app volume -->
+    <string name="app_volume">App volume</string>
+    <string name="app_volume_title">Per-app volume control</string>
+    <string name="app_volume_summary">Show per-app volume controls in the volume dialog</string>
 </resources>
