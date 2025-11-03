@@ -84,7 +84,8 @@ class PeakRefreshRateSwitchPreference :
     override fun getAvailabilityStability() = PreconditionStability.STABLE_UNTIL_APK_UPDATE
 
     override fun isAvailable(context: Context) =
-        context.resources.getBoolean(R.bool.config_show_smooth_display) &&
+            !context.resources.getBoolean(R.bool.config_show_advanced_refresh_rate) &&
+            context.resources.getBoolean(R.bool.config_show_smooth_display) &&
             context.peakRefreshRate > DEFAULT_REFRESH_RATE
 
     override fun getSummary(context: Context): CharSequence? =
