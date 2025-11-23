@@ -187,6 +187,7 @@
     <string name="charging_control_target_time_title">Target time to full charge</string>
     <string name="charging_control_target_time_summary">Battery will be fully charged by %s</string>
     <string name="charging_control_limit_title">Limit</string>
+    <string name="charging_control_limit_summary">Current limit: %d%%</string>
     <string name="reset">Reset</string>
 
     <!-- Message shown in fingerprint enrollment dialog to locate the sensor -->
