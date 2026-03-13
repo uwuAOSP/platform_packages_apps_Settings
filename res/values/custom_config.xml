@@ -14,6 +14,9 @@
          but a dedicated one, i.e. not embedded in the power button. -->
     <bool name="config_is_side_fps" translatable="false">false</bool>
 
+    <!-- Uses the legacy UDFPS enrollment UI with side text instead of a footer button. -->
+    <bool name="config_useLegacyUdfpsUi" translatable="false">false</bool>
+
     <!-- Show advanced refresh rate option -->
     <bool name="config_show_advanced_refresh_rate" translatable="false">true</bool>
 </resources>
