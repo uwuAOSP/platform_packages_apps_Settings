@@ -14951,4 +14951,6 @@
     <string name="safety_center_device_finder_search_terms"></string>
     <!-- Safety Center system component update search terms [CHAR LIMIT=NONE] -->
     <string name="safety_center_system_component_update_search_terms"></string>
+    <string name="uwu_settings_ext_title">uwu Extensions</string>
+    <string name="uwu_settings_ext_summary">More uwuAOSP features and tools</string>
 </resources>
