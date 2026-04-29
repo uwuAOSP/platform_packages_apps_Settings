@@ -5093,10 +5093,11 @@
     <string name="my_device_info_account_preference_title" msgid="9197139254007133175">"Account"</string>
     <string name="my_device_info_account_preference_summary" msgid="3510582677937510545">"%d accounts"</string>
     <string name="my_device_info_device_name_preference_title" msgid="8053298498727237971">"Device name"</string>
+    <string name="my_device_info_more_info_title" msgid="4110109468130342781">"More information"</string>
     <string name="my_device_info_basic_info_category_title" msgid="381963187269356548">"Basic info"</string>
     <string name="my_device_info_legal_category_title" msgid="7732792841537995127">"Legal and regulatory"</string>
-    <string name="my_device_info_device_details_category_title" msgid="4848438695638348680">"Device details"</string>
-    <string name="my_device_info_device_identifiers_category_title" msgid="2197063484127704153">"Device identifiers"</string>
+    <string name="my_device_info_device_details_category_title" msgid="4848438695638348680">"Network &amp; communication"</string>
+    <string name="my_device_info_device_identifiers_category_title" msgid="2197063484127704153">"Device status information"</string>
     <string name="change_wifi_state_title" msgid="5629648102837821525">"Wi-Fi control"</string>
     <string name="change_wifi_state_app_detail_switch" msgid="1385358508267180745">"Allow app to control Wi-Fi"</string>
     <string name="change_wifi_state_app_detail_summary" msgid="8230854855584217111">"Allow this app to turn Wi-Fi on or off, scan and connect to Wi-Fi networks, add or remove networks, or start a local-only hotspot"</string>

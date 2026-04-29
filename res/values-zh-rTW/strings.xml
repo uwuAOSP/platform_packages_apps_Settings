@@ -5093,10 +5093,11 @@
     <string name="my_device_info_account_preference_title" msgid="9197139254007133175">"帳戶"</string>
     <string name="my_device_info_account_preference_summary" msgid="3510582677937510545">"%d 個帳戶"</string>
     <string name="my_device_info_device_name_preference_title" msgid="8053298498727237971">"裝置名稱"</string>
+    <string name="my_device_info_more_info_title" msgid="4110109468130342781">"更多資訊"</string>
     <string name="my_device_info_basic_info_category_title" msgid="381963187269356548">"基本資訊"</string>
     <string name="my_device_info_legal_category_title" msgid="7732792841537995127">"法律和法規"</string>
-    <string name="my_device_info_device_details_category_title" msgid="4848438695638348680">"裝置詳細資料"</string>
-    <string name="my_device_info_device_identifiers_category_title" msgid="2197063484127704153">"裝置 ID"</string>
+    <string name="my_device_info_device_details_category_title" msgid="4848438695638348680">"網路與通訊"</string>
+    <string name="my_device_info_device_identifiers_category_title" msgid="2197063484127704153">"裝置狀態資訊"</string>
     <string name="change_wifi_state_title" msgid="5629648102837821525">"Wi-Fi 控制"</string>
     <string name="change_wifi_state_app_detail_switch" msgid="1385358508267180745">"允許應用程式控制 Wi-Fi"</string>
     <string name="change_wifi_state_app_detail_summary" msgid="8230854855584217111">"允許這個應用程式開啟或關閉 Wi-Fi、掃描及連上 Wi-Fi 網路、新增或移除網路，或啟動僅限區域網路的無線基地台"</string>

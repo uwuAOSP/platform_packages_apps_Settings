@@ -21,12 +21,9 @@ import android.content.Context
 import android.os.Build
 import androidx.fragment.app.Fragment
 import com.android.settings.R
-import com.android.settings.Settings.FirmwareVersionActivity
 import com.android.settings.contract.TAG_DEVICE_STATE_SCREEN
 import com.android.settings.core.PreferenceScreenMixin
 import com.android.settings.flags.Flags
-import com.android.settings.utils.makeLaunchIntent
-import com.android.settingslib.metadata.PreferenceMetadata
 import com.android.settingslib.metadata.PreferenceSummaryProvider
 import com.android.settingslib.metadata.ProvidePreferenceScreen
 import com.android.settingslib.metadata.preferenceHierarchy
@@ -52,7 +49,7 @@ open class FirmwareVersionScreen : PreferenceScreenMixin, PreferenceSummaryProvi
         get() = R.string.keywords_android_version
 
     override val indexable
-        get() = true
+        get() = false
 
     // Once fully launch, change to PreferenceFragment and clean up FirmwareVersionScreenTest
     override fun fragmentClass(): Class<out Fragment>? = FirmwareVersionSettings::class.java
@@ -63,9 +60,6 @@ open class FirmwareVersionScreen : PreferenceScreenMixin, PreferenceSummaryProvi
         get() = R.string.menu_key_about_device
 
     override fun hasCompleteHierarchy() = true
-
-    override fun getLaunchIntent(context: Context, metadata: PreferenceMetadata?) =
-        makeLaunchIntent(context, FirmwareVersionActivity::class.java, metadata?.key)
 
     override fun getPreferenceHierarchy(context: Context, coroutineScope: CoroutineScope) =
         preferenceHierarchy(context) {
