@@ -49,6 +49,22 @@
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory
+        android:order="-125"
+        android:key="top_level_uwu_category">
+        <com.android.settings.widget.HomepagePreference
+            android:icon="@drawable/ic_homepage_uwu_settings_ext"
+            android:key="top_level_uwu_settings_ext"
+            android:order="-100"
+            android:summary="@string/uwu_settings_ext_summary"
+            android:title="@string/uwu_settings_ext_title">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="org.uwuaosp.settingsext"
+                android:targetClass="org.uwuaosp.settingsext.SettingsExtActivity" />
+        </com.android.settings.widget.HomepagePreference>
+    </com.android.settingslib.widget.UntitledPreferenceCategory>
+
+    <com.android.settingslib.widget.UntitledPreferenceCategory
         android:order="-120"
         android:key="top_level_personalize_category">
         <com.android.settings.widget.HomepagePreference
@@ -271,4 +287,3 @@
             settings:controller="com.android.settings.support.SupportPreferenceController"/>
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 </PreferenceScreen>
-
