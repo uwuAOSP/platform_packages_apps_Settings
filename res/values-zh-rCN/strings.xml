@@ -5094,6 +5094,8 @@
     <string name="my_device_info_account_preference_summary" msgid="3510582677937510545">"%d 个账号"</string>
     <string name="my_device_info_device_name_preference_title" msgid="8053298498727237971">"设备名称"</string>
     <string name="my_device_info_more_info_title" msgid="4110109468130342781">"更多信息"</string>
+    <string name="about_phone_interface_menu">界面</string>
+    <string name="about_phone_use_md3_style">使用md3风格的界面</string>
     <string name="my_device_info_basic_info_category_title" msgid="381963187269356548">"基本信息"</string>
     <string name="my_device_info_legal_category_title" msgid="7732792841537995127">"法律法规"</string>
     <string name="my_device_info_device_details_category_title" msgid="4848438695638348680">"网络与通信"</string>
@@ -6000,4 +6002,12 @@
     <string name="safety_center_system_component_update_search_terms" msgid="3110390275537109543"></string>
     <string name="uwu_settings_ext_title">uwuAOSP Plus!</string>
     <string name="uwu_settings_ext_summary">uwuAOSP 功能与工具</string>
+    <string name="about_phone_maintainer_label">ROM 版本</string>
+    <string name="about_phone_storage_summary">%1$s / %2$s</string>
+    <string name="about_phone_android_version_value">Android %1$s\n%2$s</string>
+    <string name="about_phone_resolution_value">%1$d × %2$d</string>
+    <string name="about_phone_chipset_label">芯片组</string>
+    <string name="about_phone_memory_label">内存</string>
+    <string name="about_phone_battery_capacity_label">电池容量</string>
+    <string name="about_phone_battery_capacity_value">%1$d mAh</string>
 </resources>

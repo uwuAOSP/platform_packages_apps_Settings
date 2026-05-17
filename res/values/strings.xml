@@ -12761,6 +12761,8 @@
     <string name="my_device_info_device_name_preference_title">Device name</string>
     <!-- Title for entry showing more device information. [CHAR LIMIT=60]-->
     <string name="my_device_info_more_info_title">More information</string>
+    <string name="about_phone_interface_menu">Interface</string>
+    <string name="about_phone_use_md3_style">Use MD3 style interface</string>
 
     <!-- Title for preference category showing the name of basic info. [CHAR LIMIT=60]-->
     <string name="my_device_info_basic_info_category_title">Basic info</string>
@@ -14953,4 +14955,12 @@
     <string name="safety_center_system_component_update_search_terms"></string>
     <string name="uwu_settings_ext_title">uwu Extensions</string>
     <string name="uwu_settings_ext_summary">More uwuAOSP features and tools</string>
+    <string name="about_phone_maintainer_label">ROM version</string>
+    <string name="about_phone_storage_summary">%1$s / %2$s</string>
+    <string name="about_phone_android_version_value">Android %1$s\n%2$s</string>
+    <string name="about_phone_resolution_value">%1$d × %2$d</string>
+    <string name="about_phone_chipset_label">Chipset</string>
+    <string name="about_phone_memory_label">Memory</string>
+    <string name="about_phone_battery_capacity_label">Battery capacity</string>
+    <string name="about_phone_battery_capacity_value">%1$d mAh</string>
 </resources>

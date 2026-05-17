@@ -281,8 +281,10 @@ public class StorageDashboardFragment extends DashboardFragment
         mStorageManager = activity.getSystemService(StorageManager.class);
 
         if (icicle == null) {
+            final Bundle arguments = getArguments();
             final VolumeInfo specifiedVolumeInfo =
-                    Utils.maybeInitializeVolume(mStorageManager, getArguments());
+                    arguments == null ? null : Utils.maybeInitializeVolume(mStorageManager,
+                            arguments);
             mSelectedStorageEntry = specifiedVolumeInfo == null
                     ? StorageEntry.getDefaultInternalStorageEntry(getContext())
                     : new StorageEntry(getContext(), specifiedVolumeInfo);

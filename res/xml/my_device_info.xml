@@ -21,6 +21,13 @@
     android:key="my_device_info_pref_screen"
     android:title="@string/about_settings">
 
+    <com.android.settingslib.widget.LayoutPreference
+        android:key="about_phone_custom_header"
+        android:layout="@layout/about_phone_custom_header"
+        android:selectable="false"
+        settings:allowDividerBelow="true"
+        settings:searchable="false"
+        settings:controller="com.android.settings.deviceinfo.aboutphone.AboutPhoneHeaderController"/>
     <PreferenceCategory
         android:key="basic_info_category"
         android:selectable="false"
