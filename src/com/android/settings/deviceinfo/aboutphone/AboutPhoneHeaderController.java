@@ -300,7 +300,7 @@ public class AboutPhoneHeaderController extends BasePreferenceController
             final Preference preference = mPreferenceScreen == null
                     ? null : mPreferenceScreen.findPreference(KEY_DEVICE_NAME);
             if (preference != null) {
-                host.onPreferenceTreeClick(preference);
+                host.onDisplayPreferenceDialog(preference);
             }
         }
     }
