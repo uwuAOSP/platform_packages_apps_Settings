@@ -231,7 +231,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/detailsPanel"
+        android:id="@+id/versionPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/about_phone_bg_panel"
@@ -249,13 +249,11 @@
                 android:id="@+id/androidVersionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/about_phone_bg_strip"
                 android:clickable="true"
-                android:clipToOutline="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:orientation="vertical"
-                android:padding="6dp">
+                android:padding="0dp">
 
                 <LinearLayout
                     android:id="@+id/androidInfoStrip"
@@ -361,6 +359,23 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/detailsPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_phone_bg_panel"
+        android:clipToOutline="true"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -165,8 +165,8 @@ public class AboutPhoneHeaderController extends BasePreferenceController
         }
         final View deviceNameCard = mLayoutPreference.findViewById(R.id.deviceNameCard);
         final View storageCard = mLayoutPreference.findViewById(R.id.storageCard);
+        final View versionPanel = mLayoutPreference.findViewById(R.id.versionPanel);
         final View detailsPanel = mLayoutPreference.findViewById(R.id.detailsPanel);
-        final View androidVersionCard = mLayoutPreference.findViewById(R.id.androidVersionCard);
         final View buildNumberRow = mLayoutPreference.findViewById(R.id.buildNumberRow);
 
         applyCardStyle(headerCard, useMd3Style,
@@ -175,12 +175,13 @@ public class AboutPhoneHeaderController extends BasePreferenceController
                 R.drawable.about_phone_bg_card, R.drawable.about_phone_bg_card_md3);
         applyCardStyle(storageCard, useMd3Style,
                 R.drawable.about_phone_bg_card, R.drawable.about_phone_bg_card_md3);
+        applyCardStyle(versionPanel, useMd3Style,
+                R.drawable.about_phone_bg_panel, R.drawable.about_phone_bg_panel_md3);
         applyCardStyle(detailsPanel, useMd3Style,
                 R.drawable.about_phone_bg_panel, R.drawable.about_phone_bg_panel_md3);
-        applyCardStyle(androidVersionCard, useMd3Style,
-                R.drawable.about_phone_bg_strip, R.drawable.about_phone_bg_strip_md3);
         applyCardStyle(buildNumberRow, useMd3Style,
                 R.drawable.about_phone_bg_card, R.drawable.about_phone_bg_card_md3);
+        applyDetailsPanelShadowStyle(versionPanel);
         applyDetailsPanelShadowStyle(detailsPanel);
 
         bindAnimatedBackground();
