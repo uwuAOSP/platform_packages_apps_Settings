@@ -35,6 +35,8 @@ import android.os.SystemProperties;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -495,7 +497,18 @@ public class AboutPhoneHeaderController extends BasePreferenceController
     private String getResolutionSummary() {
         final int width = mContext.getResources().getDisplayMetrics().widthPixels;
         final int height = mContext.getResources().getDisplayMetrics().heightPixels;
-        return mContext.getString(R.string.about_phone_resolution_value, width, height);
+        try {
+            WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+            DisplayMetrics metrics = new DisplayMetrics();
+            if (wm != null) {
+                wm.getDefaultDisplay().getRealMetrics(metrics);
+                return mContext.getString(R.string.about_phone_resolution_value, metrics.widthPixels,
+                        metrics.heightPixels);
+            }
+
+        } catch (ClassCastException ignored) {
+        }
+        return mContext.getString(R.string.unknown);
     }
 
     @NonNull
