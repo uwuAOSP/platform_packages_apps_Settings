@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2017-2021 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Advanced keyboard settings -->
+    <string name="keyboard_extras_title">附加功能</string>
+    <string name="advanced_keyboard_settings_title">進階設定</string>
+
+    <!-- Android debugging as root -->
+    <string name="adb_enable_root">Root 偵錯</string>
+    <string name="adb_enable_summary_root">允許以 root 身份進行 Android 偵錯</string>
+
+    <!-- [CHAR LIMIT=NONE] Device Info screen. Countdown for user taps to enable development settings -->
+    <string name="show_dev_countdown_cm">{count, plural,
+      =1      {再 # 個步驟即可啟用開發人員設定。}
+      other   {再 # 個步驟即可啟用開發人員設定。}
+    }</string>
+    <!-- [CHAR LIMIT=NONE] Device Info screen. Confirmation that developer settings are enabled -->
+    <string name="show_dev_on_cm">您已啟用開發人員選項。</string>
+    <!-- [CHAR LIMIT=NONE] Device Info screen. Okay we get it, stop pressing, you already have it on -->
+    <string name="show_dev_already_cm">不需要，您已經啟用開發人員選項。</string>
+
+    <!-- Double tap to sleep on status bar or lockscreen -->
+    <string name="status_bar_double_tap_to_sleep_title">輕觸即可休眠</string>
+    <string name="status_bar_double_tap_to_sleep_summary">輕觸兩下狀態列或鎖定來關閉螢幕</string>
+
+    <!-- Hotspot extras -->
+    <string name="tethering_allow_vpn_upstreams_title">讓連線的裝置使用 VPN</string>
+    <string name="tethering_allow_vpn_upstreams_summary">當此裝置使用 VPN 時，所有連線至熱點的裝置都會使用相同的 VPN</string>
+
+    <!-- PIN scramble -->
+    <string name="unlock_scramble_pin_layout_title">無序佈局</string>
+    <string name="unlock_scramble_pin_layout_summary">解鎖裝置時使用無序 PIN 佈局</string>
+
+    <!-- Black theme for dark mode -->
+    <string name="berry_black_theme_title">純黑色</string>
+    <string name="berry_black_theme_summary">深色主題使用純黑色的背景</string>
+
+    <!-- Location settings screen, setting check box label if Assisted GPS should be enabled -->
+    <string name="assisted_gps">使用輔助全球定位系統 (A-GPS)</string>
+    <!-- Location settings screen, setting summary for Assisted GPS switch -->
+    <string name="assisted_gps_summary">下載衛星輔助定位資料可以取得更好的定位效能。使用緊急通話時，將一律允許使用衛星輔助定位功能。</string>
+
+    <!-- Battery Info: Technology -->
+    <string name="battery_technology">技術</string>
+    <!-- <string name="battery_technology_not_available" translatable="false">@string/battery_cycle_count_not_available</string> -->
+
+    <!-- Battery Info: Health -->
+    <string name="battery_health">健康度</string>
+    <string name="battery_health_good">好</string>
+    <string name="battery_health_overheat">過熱</string>
+    <string name="battery_health_dead">電池耗盡</string>
+    <string name="battery_health_over_voltage">電壓過高</string>
+    <string name="battery_health_unspecified_failure">未知的錯誤</string>
+    <string name="battery_health_cold">寒冷</string>
+    <string name="battery_health_unknown">未知</string>
+
+    <!-- Battery Info: Temperature -->
+    <string name="battery_temperature">溫度</string>
+    <!-- <string name="battery_temperature_not_available" translatable="false">@string/battery_cycle_count_not_available</string> -->
+
+    <!-- Battery Info: Voltage -->
+    <string name="battery_voltage">電壓</string>
+    <!-- <string name="battery_voltage_not_available" translatable="false">@string/battery_cycle_count_not_available</string> -->
+
+    <!-- Battery Info: Charge Counter -->
+    <string name="battery_charge_counter_summary">%1$d mAh</string>
+
+    <!-- Battery Info: Design Capacity -->
+    <string name="battery_design_capacity">設計容量</string>
+    <!-- <string name="battery_design_capacity_summary">%1$d mAh</string> -->
+    <!-- <string name="battery_design_capacity_not_available" translatable="false">@string/battery_cycle_count_not_available</string> -->
+
+    <!-- Battery Info: Maximum Capacity -->
+    <string name="battery_maximum_capacity">最大容量</string>
+    <!-- <string name="battery_maximum_capacity_summary">%1$d mAh (%2$d%%)</string> -->
+    <!-- <string name="battery_maximum_capacity_not_available" translatable="false">@string/battery_cycle_count_not_available</string> -->
+
+    <!-- Warning message for the sd card setup -->
+    <string name="storage_warning_internal">警告：此選項可能無法正常運作或導致資料遺失，因此並不建議使用。</string>
+
+    <!-- Copy to clipboard -->
+    <string name="copied_to_clipboard">已複製到剪貼簿</string>
+    <string name="longpress_to_clipboard">長按複製</string>
+
+    <!-- Radio Info -->
+    <string name="radio_info_title">手機資訊</string>
+
+    <!-- Heads-up -->
+    <string name="heads_up_notifications_enabled_title">浮動通知</string>
+    <string name="heads_up_notifications_enabled_summary">在一個小的浮動視窗中顯示優先通知</string>
+
+    <!-- LiveDisplay -->
+    <!-- <string name="live_display_summary">Optimize your screen based on time of day and ambient conditions to improve readability and reduce eyestrain</string> -->
+    <!-- <string name="live_display_mode">Display mode</string> -->
+    <!-- <string name="live_display_color_temperature_title">Color temperature</string> -->
+    <!-- <string name="live_display_color_temperature_summary">Day: <xliff:g id="day_temperature">%1$d</xliff:g>K  Night: <xliff:g id="night_temperature">%2$d</xliff:g>K</string> -->
+    <!-- <string name="live_display_color_temperature_label"><xliff:g id="degrees">%1$d</xliff:g>K</string> -->
+    <!-- <string name="live_display_day">Day</string> -->
+    <!-- <string name="live_display_night">Night</string> -->
+    <!-- <string name="live_display_outdoor_mode_title">Automatic outdoor mode</string> -->
+    <!-- <string name="live_display_outdoor_mode_summary">Increase brightness and saturation automatically under bright sunlight</string> -->
+    <!-- <string name="live_display_anti_flicker_title">Anti flicker</string> -->
+    <!-- <string name="live_display_anti_flicker_summary">Prevent extensive flickering and reduce eye strain in low light conditions. It might degrade color accuracy and affect the way some items are displayed.</string> -->
+    <!-- <string name="live_display_low_power_title">Reduce power consumption</string> -->
+    <!-- <string name="live_display_low_power_summary">Adjust display for lowest power consumption without degradation</string> -->
+    <!-- <string name="live_display_enhance_color_title">Enhance colors</string> -->
+    <!-- <string name="live_display_enhance_color_summary">Improve color vibrance of flesh tones, scenery, and other images</string> -->
+    <!-- <string name="live_display_color_profile_title">Color profile</string> -->
+    <!-- <string name="live_display_color_profile_standard_title">Standard</string> -->
+    <!-- <string name="live_display_color_profile_standard_summary">Accurate colors and bright whites</string> -->
+    <!-- <string name="live_display_color_profile_natural_title">Natural</string> -->
+    <!-- <string name="live_display_color_profile_natural_summary">Realistic colors and flesh tones</string> -->
+    <!-- <string name="live_display_color_profile_dynamic_title">Dynamic</string> -->
+    <!-- <string name="live_display_color_profile_dynamic_summary">Enhanced colors and bright whites</string> -->
+    <!-- <string name="live_display_color_profile_cinema_title">Cinema</string> -->
+    <!-- <string name="live_display_color_profile_cinema_summary">Perfect color reproduction for video</string> -->
+    <!-- <string name="live_display_color_profile_astronomy_title">Astronomy</string> -->
+    <!-- <string name="live_display_color_profile_astronomy_summary">Deep red for preserving night vision</string> -->
+    <!-- <string name="live_display_color_profile_photography_title">Photography</string> -->
+    <!-- <string name="live_display_color_profile_photography_summary">Perfect color reproduction for photos</string> -->
+    <!-- <string name="live_display_color_profile_basic_title">Basic</string> -->
+    <!-- <string name="live_display_color_profile_basic_summary">Use the display uncalibrated</string> -->
+    <!-- <string name="live_display_color_profile_adaptive_title">Adaptive</string> -->
+    <!-- <string name="live_display_color_profile_adaptive_summary">Colors adapt to ambient conditions</string> -->
+    <!-- <string name="live_display_color_profile_reading_title">Reading</string> -->
+    <!-- <string name="live_display_color_profile_reading_summary">Warmer colors for less eye strain</string> -->
+    <!-- <string name="live_display_color_profile_srgb_title">sRGB</string> -->
+    <!-- <string name="live_display_color_profile_srgb_summary">Colors accurate to the sRGB color space</string> -->
+    <!-- <string name="live_display_color_profile_dci_p3_title">DCI-P3</string> -->
+    <!-- <string name="live_display_color_profile_dci_p3_summary">Colors accurate to the DCI-P3 color space</string> -->
+    <!-- <string name="live_display_reading_mode_title">Reading mode</string> -->
+    <!-- <string name="live_display_reading_mode_summary">Grayscale mode for long-term reading</string> -->
+    <!-- <string name="color_calibration_title">Color calibration</string> -->
+    <!-- <string name="color_calibration_summary">Calibrate on-screen colors</string> -->
+    <!-- <string name="color_red_title">Red</string> -->
+    <!-- <string name="color_green_title">Green</string> -->
+    <!-- <string name="color_blue_title">Blue</string> -->
+
+    <!-- LiveDisplay : Picture Adjustment -->
+    <!-- <string name="picture_adjustment_title">Picture adjustment</string> -->
+    <!-- <string name="picture_adjustment_summary">Adjust hue, saturation, intensity, and contrast</string> -->
+    <!-- <string name="adj_hue_title">Hue</string> -->
+    <!-- <string name="adj_saturation_title">Saturation</string> -->
+    <!-- <string name="adj_intensity_title">Intensity</string> -->
+    <!-- <string name="adj_contrast_title">Contrast</string> -->
+
+    <!-- High touch sensitivity -->
+    <string name="high_touch_sensitivity_title">高觸碰靈敏度</string>
+    <string name="high_touch_sensitivity_summary">增加觸控螢幕的靈敏度，戴著手套也可以使用手機</string>
+
+    <!-- Touchscreen hovering -->
+    <string name="touchscreen_hovering_title">觸控螢幕懸浮</string>
+    <string name="touchscreen_hovering_summary">允許您把手指懸浮在螢幕上，像滑鼠般控制瀏覽器、遠程桌面等</string>
+
+    <!-- High touch polling rate -->
+    <string name="high_touch_polling_rate_title">高觸控輪詢率</string>
+    <string name="high_touch_polling_rate_summary">提高觸控輪詢率</string>
+
+    <!-- Charging control settings -->
+    <string name="charging_control_title">充電控制</string>
+    <string name="charging_control_summary">自訂電池的充電排程和限制</string>
+    <string name="charging_control_enable_title">啟用充電控制</string>
+    <string name="charging_control_mode_title">充電模式</string>
+    <string name="charging_control_mode_auto_title">自動排程</string>
+    <string name="charging_control_mode_auto_summary">根據設定的鬧鐘自動決定何時開始充電</string>
+    <string name="charging_control_mode_custom_title">自訂排程</string>
+    <string name="charging_control_mode_custom_summary">設定充滿電的目標時間</string>
+    <string name="charging_control_mode_limit_title">限制充電</string>
+    <string name="charging_control_mode_limit_summary">將充電限制在一定百分比</string>
+    <string name="charging_control_start_time_title">開始時間</string>
+    <string name="charging_control_start_time_summary">當您在 %s 之後開始充電時，充電控制將啟用</string>
+    <string name="charging_control_target_time_title">充滿電的目標時間</string>
+    <string name="charging_control_target_time_summary">電池將在 %s 前充滿</string>
+    <string name="charging_control_limit_title">限制</string>
+    <string name="charging_control_limit_summary">目前限制：%d%%</string>
+    <string name="reset">重設</string>
+
+    <!-- Message shown in fingerprint enrollment dialog to locate the sensor -->
+    <string name="fingerprint_enroll_find_sensor_message_front" product="tablet">找到位於平板電腦前面的指紋感應器。</string>
+    <string name="fingerprint_enroll_find_sensor_message_front" product="device">指紋感應器位於裝置正面。</string>
+    <string name="fingerprint_enroll_find_sensor_message_front" product="default">指紋感應器位於手機正面。</string>
+    <string name="fingerprint_enroll_find_sensor_message_rear" product="tablet">指紋感應器位於平板正面。</string>
+    <string name="fingerprint_enroll_find_sensor_message_rear" product="device">指紋感應器位於裝置正面。</string>
+    <string name="fingerprint_enroll_find_sensor_message_rear" product="default">指紋感應器位於手機背面。</string>
+    <string name="fingerprint_enroll_find_sensor_message_side" product="tablet">指紋感應器位於平板正面。</string>
+    <string name="fingerprint_enroll_find_sensor_message_side" product="device">指紋感應器位於裝置正面。</string>
+    <string name="fingerprint_enroll_find_sensor_message_side" product="default">指紋感應器位於手機側面。</string>
+
+    <!-- Message shown when user touches the icon on the screen, instead of the real fingerprint sensor -->
+    <string name="fingerprint_enroll_touch_dialog_message_front" product="tablet">輕觸位於平板正面的感應器。</string>
+    <string name="fingerprint_enroll_touch_dialog_message_front" product="device">輕觸位於手機正面的感應器。</string>
+    <string name="fingerprint_enroll_touch_dialog_message_front" product="default">輕觸位於手機正面的感應器。</string>
+    <string name="fingerprint_enroll_touch_dialog_message_rear" product="tablet">輕觸位於平板背面的感應器。</string>
+    <string name="fingerprint_enroll_touch_dialog_message_rear" product="device">輕觸位於裝置背面的感應器。</string>
+    <string name="fingerprint_enroll_touch_dialog_message_rear" product="default">輕觸位於手機背面的感應器。</string>
+    <string name="fingerprint_enroll_touch_dialog_message_side" product="tablet">輕觸位於平板側面的感應器。</string>
+    <string name="fingerprint_enroll_touch_dialog_message_side" product="device">輕觸位於裝置側面的感應器。</string>
+    <string name="fingerprint_enroll_touch_dialog_message_side" product="default">輕觸位於手機側面的感應器。</string>
+
+    <!-- Lock screen pattern size -->
+    <string name="lock_pattern_size_3" translatable="false">3 × 3</string>
+    <string name="lock_pattern_size_4" translatable="false">4 × 4</string>
+    <string name="lock_pattern_size_5" translatable="false">5 × 5</string>
+    <string name="lock_pattern_size_6" translatable="false">6 × 6</string>
+    <string name="lock_settings_picker_pattern_size_message">選擇解鎖圖案大小</string>
+
+    <!-- Whether a visible red line will be drawn after the user has drawn the unlock pattern incorrectly -->
+    <string name="lockpattern_settings_enable_error_path_title">顯示圖樣錯誤</string>
+    <!-- Whether the dots will be drawn when using the lockscreen pattern -->
+    <string name="lockpattern_settings_enable_dots_title">顯示圖樣圓點</string>
+
+    <!-- Display : Rotation -->
+    <!-- <string name="display_rotation_title">Rotation settings</string> -->
+    <!-- <string name="display_rotation_enabled">Auto-rotation is enabled</string> -->
+    <!-- <string name="display_rotation_disabled">Auto-rotation is disabled</string> -->
+    <!-- <string name="display_rotation_unit">degrees</string> -->
+    <!-- <string name="display_rotation_category_title">Rotation modes</string> -->
+    <!-- <string name="display_rotation_0_title">0 degrees</string> -->
+    <!-- <string name="display_rotation_90_title">90 degrees</string> -->
+    <!-- <string name="display_rotation_180_title">180 degrees</string> -->
+    <!-- <string name="display_rotation_270_title">270 degrees</string> -->
+
+    <!-- One shot automatic brightness -->
+    <string name="auto_brightness_one_shot_title">使用自動調整亮度一次</string>
+    <string name="auto_brightness_one_shot_summary">將在開啟螢幕時自動調整螢幕亮度一次</string>
+
+    <!-- Smart 5G -->
+    <string name="smart_5g_title">智慧 5G</string>
+    <string name="smart_5g_summary">自動在 5G 與 4G 間切換以減少電池消耗</string>
+
+    <!-- Power menu on secure lockscreen -->
+    <string name="lockscreen_enable_power_menu_title">電源選單</string>
+    <string name="lockscreen_enable_power_menu_summary">在安全鎖定螢幕上允許使用電源選單</string>
+
+    <!-- Torch Power button gestures -->
+    <string name="power_button_torch_title">快速手電筒</string>
+    <string name="power_button_torch_summary">螢幕關閉時，長按電源鍵開啟手電筒</string>
+
+    <!-- Volume button music control -->
+    <string name="volume_button_music_control_title">播放控制</string>
+    <string name="volume_button_music_control_summary">螢幕關閉時，長按音量鍵切換曲目</string>
+
+    <!-- Cycle through ringer modes gesture -->
+    <string name="prevent_ringing_option_cycle">在響鈴模式之間切換</string>
+    <string name="prevent_ringing_option_cycle_summary">開啟(循環模式)</string>
+
+    <!-- Wake on plug -->
+    <string name="wake_when_plugged_or_unplugged_title">當接上喚醒</string>
+    <string name="wake_when_plugged_or_unplugged_summary">當連接或拔除電源時開啓螢幕</string>
+
+    <!-- Ignore window secure -->
+    <!-- <string name="ignore_window_secure_title">Ignore window secure flags</string> -->
+    <!-- <string name="ignore_window_secure_summary">Remove screenshot and screenrecord limits for all apps. This can be convenient in some cases but may lead to privacy leaks.</string> -->
+
+    <!-- Incall vibrate options -->
+    <string name="incall_vibration_category">通話震動選項</string>
+    <string name="incall_vibrate_connect_title">接通時震動</string>
+    <string name="incall_vibrate_call_wait_title">等待時震動</string>
+    <string name="incall_vibrate_disconnect_title">掛斷時震動</string>
+
+    <!-- Ambient wake toggles -->
+    <string name="doze_gesture_ambient_title">顯示微光螢幕</string>
+    <string name="doze_gesture_ambient_summary">僅顯示時間和部分資訊，而非完全喚醒螢幕</string>
+    <string name="gesture_wake_ambient">顯示微光螢幕</string>
+    <string name="gesture_wake">完全喚醒螢幕</string>
+
+    <!-- Doze enablement -->
+    <!-- <string name="doze_enabled_title">Ambient display</string> -->
+    <!-- <string name="doze_enabled_summary">Whether to enable the doze package functionality</string> -->
+
+    <!-- Refresh rate -->
+    <!-- <string name="refresh_rate_title">Refresh rate</string> -->
+    <!-- <string name="refresh_rate_summary_vrr_off">%d Hz</string> -->
+    <!-- <string name="refresh_rate_summary_vrr_on">%d Hz (Adaptive)</string> -->
+    <!-- <string name="refresh_rate_vrr_title">Adaptive refresh rate</string> -->
+    <!-- <string name="refresh_rate_vrr_summary">Automatically lower the refresh rate when the display is idle, to save power. May cause flickering or color shift on certain displays</string> -->
+    <!-- <string name="refresh_rate_footer">A higher refresh rate makes the display smoother, but increases power consumption</string> -->
+    <!-- <string name="keywords_refresh_rate">refresh, rate, smooth, peak, 60hz, 90hz, 120hz, 144hz, 165hz</string> -->
+
+    <!-- Battery saver refresh rate -->
+    <string name="battery_saver_refresh_rate_title">降低更新率</string>
+    <string name="battery_saver_refresh_rate_summary">當省電模式開啟時，使用 60 Hz 螢幕更新率以節省電力</string>
+
+    <!-- Preference and settings suggestion title text for screen off UDFPS [CHAR LIMIT=60]-->
+    <!-- <string name="ambient_display_screen_off_udfps_title">Always on Fingerprint</string> -->
+    <!-- Summary text for screen off UDFPS [CHAR LIMIT=NONE]-->
+    <!-- <string name="ambient_display_screen_off_udfps_summary">Allows unlocking with the screen off.\nEnabling may cause accidental wake-ups.</string> -->
+
+    <!-- Hotspot -->
+    <string name="wifi_hotspot_hidden_ssid_title">隱藏網路</string>
+    <string name="wifi_hotspot_hidden_ssid_summary">您的無線基地台將不會公開顯示。</string>
+    <string name="wifi_hotspot_client_manager_title">已連線的裝置</string>
+    <string name="wifi_hotspot_client_manager_summary">列出並管理已連線到無線基地台的裝置</string>
+    <string name="wifi_hotspot_client_manager_list_only_summary">列出已連線到無線基地台的裝置</string>
+    <string name="wifi_hotspot_client_limit_title">連接數量限制</string>
+    <string name="wifi_hotspot_blocked_clients_list_title">已封鎖的裝置</string>
+    <string name="wifi_hotspot_connected_clients_list_title">已連線的裝置</string>
+    <string name="wifi_hotspot_block_client_dialog_title">封鎖裝置</string>
+    <string name="wifi_hotspot_block_client_dialog_text">此操作將斷開「<xliff:g id="device_name">%1$s</xliff:g>」與此裝置的連線並將其新增至封鎖清單</string>
+    <string name="wifi_hotspot_unblock_client_dialog_title">取消封鎖裝置</string>
+    <string name="wifi_hotspot_unblock_client_dialog_text">此裝置「<xliff:g id="device_name">%1$s</xliff:g>」將能夠連線到此無線基地台</string>
+    <string name="wifi_hotspot_client_manager_footer_text">目前沒有可顯示的裝置。有已連線或已封鎖的裝置時將在此顯示。</string>
+
+    <!-- Status bar Icon Manager -->
+    <string name="icon_manager_title">圖示管理器</string>
+    <string name="icon_manager_summary">控制狀態列圖示的顯示</string>
+
+    <!-- Notch: Full screen apps -->
+    <string name="display_cutout_force_fullscreen_title">全螢幕應用程式</string>
+    <string name="display_cutout_force_fullscreen_summary">強制應用程式忽略螢幕瀏海</string>
+    <string name="app_list_search">搜尋</string>
+    <string name="app_list_search_apps">搜尋應用</string>
+    <string name="app_list_loading">正在載入應用程式…</string>
+
+    <!-- Screenshot shutter -->
+    <string name="screenshot_shutter_sound_title">螢幕截圖音效</string>
+
+     <!-- Global Actions -->
+    <string name="global_actions_advanced_reboot_title">進階重新啟動</string>
+    <string name="global_actions_advanced_reboot_summary">在電源選單中顯示恢復模式和引導模式選項</string>
+
+    <!-- Three-fingers-swipe to screenshot -->
+    <string name="three_finger_gesture">滑動截圖</string>
+    <string name="three_finger_gesture_summary">三指向下滑動以擷取螢幕截圖</string>
+
+    <!-- Status bar - Network Traffic -->
+    <string name="network_traffic_settings_title">網路流量指示器</string>
+    <string name="network_traffic_settings_summary">顯示並自訂目前網路流量狀態</string>
+    <string name="network_traffic_mode_title">顯示模式</string>
+    <string name="network_traffic_mode_disable">停用</string>
+    <string name="network_traffic_mode_up">僅上傳</string>
+    <string name="network_traffic_mode_down">僅下載</string>
+    <string name="network_traffic_mode_all">上傳和下載</string>
+    <string name="network_traffic_autohide">自動隱藏</string>
+    <string name="network_traffic_autohide_summary">沒有活動時隱藏流量指示器</string>
+    <string name="network_traffic_units_title">流量單位</string>
+    <string name="network_traffic_units_kilobits">每秒千位元 (kb/s)</string>
+    <string name="network_traffic_units_megabits">每秒百萬位元 (Mb/s)</string>
+    <string name="network_traffic_units_kilobytes">每秒千位元組 (kB/s)</string>
+    <string name="network_traffic_units_megabytes">每秒百萬位元組 (MB/s)</string>
+    <string name="network_traffic_units_auto">自動 (kB/s 或 MB/s)</string>
+
+    <!-- Locale Picker -->
+    <string name="clear_search_query_description">清除查詢</string>
+    <string name="language_picker_page">語言選擇頁面</string>
+    <string name="search_region">搜尋地區</string>
+    <string name="search_region_page">搜尋地區頁面</string>
+</resources>
