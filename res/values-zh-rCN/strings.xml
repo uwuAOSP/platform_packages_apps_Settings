@@ -776,6 +776,8 @@
     <string name="suggested_lock_settings_title" msgid="7836065447159730217">"保护手机的安全"</string>
     <string name="suggested_fingerprint_lock_settings_title" msgid="3140266181874137984">"添加用于解锁的指纹"</string>
     <string name="lock_settings_picker_title" msgid="9219376327364915334">"选择屏锁"</string>
+    <string name="setup_lock_screen_header_title">"保护你的设备"</string>
+    <string name="setup_lock_screen_header_summary">"使用 PIN、图案或密码保护设备，也可以在支持的设备上稍后录入指纹或面容。"</string>
     <string name="lock_settings_picker_new_lock_title" msgid="3113042086804290919">"选择一种屏锁"</string>
     <string name="lock_settings_picker_update_lock_title" msgid="536853138943415927">"选择新的屏锁"</string>
     <string name="lock_settings_picker_new_profile_lock_title" msgid="2270462215256413800">"为工作应用选择一种锁定方式"</string>

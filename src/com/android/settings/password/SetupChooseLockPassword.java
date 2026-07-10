@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ import com.android.settingslib.widget.theme.R.style;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.setupcompat.util.WizardManagerHelper;
+import com.google.android.setupdesign.GlifLayout;
 import com.google.android.setupdesign.util.ThemeHelper;
 
 /**
@@ -74,7 +76,9 @@ public class SetupChooseLockPassword extends ChooseLockPassword {
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        SetupLockHeaderHelper.hideStatusBar(this);
         findViewById(R.id.content_parent).setFitsSystemWindows(false);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
     }
 
     public static class SetupChooseLockPasswordFragment extends ChooseLockPasswordFragment
@@ -85,10 +89,19 @@ public class SetupChooseLockPassword extends ChooseLockPassword {
         @Nullable
         private Button mOptionsButton;
         private boolean mLeftButtonIsSkip;
+        @Nullable
+        private GlifLayout mSetupLockLayout;
 
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
+            if (view instanceof GlifLayout layout) {
+                mSetupLockLayout = layout;
+                SetupLockHeaderHelper.apply(
+                        layout, getActivity().getTitle(), "", R.drawable.ic_setup_lock);
+                movePasswordEntryUp(view);
+            }
+
             final Activity activity = getActivity();
             ChooseLockGenericController chooseLockGenericController =
                     new ChooseLockGenericController.Builder(activity, mUserId)
@@ -183,6 +196,13 @@ public class SetupChooseLockPassword extends ChooseLockPassword {
         @Override
         protected void updateUi() {
             super.updateUi();
+            if (mSetupLockLayout != null) {
+                SetupLockHeaderHelper.updateTitle(mSetupLockLayout,
+                        mUiStage.getHint(getContext(), mIsAlphaMode, getStageType(),
+                                mProfileType));
+                SetupLockHeaderHelper.updateSummary(mSetupLockLayout, getSetupSummaryText());
+            }
+
             // Show the skip button during SUW but not during Settings > Biometric Enrollment
             if (mUiStage == Stage.Introduction) {
                 mSkipOrClearButton.setText(getActivity(), R.string.skip_label);
@@ -202,6 +222,37 @@ public class SetupChooseLockPassword extends ChooseLockPassword {
                 mAutoPinConfirmOption.setVisibility(View.GONE);
                 mAutoConfirmSecurityMessage.setVisibility(View.GONE);
             }
+            final View requirements = getPasswordRequirementsView();
+            if (requirements != null) {
+                requirements.setVisibility(View.GONE);
+            }
+        }
+
+        private CharSequence getSetupSummaryText() {
+            if (mUiStage != Stage.Introduction) {
+                return "";
+            }
+            final String[] messages = convertErrorCodeToMessages();
+            return messages.length > 0 ? messages[0] : "";
+        }
+
+        private void movePasswordEntryUp(View view) {
+            final View message = view.findViewById(R.id.sud_layout_description);
+            if (message != null) {
+                message.setVisibility(View.GONE);
+            }
+            final View requirements = getPasswordRequirementsView();
+            if (requirements != null) {
+                requirements.setVisibility(View.GONE);
+            }
+            final View passwordContainer = view.findViewById(R.id.password_container);
+            if (passwordContainer != null) {
+                passwordContainer.setTranslationY(-dp(56));
+            }
+        }
+
+        private int dp(int value) {
+            return Math.round(value * getResources().getDisplayMetrics().density);
         }
     }
 }

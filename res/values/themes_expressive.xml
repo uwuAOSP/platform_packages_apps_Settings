@@ -106,8 +106,8 @@
         <item name="android:textColorPrimary">@color/sud_on_surface_variant</item>
         <item name="android:dialogPreferredPadding">@dimen/settingslib_expressive_space_small4</item>
         <item name="android:buttonBarStyle">@style/SudAppCompatButtonButtonBarAlertDialog</item>
-        <item name="android:buttonBarPositiveButtonStyle">@style/Widget.SettingsLib.DialogButton</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/Widget.SettingsLib.DialogButton</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/Widget.SettingsLib.DialogButton.Filled</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/Widget.SettingsLib.DialogButton.Outline</item>
         <item name="android:buttonBarNeutralButtonStyle">@style/Widget.SettingsLib.DialogButton</item>
     </style>
 </resources>

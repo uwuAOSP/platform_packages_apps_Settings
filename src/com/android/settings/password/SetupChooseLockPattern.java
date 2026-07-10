@@ -36,6 +36,7 @@ import com.android.settingslib.widget.theme.R.style;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.setupcompat.util.WizardManagerHelper;
+import com.google.android.setupdesign.GlifLayout;
 import com.google.android.setupdesign.util.ThemeHelper;
 
 /**
@@ -68,6 +69,7 @@ public class SetupChooseLockPattern extends ChooseLockPattern {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SetupLockHeaderHelper.hideStatusBar(this);
 
         // Show generic pattern title when pattern lock screen launch in Setup wizard flow before
         // fingerprint and face setup.
@@ -82,11 +84,19 @@ public class SetupChooseLockPattern extends ChooseLockPattern {
         @Nullable
         private Button mOptionsButton;
         private boolean mLeftButtonIsSkip;
+        @Nullable
+        private GlifLayout mSetupLockLayout;
 
         @Override
         public View onCreateView(
                 LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View view = super.onCreateView(inflater, container, savedInstanceState);
+            if (view instanceof GlifLayout layout) {
+                mSetupLockLayout = layout;
+                SetupLockHeaderHelper.apply(
+                        layout, getActivity().getTitle(), R.drawable.ic_setup_lock);
+            }
+
             final boolean isExpressiveStyle = ThemeHelper.shouldApplyGlifExpressiveStyle(
                     getContext());
             if (!getResources().getBoolean(R.bool.config_lock_pattern_minimal_ui)) {
@@ -153,6 +163,10 @@ public class SetupChooseLockPattern extends ChooseLockPattern {
         @Override
         protected void updateStage(Stage stage) {
             super.updateStage(stage);
+            if (mSetupLockLayout != null) {
+                SetupLockHeaderHelper.updateTitle(
+                        mSetupLockLayout, mSetupLockLayout.getHeaderText());
+            }
             if (!showMinimalUi() && mOptionsButton != null) {
                 mOptionsButton.setVisibility(
                         (stage == Stage.Introduction || stage == Stage.HelpScreen ||

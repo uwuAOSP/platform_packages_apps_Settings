@@ -51,6 +51,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -92,6 +93,13 @@ public class ConfirmLockPassword extends ConfirmDeviceCredentialBaseActivity {
     };
 
     public static class InternalActivity extends ConfirmLockPassword {
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SetupLockHeaderHelper.hideStatusBar(this);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
     }
 
     @Override
@@ -225,6 +233,11 @@ public class ConfirmLockPassword extends ConfirmDeviceCredentialBaseActivity {
                 } else {
                     mGlifLayout.setDescriptionText(detailsMessage);
                 }
+                if (isExpressiveStyle) {
+                    SetupLockHeaderHelper.apply(mGlifLayout, headerMessage, detailsMessage,
+                            R.drawable.ic_setup_lock);
+                    movePasswordEntryUp(view);
+                }
                 mCheckBoxLabel = intent.getCharSequenceExtra(KeyguardManager.EXTRA_CHECKBOX_LABEL);
 
                 if (isSupervisingProfile) {
@@ -269,6 +282,17 @@ public class ConfirmLockPassword extends ConfirmDeviceCredentialBaseActivity {
             }
 
             return view;
+        }
+
+        private void movePasswordEntryUp(View view) {
+            final View passwordContainer = view.findViewById(R.id.password_container);
+            if (passwordContainer != null) {
+                passwordContainer.setTranslationY(-dp(56));
+            }
+        }
+
+        private int dp(int value) {
+            return Math.round(value * getResources().getDisplayMetrics().density);
         }
 
         @Override

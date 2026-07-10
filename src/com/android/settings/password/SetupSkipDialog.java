@@ -31,10 +31,15 @@ import android.app.Dialog;
 import android.app.settings.SettingsEnums;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.util.TypedValue;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
@@ -82,6 +87,19 @@ public class SetupSkipDialog extends InstrumentedDialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return onCreateDialogBuilder().create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        final Dialog dialog = getDialog();
+        if (dialog instanceof AlertDialog alertDialog) {
+            styleDialogTitle(alertDialog);
+            styleDialogButton(alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE),
+                    /* filled= */ false);
+            styleDialogButton(alertDialog.getButton(DialogInterface.BUTTON_POSITIVE),
+                    /* filled= */ true);
+        }
     }
 
     private AlertDialog.Builder getBiometricsBuilder(
@@ -213,5 +231,52 @@ public class SetupSkipDialog extends InstrumentedDialogFragment
 
     public void show(FragmentManager manager) {
         show(manager, TAG_SKIP_DIALOG);
+    }
+
+    private void styleDialogTitle(AlertDialog dialog) {
+        final int titleId = getResources().getIdentifier("alertTitle", "id", "android");
+        final View title = titleId == 0 ? null : dialog.findViewById(titleId);
+        if (title instanceof TextView titleView) {
+            titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+            titleView.setTypeface(Typeface.create(
+                    getString(com.android.internal.R.string.config_headlineFontFamily),
+                    Typeface.BOLD));
+        }
+    }
+
+    private void styleDialogButton(Button button, boolean filled) {
+        if (button == null) {
+            return;
+        }
+        button.setAllCaps(false);
+        button.setMinWidth(0);
+        button.setMinHeight(dp(48));
+        button.setPadding(dp(24), 0, dp(24), 0);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        button.setTypeface(Typeface.create(
+                getString(com.android.internal.R.string.config_bodyFontFamily),
+                Typeface.BOLD));
+        if (filled) {
+            button.setBackgroundResource(com.android.settingslib.widget.theme.R.drawable
+                    .settingslib_expressive_button_background_filled);
+            button.setBackgroundTintList(ColorStateList.valueOf(getColor(
+                    com.android.settingslib.widget.theme.R.color.settingslib_materialColorPrimary)));
+            button.setTextColor(getColor(
+                    com.android.settingslib.widget.theme.R.color.settingslib_materialColorOnPrimary));
+        } else {
+            button.setBackgroundResource(com.android.settingslib.widget.theme.R.drawable
+                    .settingslib_expressive_button_background_outline);
+            button.setBackgroundTintList(null);
+            button.setTextColor(getColor(
+                    com.android.settingslib.widget.theme.R.color.settingslib_materialColorPrimary));
+        }
+    }
+
+    private int getColor(int resId) {
+        return requireContext().getColor(resId);
+    }
+
+    private int dp(int value) {
+        return Math.round(value * getResources().getDisplayMetrics().density);
     }
 }

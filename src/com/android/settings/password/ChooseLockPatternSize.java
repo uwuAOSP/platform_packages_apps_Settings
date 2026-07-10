@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.preference.Preference;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,6 +68,7 @@ public class ChooseLockPatternSize extends SettingsActivity {
             ThemeHelper.trySetSuwTheme(this);
         }
         super.onCreate(savedInstanceState);
+        SetupLockHeaderHelper.hideStatusBar(this);
         findViewById(R.id.content_parent).setFitsSystemWindows(false);
     }
 
@@ -127,16 +127,9 @@ public class ChooseLockPatternSize extends SettingsActivity {
             }
 
             layout.setHeaderText(R.string.lock_settings_picker_pattern_size_message);
-
-            // Remove the padding on the start of the header text.
-            if (ThemeHelper.shouldApplyGlifExpressiveStyle(getContext())) {
-                final LinearLayout headerLayout = layout.findManagedViewById(
-                        com.google.android.setupdesign.R.id.sud_layout_header);
-                if (headerLayout != null) {
-                    headerLayout.setPadding(0, layout.getPaddingTop(), 0,
-                            layout.getPaddingBottom());
-                }
-            }
+            SetupLockHeaderHelper.apply(
+                    layout, R.string.lock_settings_picker_pattern_size_message,
+                    R.drawable.ic_setup_lock);
 
             // Use the dividers in SetupWizardRecyclerLayout. Suppress the dividers in
             // PreferenceFragment.

@@ -103,12 +103,12 @@ public class SetupChooseLockGeneric extends ChooseLockGeneric {
             }
         }
 
+        SetupLockHeaderHelper.hideStatusBar(this);
         findViewById(R.id.content_parent).setFitsSystemWindows(false);
     }
 
     @Override
     protected boolean isToolbarEnabled() {
-        // Hide the action bar from this page.
         return false;
     }
 
@@ -134,15 +134,20 @@ public class SetupChooseLockGeneric extends ChooseLockGeneric {
                                     .sud_items_glif_text_divider_inset));
                 }
 
-                layout.setIcon(getContext().getDrawable(R.drawable.ic_lock));
-
                 int titleResource = isForBiometric() ? R.string.lock_settings_picker_title
-                        : R.string.setup_lock_settings_picker_title;
+                        : R.string.setup_lock_screen_header_title;
                 if (getActivity() != null) {
                     getActivity().setTitle(titleResource);
                 }
 
                 layout.setHeaderText(titleResource);
+                if (isForBiometric()) {
+                    SetupLockHeaderHelper.apply(layout, titleResource, R.drawable.ic_setup_lock);
+                } else {
+                    SetupLockHeaderHelper.apply(layout, titleResource,
+                            R.string.setup_lock_screen_header_summary, R.drawable.ic_setup_lock);
+                    installSetupSkipButton();
+                }
                 // Use the dividers in SetupWizardRecyclerLayout. Suppress the dividers in
                 // PreferenceFragment.
                 setDivider(null);
@@ -213,6 +218,10 @@ public class SetupChooseLockGeneric extends ChooseLockGeneric {
                 super.addPreferences();
             } else {
                 addPreferencesFromResource(R.xml.setup_security_settings_picker);
+                final Preference doLater = findPreference(KEY_UNLOCK_SET_DO_LATER);
+                if (doLater != null) {
+                    getPreferenceScreen().removePreference(doLater);
+                }
             }
         }
 
@@ -220,18 +229,7 @@ public class SetupChooseLockGeneric extends ChooseLockGeneric {
         public boolean onPreferenceTreeClick(Preference preference) {
             final String key = preference.getKey();
             if (KEY_UNLOCK_SET_DO_LATER.equals(key)) {
-                // show warning.
-                final Intent intent = getActivity().getIntent();
-                SetupSkipDialog dialog = SetupSkipDialog.newInstance(
-                        CREDENTIAL_TYPE_NONE,
-                        intent.getBooleanExtra(SetupSkipDialog.EXTRA_FRP_SUPPORTED, false),
-                        /* forFingerprint= */ false,
-                        /* forFace= */ false,
-                        /* forBiometrics= */ false,
-                        WizardManagerHelper.isAnySetupWizard(intent),
-                        intent.getBooleanExtra(EXTRA_KEY_USE_EXPRESSIVE_STYLE, false)
-                );
-                dialog.show(getFragmentManager());
+                showSkipDialog();
                 return true;
             }
             return super.onPreferenceTreeClick(preference);
@@ -269,6 +267,35 @@ public class SetupChooseLockGeneric extends ChooseLockGeneric {
                     ? R.string.lock_settings_picker_biometrics_added_security_message
                     : R.string.setup_lock_settings_picker_message);
         }
+
+        private void installSetupSkipButton() {
+            SetupLockHeaderHelper.installSkipButton(requireActivity(), v -> showSkipDialog());
+            final RecyclerView recyclerView = getListView();
+            if (recyclerView != null) {
+                recyclerView.setClipToPadding(false);
+                recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(),
+                        recyclerView.getPaddingRight(), recyclerView.getPaddingBottom()
+                                + dp(128));
+            }
+        }
+
+        private void showSkipDialog() {
+            final Intent intent = requireActivity().getIntent();
+            SetupSkipDialog dialog = SetupSkipDialog.newInstance(
+                    CREDENTIAL_TYPE_NONE,
+                    intent.getBooleanExtra(SetupSkipDialog.EXTRA_FRP_SUPPORTED, false),
+                    /* forFingerprint= */ false,
+                    /* forFace= */ false,
+                    /* forBiometrics= */ false,
+                    WizardManagerHelper.isAnySetupWizard(intent),
+                    intent.getBooleanExtra(EXTRA_KEY_USE_EXPRESSIVE_STYLE, false)
+            );
+            dialog.show(getFragmentManager());
+        }
+
+        private int dp(int value) {
+            return Math.round(value * getResources().getDisplayMetrics().density);
+        }
     }
 
     public static class InternalActivity extends ChooseLockGeneric.InternalActivity {
@@ -291,6 +318,8 @@ public class SetupChooseLockGeneric extends ChooseLockGeneric {
                 layout.setHeaderText(R.string.lock_settings_picker_title);
                 layout.setDescriptionText(
                         R.string.lock_settings_picker_biometrics_added_security_message);
+                SetupLockHeaderHelper.apply(
+                        layout, R.string.lock_settings_picker_title, R.drawable.ic_setup_lock);
             }
         }
 
