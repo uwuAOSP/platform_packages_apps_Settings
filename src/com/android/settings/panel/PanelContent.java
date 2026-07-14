@@ -35,6 +35,7 @@ import java.util.List;
 public interface PanelContent extends Instrumentable {
 
     int VIEW_TYPE_SLIDER = 1;
+    int VIEW_TYPE_APP_VOLUME = 2;
 
     /**
      * @return a icon for the title of the Panel.

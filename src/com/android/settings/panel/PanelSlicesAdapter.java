@@ -30,6 +30,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,7 @@ import androidx.slice.SliceItem;
 import androidx.slice.widget.SliceView;
 
 import com.android.settings.R;
+import com.android.settings.media.AppVolumePanelView;
 import com.android.settings.overlay.FeatureFactory;
 
 import com.google.android.setupdesign.DividerItemDecoration;
@@ -78,7 +80,9 @@ public class PanelSlicesAdapter
         final Context context = viewGroup.getContext();
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view;
-        if (viewType == PanelContent.VIEW_TYPE_SLIDER) {
+        if (viewType == PanelContent.VIEW_TYPE_APP_VOLUME) {
+            view = inflater.inflate(R.layout.panel_app_volume_row, viewGroup, false);
+        } else if (viewType == PanelContent.VIEW_TYPE_SLIDER) {
             view = inflater.inflate(R.layout.panel_slice_slider_row, viewGroup, false);
         } else {
             view = inflater.inflate(R.layout.panel_slice_row, viewGroup, false);
@@ -126,23 +130,34 @@ public class PanelSlicesAdapter
         private static final int ROW_VIEW_TAG = R.id.tag_row_view;
 
         @VisibleForTesting
+        @Nullable
         final SliceView sliceView;
         @VisibleForTesting
         final LinearLayout mSliceSliderLayout;
+        @Nullable
+        private final AppVolumePanelView mAppVolumePanelView;
 
         public SliceRowViewHolder(View view) {
             super(view);
             sliceView = view.findViewById(R.id.slice_view);
-            sliceView.setMode(SliceView.MODE_LARGE);
-            sliceView.setShowTitleItems(true);
-            sliceView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             mSliceSliderLayout = view.findViewById(R.id.slice_slider_layout);
+            mAppVolumePanelView = view.findViewById(R.id.app_volume_panel);
+            if (sliceView != null) {
+                sliceView.setMode(SliceView.MODE_LARGE);
+                sliceView.setShowTitleItems(true);
+                sliceView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            }
         }
 
         /**
          * Called when the view is displayed.
          */
         public void onBind(Slice slice) {
+            if (mAppVolumePanelView != null) {
+                mAppVolumePanelView.bind();
+                return;
+            }
+
             // Hides slice which reports with error hint or not contain any slice sub-item.
             if (slice == null || !isValidSlice(slice)) {
                 updateActionLabel();
