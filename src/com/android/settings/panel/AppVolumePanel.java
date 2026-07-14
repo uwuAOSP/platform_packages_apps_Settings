@@ -58,6 +58,11 @@ public class AppVolumePanel implements PanelContent {
     }
 
     @Override
+    public int getViewType() {
+        return PanelContent.VIEW_TYPE_APP_VOLUME;
+    }
+
+    @Override
     public Intent getSeeMoreIntent() {
         return new Intent(Settings.ACTION_SOUND_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
