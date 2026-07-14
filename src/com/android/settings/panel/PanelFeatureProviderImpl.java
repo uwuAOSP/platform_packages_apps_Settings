@@ -30,6 +30,8 @@ import com.android.settings.flags.Flags;
 @Deprecated(forRemoval = true)
 public class PanelFeatureProviderImpl implements PanelFeatureProvider {
 
+    private static final String ACTION_APP_VOLUME = "android.settings.panel.action.APP_VOLUME";
+
     @Override
     @Nullable
     public PanelContent getPanel(Context context, Bundle bundle) {
@@ -87,7 +89,7 @@ public class PanelFeatureProviderImpl implements PanelFeatureProvider {
                         return VolumePanel.create(context);
                     }
                 }
-            case Settings.Panel.ACTION_APP_VOLUME:
+            case ACTION_APP_VOLUME:
                 return AppVolumePanel.create(context);
         }
 

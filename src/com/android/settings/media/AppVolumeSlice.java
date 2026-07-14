@@ -26,8 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.AppVolume;
 import android.net.Uri;
@@ -111,15 +109,12 @@ public class AppVolumeSlice implements CustomSliceable {
         PackageManager pm = mContext.getPackageManager();
         try {
             ApplicationInfo ai = pm.getApplicationInfo(packageName, PackageManager.MATCH_ANY_USER);
-            Resources resources = pm.getResourcesForApplication(ai);
-            IconCompat icon = IconCompat.createWithResource(resources, packageName, ai.icon);
-            return icon;
+            return Utils.createIconWithDrawable(ai.loadIcon(pm));
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "Failed to get icon of " + packageName, e);
         }
 
-        final Bitmap bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-        return IconCompat.createWithBitmap(bitmap);
+        return Utils.createIconWithDrawable(pm.getDefaultActivityIcon());
     }
 
 
