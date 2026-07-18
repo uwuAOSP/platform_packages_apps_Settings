@@ -59,6 +59,8 @@ sealed class ButtonNavigationSettingsOrderPreference(
                 it.isChecked = it == source
             }
         }
+        // Persist the selection to Settings.Secure
+        store.setBoolean(key, true)
     }
 
     override fun getReadPermit(context: Context, callingPid: Int, callingUid: Int) =
@@ -71,7 +73,7 @@ sealed class ButtonNavigationSettingsOrderPreference(
         ButtonNavigationSettingsOrderStore.readPermissions
 
     override fun getWritePermissions(context: Context): Permissions? =
-        ButtonNavigationSettingsOrderStore.readPermissions
+        ButtonNavigationSettingsOrderStore.writePermissions
 
     override val sensitivityLevel
         get() = SensitivityLevel.NO_SENSITIVITY
