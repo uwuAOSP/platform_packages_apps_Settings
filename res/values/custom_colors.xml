@@ -16,11 +16,12 @@
 -->
 
 <resources>
-    <!-- Fingerprint -->
-    <dimen name="fingerprint_find_sensor_padding_top">16dp</dimen>
-    <dimen name="fingerprint_side_skip_margin">24dp</dimen>
-
     <!-- Expressive QR -->
-    <dimen name="wifi_sharing_qrcode_fragment_margin_size">23dp</dimen>
-    <dimen name="wifi_sharing_qrcode_fragment_size">264dp</dimen>
+    <color name="wifi_qr_accent_foreground">@android:color/system_tertiary_light</color>
+    <color name="wifi_qr_background_surface">@android:color/system_surface_container_highest_light</color>
+    <color name="wifi_qr_primary_background">@android:color/system_primary_light</color>
+    <color name="wifi_qr_primary_foreground">@android:color/system_primary_light</color>
+    <color name="wifi_qr_secondary_background">@android:color/system_on_surface_light</color>
+    <color name="wifi_qr_secondary_foreground">@android:color/system_secondary_light</color>
+    <color name="wifi_qr_tertiary_background">@android:color/system_tertiary_container_light</color>
 </resources>
