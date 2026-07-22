@@ -18,6 +18,7 @@ package com.android.settings.deviceinfo.aboutphone;
 
 import android.app.ActivityManager;
 import android.app.WallpaperManager;
+import android.app.usage.StorageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -29,9 +30,9 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.os.Environment;
-import android.os.StatFs;
 import android.os.SystemProperties;
+import android.os.storage.StorageManager;
+import android.os.storage.VolumeInfo;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
@@ -57,10 +58,15 @@ import com.android.settings.deviceinfo.VersionUtils;
 import com.android.settings.deviceinfo.batteryinfo.BatteryInfoFragment;
 import com.android.settings.deviceinfo.firmwareversion.FirmwareVersionSettings;
 import com.android.settings.deviceinfo.hardwareinfo.HardwareInfoFragment;
+import com.android.settings.deviceinfo.storage.StorageUtils;
 import com.android.settingslib.DeviceInfoUtils;
 import com.android.settingslib.core.lifecycle.LifecycleObserver;
 import com.android.settingslib.core.lifecycle.events.OnResume;
+import com.android.settingslib.deviceinfo.StorageManagerVolumeProvider;
+import com.android.settingslib.utils.ThreadUtils;
 import com.android.settingslib.widget.LayoutPreference;
+
+import java.io.IOException;
 
 /** Binds the migrated About page header layout. */
 public class AboutPhoneHeaderController extends BasePreferenceController
@@ -139,9 +145,10 @@ public class AboutPhoneHeaderController extends BasePreferenceController
         final TextView subtitleText = mLayoutPreference.findViewById(R.id.subtitleText);
         final ImageView headerImage = mLayoutPreference.findViewById(R.id.headerImage);
         final View headerScrim = mLayoutPreference.findViewById(R.id.headerScrim);
+        final TextView storageValue = mLayoutPreference.findViewById(R.id.storageValue);
         final ProgressBar storageUsageBar = mLayoutPreference.findViewById(R.id.storageUsageBar);
         if (titleText == null || subtitleText == null || headerImage == null
-                || headerScrim == null || storageUsageBar == null) {
+                || headerScrim == null || storageValue == null || storageUsageBar == null) {
             return;
         }
 
@@ -153,11 +160,7 @@ public class AboutPhoneHeaderController extends BasePreferenceController
         ((TextView) mLayoutPreference.findViewById(R.id.deviceNameValue)).setText(
                 getReadableDeviceName());
 
-        final StorageInfo storageInfo = getStorageInfo();
-        ((TextView) mLayoutPreference.findViewById(R.id.storageValue)).setText(
-                mContext.getString(R.string.about_phone_storage_summary,
-                        storageInfo.usedFormatted, storageInfo.totalFormatted));
-        storageUsageBar.setProgress(storageInfo.percentPermille);
+        updateStorageInfo(storageValue, storageUsageBar);
 
         ((TextView) mLayoutPreference.findViewById(R.id.androidVersionValue)).setText(
                 getAndroidVersionSummary());
@@ -460,15 +463,39 @@ public class AboutPhoneHeaderController extends BasePreferenceController
 
     @NonNull
     private StorageInfo getStorageInfo() {
-        final StatFs statFs = new StatFs(Environment.getDataDirectory().getAbsolutePath());
-        final long total = statFs.getTotalBytes();
-        final long used = total - statFs.getAvailableBytes();
-        final int percentPermille = total > 0L
-                ? (int) Math.min(1000L, Math.round((used * 1000d) / total)) : 0;
-        return new StorageInfo(
-                Formatter.formatShortFileSize(mContext, used),
-                Formatter.formatShortFileSize(mContext, total),
-                percentPermille);
+        final StorageManager storageManager = mContext.getSystemService(StorageManager.class);
+        final StorageStatsManager storageStatsManager =
+                mContext.getSystemService(StorageStatsManager.class);
+        if (storageManager == null || storageStatsManager == null) {
+            return new StorageInfo(mContext, 0L, 0L);
+        }
+
+        final VolumeInfo volume = storageManager.findVolumeById(VolumeInfo.ID_PRIVATE_INTERNAL);
+        if (volume == null) {
+            return new StorageInfo(mContext, 0L, 0L);
+        }
+
+        final StorageManagerVolumeProvider volumeProvider =
+                new StorageManagerVolumeProvider(storageManager);
+        try {
+            final long total = volumeProvider.getTotalBytes(storageStatsManager, volume);
+            final long free = volumeProvider.getFreeBytes(storageStatsManager, volume);
+            return new StorageInfo(mContext, Math.max(0L, total - free), total);
+        } catch (IOException e) {
+            return new StorageInfo(mContext, 0L, 0L);
+        }
+    }
+
+    private void updateStorageInfo(@NonNull TextView storageValue,
+            @NonNull ProgressBar storageUsageBar) {
+        ThreadUtils.postOnBackgroundThread(() -> {
+            final StorageInfo storageInfo = getStorageInfo();
+            ThreadUtils.postOnMainThread(() -> {
+                storageValue.setText(mContext.getString(R.string.about_phone_storage_summary,
+                        storageInfo.usedFormatted, storageInfo.totalFormatted));
+                storageUsageBar.setProgress(storageInfo.percentPermille);
+            });
+        });
     }
 
     private int adjustAlpha(int color, float factor) {
@@ -517,11 +544,11 @@ public class AboutPhoneHeaderController extends BasePreferenceController
         final String totalFormatted;
         final int percentPermille;
 
-        StorageInfo(@NonNull String usedFormatted, @NonNull String totalFormatted,
-                int percentPermille) {
-            this.usedFormatted = usedFormatted;
-            this.totalFormatted = totalFormatted;
-            this.percentPermille = percentPermille;
+        StorageInfo(@NonNull Context context, long usedBytes, long totalBytes) {
+            usedFormatted = StorageUtils.getStorageSizeLabel(context, usedBytes).toString();
+            totalFormatted = StorageUtils.getStorageSizeLabel(context, totalBytes).toString();
+            percentPermille = totalBytes > 0L
+                    ? (int) Math.min(1000L, Math.round((usedBytes * 1000d) / totalBytes)) : 0;
         }
     }
 }
