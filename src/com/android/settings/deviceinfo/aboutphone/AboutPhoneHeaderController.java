@@ -60,24 +60,20 @@ import com.android.settings.deviceinfo.hardwareinfo.HardwareInfoFragment;
 import com.android.settingslib.DeviceInfoUtils;
 import com.android.settingslib.core.lifecycle.LifecycleObserver;
 import com.android.settingslib.core.lifecycle.events.OnResume;
-import com.android.settingslib.core.lifecycle.events.OnStop;
 import com.android.settingslib.widget.LayoutPreference;
 
 /** Binds the migrated About page header layout. */
 public class AboutPhoneHeaderController extends BasePreferenceController
-        implements LifecycleObserver, OnResume, OnStop {
+        implements LifecycleObserver, OnResume {
 
-    private static final String ABOUT_PHONE_PREFS = "about_phone_prefs";
     private static final String HEADER_ROM_TITLE = "uwuAOSP";
     private static final String KEY = "about_phone_custom_header";
     private static final String KEY_BASIC_INFO_CATEGORY = "basic_info_category";
-    private static final String KEY_MORE_DEVICE_INFO = "more_device_info_pref_screen";
     private static final String KEY_BUILD_NUMBER = "build_number";
     private static final String KEY_FIRMWARE_VERSION = "firmware_version";
     private static final String KEY_DEVICE_NAME = "device_name";
     private static final String KEY_DEVICE_MODEL = "device_model";
     private static final String KEY_BRANDED_ACCOUNT = "branded_account";
-    private static final String PREF_USE_MD3_STYLE = "use_md3_style";
 
     @Nullable
     private LayoutPreference mLayoutPreference;
@@ -85,33 +81,13 @@ public class AboutPhoneHeaderController extends BasePreferenceController
     private MyDeviceInfoFragment mHostFragment;
     @Nullable
     private PreferenceScreen mPreferenceScreen;
-    @Nullable
-    private AboutPhoneBgEffectPainter mBgEffectPainter;
 
     public AboutPhoneHeaderController(Context context, String preferenceKey) {
         super(context, preferenceKey);
     }
 
-    public static boolean isMd3StyleEnabled(@NonNull Context context) {
-        return context.getApplicationContext()
-                .getSharedPreferences(ABOUT_PHONE_PREFS, Context.MODE_PRIVATE)
-                .getBoolean(PREF_USE_MD3_STYLE, true);
-    }
-
-    public static void setMd3StyleEnabled(@NonNull Context context, boolean enabled) {
-        context.getApplicationContext()
-                .getSharedPreferences(ABOUT_PHONE_PREFS, Context.MODE_PRIVATE)
-                .edit()
-                .putBoolean(PREF_USE_MD3_STYLE, enabled)
-                .apply();
-    }
-
     public void setHost(@NonNull MyDeviceInfoFragment hostFragment) {
         mHostFragment = hostFragment;
-    }
-
-    public void refreshUiStyle() {
-        bindLayout();
     }
 
     @Override
@@ -131,11 +107,6 @@ public class AboutPhoneHeaderController extends BasePreferenceController
     @Override
     public void onResume() {
         bindLayout();
-    }
-
-    @Override
-    public void onStop() {
-        stopAnimatedBackground();
     }
 
     private void hideDuplicatedPreferences(@NonNull PreferenceScreen screen) {
@@ -159,34 +130,10 @@ public class AboutPhoneHeaderController extends BasePreferenceController
             return;
         }
 
-        final boolean useMd3Style = isMd3StyleEnabled(mContext);
         final View headerCard = mLayoutPreference.findViewById(R.id.headerCard);
         if (headerCard == null) {
-            stopAnimatedBackground();
             return;
         }
-        final View deviceNameCard = mLayoutPreference.findViewById(R.id.deviceNameCard);
-        final View storageCard = mLayoutPreference.findViewById(R.id.storageCard);
-        final View versionPanel = mLayoutPreference.findViewById(R.id.versionPanel);
-        final View detailsPanel = mLayoutPreference.findViewById(R.id.detailsPanel);
-        final View buildNumberRow = mLayoutPreference.findViewById(R.id.buildNumberRow);
-
-        applyCardStyle(headerCard, useMd3Style,
-                R.drawable.about_phone_bg_header, R.drawable.about_phone_bg_header_md3);
-        applyCardStyle(deviceNameCard, useMd3Style,
-                R.drawable.about_phone_bg_card, R.drawable.about_phone_bg_card_md3);
-        applyCardStyle(storageCard, useMd3Style,
-                R.drawable.about_phone_bg_card, R.drawable.about_phone_bg_card_md3);
-        applyCardStyle(versionPanel, useMd3Style,
-                R.drawable.about_phone_bg_panel, R.drawable.about_phone_bg_panel_md3);
-        applyCardStyle(detailsPanel, useMd3Style,
-                R.drawable.about_phone_bg_panel, R.drawable.about_phone_bg_panel_md3);
-        applyCardStyle(buildNumberRow, useMd3Style,
-                R.drawable.about_phone_bg_card, R.drawable.about_phone_bg_card_md3);
-        applyDetailsPanelShadowStyle(versionPanel);
-        applyDetailsPanelShadowStyle(detailsPanel);
-
-        bindAnimatedBackground();
 
         final TextView titleText = mLayoutPreference.findViewById(R.id.titleText);
         final TextView subtitleText = mLayoutPreference.findViewById(R.id.subtitleText);
@@ -240,60 +187,6 @@ public class AboutPhoneHeaderController extends BasePreferenceController
                 .setOnClickListener(v -> launchHardwareInfo());
         mLayoutPreference.findViewById(R.id.batteryInfoRow)
                 .setOnClickListener(v -> launchBatteryInfo());
-        mLayoutPreference.findViewById(R.id.moreInfoRow)
-                .setOnClickListener(v -> launchMoreDeviceInfo());
-    }
-
-    private void applyCardStyle(@Nullable View cardView, boolean useMd3Style,
-            int defaultBackgroundRes, int md3BackgroundRes) {
-        if (cardView == null) {
-            return;
-        }
-        cardView.setBackgroundResource(useMd3Style ? md3BackgroundRes : defaultBackgroundRes);
-        cardView.setElevation(0f);
-        cardView.setTranslationZ(0f);
-    }
-
-    private void applyDetailsPanelShadowStyle(@Nullable View detailsPanel) {
-        if (detailsPanel == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            return;
-        }
-        detailsPanel.setOutlineAmbientShadowColor(Color.TRANSPARENT);
-        detailsPanel.setOutlineSpotShadowColor(Color.TRANSPARENT);
-    }
-
-    private void bindAnimatedBackground() {
-        if (mLayoutPreference == null) {
-            return;
-        }
-
-        final View shaderBackground =
-                mLayoutPreference.findViewById(R.id.aboutPhoneShaderBackground);
-        if (shaderBackground == null) {
-            stopAnimatedBackground();
-            return;
-        }
-
-        if (isMd3StyleEnabled(mContext)) {
-            stopAnimatedBackground();
-            shaderBackground.setVisibility(View.GONE);
-            shaderBackground.setBackground(null);
-            return;
-        }
-
-        shaderBackground.setVisibility(View.VISIBLE);
-        if (mBgEffectPainter == null) {
-            mBgEffectPainter = new AboutPhoneBgEffectPainter(mContext.getApplicationContext());
-        }
-
-        mBgEffectPainter.attach(shaderBackground);
-        mBgEffectPainter.start();
-    }
-
-    private void stopAnimatedBackground() {
-        if (mBgEffectPainter != null) {
-            mBgEffectPainter.stop();
-        }
     }
 
     private void showDeviceNameDialog() {
@@ -335,21 +228,6 @@ public class AboutPhoneHeaderController extends BasePreferenceController
         new SubSettingLauncher(mContext)
                 .setDestination(BatteryInfoFragment.class.getName())
                 .setTitleRes(R.string.battery_info)
-                .setSourceMetricsCategory(getMetricsCategory())
-                .launch();
-    }
-
-    private void launchMoreDeviceInfo() {
-        final Preference preference = mPreferenceScreen == null
-                ? null : mPreferenceScreen.findPreference(KEY_MORE_DEVICE_INFO);
-        if (preference != null && mHostFragment != null) {
-            mHostFragment.onPreferenceTreeClick(preference);
-            return;
-        }
-
-        new SubSettingLauncher(mContext)
-                .setDestination(MoreDeviceInfoFragment.class.getName())
-                .setTitleRes(R.string.my_device_info_more_info_title)
                 .setSourceMetricsCategory(getMetricsCategory())
                 .launch();
     }

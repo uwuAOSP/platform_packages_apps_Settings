@@ -20,9 +20,6 @@ import android.app.settings.SettingsEnums;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,8 +42,6 @@ public class MyDeviceInfoFragment extends DashboardFragment
         implements DeviceNamePreferenceController.DeviceNamePreferenceHost {
 
     private static final String LOG_TAG = "MyDeviceInfoFragment";
-    private static final int MENU_INTERFACE_STYLE = Menu.FIRST;
-
     private BuildNumberPreferenceController mBuildNumberPreferenceController;
 
     private DeviceInfoViewModel mDeviceInfoViewModel;
@@ -73,7 +68,6 @@ public class MyDeviceInfoFragment extends DashboardFragment
     @Override
     public void onCreate(@Nullable Bundle icicle) {
         super.onCreate(icicle);
-        setHasOptionsMenu(true);
         mDeviceInfoViewModel = new ViewModelProvider(getActivity()).get(DeviceInfoViewModel.class);
     }
 
@@ -93,25 +87,6 @@ public class MyDeviceInfoFragment extends DashboardFragment
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.removeItem(MENU_INTERFACE_STYLE);
-        menu.add(Menu.NONE, MENU_INTERFACE_STYLE, Menu.NONE, R.string.about_phone_interface_menu)
-                .setIcon(R.drawable.ic_format_paint_vd_theme_24)
-                .setShowAsActionFlags(
-                        MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == MENU_INTERFACE_STYLE) {
-            toggleInterfaceStyle();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected List<AbstractPreferenceController> createPreferenceControllers(Context context) {
         return new ArrayList<>();
     }
@@ -128,17 +103,6 @@ public class MyDeviceInfoFragment extends DashboardFragment
     public void showDeviceNameWarningDialog(String deviceName) {
         mDeviceInfoViewModel.setDeviceName(deviceName);
         DeviceNameWarningDialog.show(this);
-    }
-
-    private void toggleInterfaceStyle() {
-        final Context context = getContext();
-        if (context == null) {
-            return;
-        }
-
-        final boolean useMd3Style = AboutPhoneHeaderController.isMd3StyleEnabled(context);
-        AboutPhoneHeaderController.setMd3StyleEnabled(context, !useMd3Style);
-        use(AboutPhoneHeaderController.class).refreshUiStyle();
     }
 
     public void onSetDeviceNameConfirm(boolean confirm) {

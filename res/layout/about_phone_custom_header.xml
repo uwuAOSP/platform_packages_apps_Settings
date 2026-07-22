@@ -5,15 +5,6 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <View
-        android:id="@+id/aboutPhoneShaderBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="-4dp"
-        android:layout_marginEnd="-4dp"
-        android:background="#01000000"
-        android:importantForAccessibility="no" />
-
     <LinearLayout
         android:id="@+id/aboutPhoneHeaderContent"
         android:layout_width="match_parent"
@@ -29,7 +20,7 @@
             android:id="@+id/headerCard"
             android:layout_width="match_parent"
             android:layout_height="168dp"
-            android:background="@drawable/about_phone_bg_header"
+            android:background="@drawable/about_phone_bg_header_md3"
             android:clipToOutline="true">
 
             <FrameLayout
@@ -56,7 +47,7 @@
                     android:gravity="start|center_vertical"
                     android:orientation="vertical"
                     android:paddingStart="24dp"
-                    android:paddingEnd="88dp">
+                    android:paddingEnd="24dp">
 
                     <ImageView
                         android:id="@+id/titleImage"
@@ -97,18 +88,6 @@
                         android:textColor="@android:color/white"
                         android:textSize="16sp" />
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/headerHintImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="17sp"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginEnd="16dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@null"
-                    android:scaleType="fitEnd"
-                    android:src="@drawable/about_phone_header_badge" />
             </FrameLayout>
         </FrameLayout>
 
@@ -125,7 +104,7 @@
                 android:layout_height="144dp"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:background="@drawable/about_phone_bg_card"
+                android:background="@drawable/about_phone_bg_card_md3"
                 android:clickable="true"
                 android:clipToOutline="true"
                 android:focusable="true"
@@ -173,7 +152,7 @@
             android:layout_height="144dp"
             android:layout_marginStart="6dp"
             android:layout_weight="1"
-            android:background="@drawable/about_phone_bg_card"
+            android:background="@drawable/about_phone_bg_card_md3"
             android:clickable="true"
             android:clipToOutline="true"
             android:focusable="true"
@@ -234,7 +213,7 @@
         android:id="@+id/versionPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/about_phone_bg_panel"
+        android:background="@drawable/about_phone_bg_panel_md3"
         android:clipToOutline="true"
         android:layout_marginTop="12dp"
         android:orientation="vertical">
@@ -251,7 +230,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:foreground="@drawable/about_phone_card_ripple"
                 android:orientation="vertical"
                 android:padding="0dp">
 
@@ -366,7 +345,7 @@
         android:id="@+id/detailsPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/about_phone_bg_panel"
+        android:background="@drawable/about_phone_bg_panel_md3"
         android:clipToOutline="true"
         android:layout_marginTop="12dp"
         android:orientation="vertical">
@@ -391,7 +370,7 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:foreground="@drawable/about_phone_card_ripple"
                     android:gravity="top"
                     android:minHeight="120dp"
                     android:orientation="vertical"
@@ -553,7 +532,7 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:foreground="@drawable/about_phone_card_ripple"
                     android:gravity="top"
                     android:minHeight="120dp"
                     android:orientation="vertical"
@@ -587,13 +566,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/moreInfoRow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:gravity="top"
                     android:minHeight="120dp"
                     android:orientation="vertical"
@@ -635,7 +610,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/about_phone_bg_card"
+            android:background="@drawable/about_phone_bg_card_md3"
             android:clickable="true"
             android:clipToOutline="true"
             android:focusable="true"

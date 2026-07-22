@@ -12761,9 +12761,6 @@
     <string name="my_device_info_device_name_preference_title">Device name</string>
     <!-- Title for entry showing more device information. [CHAR LIMIT=60]-->
     <string name="my_device_info_more_info_title">More information</string>
-    <string name="about_phone_interface_menu">Interface</string>
-    <string name="about_phone_use_md3_style">Use MD3 style interface</string>
-
     <!-- Title for preference category showing the name of basic info. [CHAR LIMIT=60]-->
     <string name="my_device_info_basic_info_category_title">Basic info</string>
     <!-- Title for preference category showing the name of legal & regulatory. [CHAR LIMIT=60]-->
