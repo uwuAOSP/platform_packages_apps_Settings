@@ -21,20 +21,15 @@ import static com.android.internal.widget.LockPatternUtils.CREDENTIAL_TYPE_PATTE
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.settings.R;
 import com.android.settings.SetupRedactionInterstitial;
-import com.android.settingslib.widget.theme.R.style;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.setupcompat.util.WizardManagerHelper;
 import com.google.android.setupdesign.GlifLayout;
 import com.google.android.setupdesign.util.ThemeHelper;
@@ -79,12 +74,7 @@ public class SetupChooseLockPattern extends ChooseLockPattern {
     public static class SetupChooseLockPatternFragment extends ChooseLockPatternFragment
             implements ChooseLockTypeDialogFragment.OnLockTypeSelectedListener {
 
-        private static final String TAG_SKIP_SCREEN_LOCK_DIALOG = "skip_screen_lock_dialog";
-
-        @Nullable
-        private Button mOptionsButton;
         private boolean mLeftButtonIsSkip;
-        @Nullable
         private GlifLayout mSetupLockLayout;
 
         @Override
@@ -94,25 +84,10 @@ public class SetupChooseLockPattern extends ChooseLockPattern {
             if (view instanceof GlifLayout layout) {
                 mSetupLockLayout = layout;
                 SetupLockHeaderHelper.apply(
-                        layout, getActivity().getTitle(), R.drawable.ic_setup_lock);
-            }
-
-            final boolean isExpressiveStyle = ThemeHelper.shouldApplyGlifExpressiveStyle(
-                    getContext());
-            if (!getResources().getBoolean(R.bool.config_lock_pattern_minimal_ui)) {
-                if (isExpressiveStyle) {
-                    mOptionsButton = new MaterialButton(new ContextThemeWrapper(getActivity(),
-                            style.SettingslibTextButtonStyle_Expressive));
-                } else {
-                    mOptionsButton = new Button(new ContextThemeWrapper(getActivity(),
-                            com.google.android.setupdesign.R.style.SudGlifButton_Tertiary));
-                }
-                mOptionsButton.setId(R.id.screen_lock_options);
-                PasswordUtils.setupScreenLockOptionsButton(getActivity(), view, mOptionsButton,
-                        isExpressiveStyle);
-                mOptionsButton.setOnClickListener((btn) ->
-                        ChooseLockTypeDialogFragment.newInstance(mUserId)
-                                .show(getChildFragmentManager(), TAG_SKIP_SCREEN_LOCK_DIALOG));
+                        layout, getActivity().getTitle(), "", R.drawable.ic_setup_lock);
+                SetupLockHeaderHelper.compactPatternLayout(layout);
+                SetupLockHeaderHelper.styleNavigationButtons(layout);
+                updateSetupHeader();
             }
             // Show the skip button during SUW but not during Settings > Biometric Enrollment
             mSkipOrClearButton.setOnClickListener(this::onSkipOrClearButtonClick);
@@ -156,23 +131,10 @@ public class SetupChooseLockPattern extends ChooseLockPattern {
             startChooseLockActivity(lock, getActivity());
         }
 
-        private boolean showMinimalUi() {
-            return getResources().getBoolean(R.bool.config_lock_pattern_minimal_ui);
-        }
-
         @Override
         protected void updateStage(Stage stage) {
             super.updateStage(stage);
-            if (mSetupLockLayout != null) {
-                SetupLockHeaderHelper.updateTitle(
-                        mSetupLockLayout, mSetupLockLayout.getHeaderText());
-            }
-            if (!showMinimalUi() && mOptionsButton != null) {
-                mOptionsButton.setVisibility(
-                        (stage == Stage.Introduction || stage == Stage.HelpScreen ||
-                                stage == Stage.ChoiceTooShort || stage == Stage.FirstChoiceValid)
-                                ? View.VISIBLE : View.INVISIBLE);
-            }
+            updateSetupHeader();
 
             if (stage.leftMode == LeftButtonMode.Gone && stage == Stage.Introduction) {
                 mSkipOrClearButton.setVisibility(View.VISIBLE);
@@ -180,6 +142,23 @@ public class SetupChooseLockPattern extends ChooseLockPattern {
                 mLeftButtonIsSkip = true;
             } else {
                 mLeftButtonIsSkip = false;
+            }
+            if (mSetupLockLayout != null) {
+                SetupLockHeaderHelper.refreshNavigationButtonLayout(mSetupLockLayout);
+            }
+        }
+
+        private void updateSetupHeader() {
+            if (mSetupLockLayout == null) {
+                return;
+            }
+            SetupLockHeaderHelper.updateTitle(
+                    mSetupLockLayout, mSetupLockLayout.getHeaderText());
+            final View description = mSetupLockLayout.getDescriptionTextView();
+            if (description instanceof android.widget.TextView descriptionText) {
+                SetupLockHeaderHelper.updateSummary(
+                        mSetupLockLayout, descriptionText.getText());
+                descriptionText.setVisibility(View.GONE);
             }
         }
 

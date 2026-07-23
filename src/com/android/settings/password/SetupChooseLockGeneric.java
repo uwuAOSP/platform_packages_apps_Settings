@@ -45,7 +45,6 @@ import com.android.internal.widget.LockPatternUtils;
 import com.android.settings.R;
 import com.android.settings.SetupWizardUtils;
 import com.android.settings.accessibility.PreferenceAdapterInSuw;
-import com.android.settings.utils.SettingsDividerItemDecoration;
 
 import com.google.android.setupcompat.util.WizardManagerHelper;
 import com.google.android.setupdesign.GlifLayout;
@@ -126,13 +125,6 @@ public class SetupChooseLockGeneric extends ChooseLockGeneric {
 
                 final boolean isExpressiveStyle = ThemeHelper.shouldApplyGlifExpressiveStyle(
                         requireContext());
-                if (!isExpressiveStyle) {
-                    layout.setDividerItemDecoration(
-                            new SettingsDividerItemDecoration(getContext()));
-                    layout.setDividerInset(getContext().getResources().getDimensionPixelSize(
-                            com.google.android.setupdesign.R.dimen
-                                    .sud_items_glif_text_divider_inset));
-                }
 
                 int titleResource = isForBiometric() ? R.string.lock_settings_picker_title
                         : R.string.setup_lock_screen_header_title;
@@ -148,8 +140,6 @@ public class SetupChooseLockGeneric extends ChooseLockGeneric {
                             R.string.setup_lock_screen_header_summary, R.drawable.ic_setup_lock);
                     installSetupSkipButton();
                 }
-                // Use the dividers in SetupWizardRecyclerLayout. Suppress the dividers in
-                // PreferenceFragment.
                 setDivider(null);
             }
         }

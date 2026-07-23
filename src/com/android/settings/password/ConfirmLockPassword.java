@@ -77,6 +77,7 @@ import com.android.settingslib.animation.AppearAnimationUtils;
 import com.android.settingslib.animation.DisappearAnimationUtils;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.setupcompat.util.WizardManagerHelper;
 import com.google.android.setupdesign.util.ThemeHelper;
 
 import java.util.ArrayList;
@@ -159,6 +160,8 @@ public class ConfirmLockPassword extends ConfirmDeviceCredentialBaseActivity {
             final boolean isExpressiveStyle = getActivity().getIntent().getBooleanExtra(
                     ChooseLockSettingsHelper.EXTRA_KEY_USE_EXPRESSIVE_STYLE, false) || (
                     activity.getConfirmCredentialTheme() == ConfirmCredentialTheme.EXPRESSIVE);
+            final boolean isSetupWizard = WizardManagerHelper.isAnySetupWizard(
+                    getActivity().getIntent());
             int layoutId = switch (activity.getConfirmCredentialTheme()) {
                 case ConfirmCredentialTheme.NORMAL -> R.layout.confirm_lock_password_normal;
                 case ConfirmCredentialTheme.EXPRESSIVE -> R.layout.confirm_lock_password_expressive;
@@ -233,10 +236,10 @@ public class ConfirmLockPassword extends ConfirmDeviceCredentialBaseActivity {
                 } else {
                     mGlifLayout.setDescriptionText(detailsMessage);
                 }
-                if (isExpressiveStyle) {
+                if (isExpressiveStyle || isSetupWizard) {
                     SetupLockHeaderHelper.apply(mGlifLayout, headerMessage, detailsMessage,
                             R.drawable.ic_setup_lock);
-                    movePasswordEntryUp(view);
+                    movePasswordEntryUp(view, isSetupWizard ? 72 : 56);
                 }
                 mCheckBoxLabel = intent.getCharSequenceExtra(KeyguardManager.EXTRA_CHECKBOX_LABEL);
 
@@ -284,10 +287,10 @@ public class ConfirmLockPassword extends ConfirmDeviceCredentialBaseActivity {
             return view;
         }
 
-        private void movePasswordEntryUp(View view) {
+        private void movePasswordEntryUp(View view, int offsetDp) {
             final View passwordContainer = view.findViewById(R.id.password_container);
             if (passwordContainer != null) {
-                passwordContainer.setTranslationY(-dp(56));
+                passwordContainer.setTranslationY(-dp(offsetDp));
             }
         }
 

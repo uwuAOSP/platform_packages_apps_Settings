@@ -18,6 +18,7 @@ package com.android.settings.password;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -33,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +46,8 @@ import androidx.annotation.StringRes;
 import com.android.settings.R;
 
 import com.google.android.setupcompat.internal.TemplateLayout;
+import com.google.android.setupcompat.template.FooterBarMixin;
+import com.google.android.setupcompat.view.ButtonBarLayout;
 import com.google.android.setupdesign.template.FloatingBackButtonMixin;
 
 /** Manual setup-wizard top chrome for lock setup pages hosted by Settings. */
@@ -61,6 +65,7 @@ final class SetupLockHeaderHelper {
     private static final int BOTTOM_BUTTON_HEIGHT_DP = 56;
     private static final int BOTTOM_BUTTON_MARGIN_HORIZONTAL_DP = 28;
     private static final int BOTTOM_BUTTON_MARGIN_BOTTOM_DP = 24;
+    private static final int BOTTOM_BUTTON_SPACING_DP = 12;
 
     private SetupLockHeaderHelper() {}
 
@@ -173,6 +178,42 @@ final class SetupLockHeaderHelper {
         }
     }
 
+    static void compactPatternLayout(TemplateLayout layout) {
+        final View headerView = layout.findManagedViewById(
+                com.google.android.setupdesign.R.id.sud_layout_header);
+        if (headerView instanceof LinearLayout header) {
+            final View chrome = header.findViewWithTag(TAG_CHROME);
+            if (chrome != null) {
+                final ViewGroup.LayoutParams params = chrome.getLayoutParams();
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                chrome.setLayoutParams(params);
+                chrome.setPadding(0, 0, 0, dp(layout.getContext(), 16));
+            }
+            header.setPadding(0, 0, 0, 0);
+        }
+
+        final View topLayout = layout.findViewById(R.id.topLayout);
+        if (topLayout != null) {
+            topLayout.setPadding(0, 0, 0, 0);
+            if (topLayout instanceof LinearLayout content) {
+                content.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+            }
+        }
+
+        final View pattern = layout.findViewById(R.id.lockPattern);
+        if (pattern != null && pattern.getParent() instanceof View patternContainer) {
+            final ViewGroup.LayoutParams params = patternContainer.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            if (params instanceof LinearLayout.LayoutParams linearParams) {
+                linearParams.weight = 0;
+                linearParams.topMargin = 0;
+                linearParams.bottomMargin = 0;
+            }
+            patternContainer.setLayoutParams(params);
+            patternContainer.setPadding(0, 0, 0, 0);
+        }
+    }
+
     static void installSkipButton(Activity activity, View.OnClickListener listener) {
         if (activity == null) {
             return;
@@ -235,7 +276,8 @@ final class SetupLockHeaderHelper {
         backTouch.setClickable(true);
         backTouch.setFocusable(true);
         backTouch.setOnClickListener(v -> {
-            if (context instanceof Activity activity) {
+            Activity activity = findActivity(context);
+            if (activity != null) {
                 activity.onBackPressed();
             }
         });
@@ -247,8 +289,8 @@ final class SetupLockHeaderHelper {
 
         final FrameLayout backButton = new FrameLayout(context);
         backButton.setBackground(roundRect(
-                color(context, com.google.android.material.R.attr.colorSurfaceContainerHighest,
-                        Color.LTGRAY),
+                context.getColor(com.android.settingslib.widget.theme.R.color
+                        .settingslib_materialColorSurfaceContainerHighest),
                 dp(context, BACK_BUTTON_SIZE_DP) / 2f));
         final FrameLayout.LayoutParams backButtonLp = new FrameLayout.LayoutParams(
                 dp(context, BACK_BUTTON_SIZE_DP), dp(context, BACK_BUTTON_SIZE_DP),
@@ -258,7 +300,8 @@ final class SetupLockHeaderHelper {
         final ImageView arrow = new ImageView(context);
         arrow.setImageResource(R.drawable.ic_uwu_arrow_back);
         arrow.setImageTintList(ColorStateList.valueOf(
-                color(context, android.R.attr.textColorSecondary, Color.DKGRAY)));
+                context.getColor(com.android.settingslib.widget.theme.R.color
+                        .settingslib_materialColorOnSurfaceVariant)));
         final FrameLayout.LayoutParams arrowLp = new FrameLayout.LayoutParams(
                 dp(context, BACK_ICON_SIZE_DP), dp(context, BACK_ICON_SIZE_DP),
                 Gravity.CENTER);
@@ -309,7 +352,7 @@ final class SetupLockHeaderHelper {
                     Typeface.NORMAL));
             final LinearLayout.LayoutParams summaryLp = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            summaryLp.topMargin = dp(context, 24);
+            summaryLp.topMargin = dp(context, 12);
             pageHeader.addView(summaryView, summaryLp);
         }
 
@@ -381,6 +424,121 @@ final class SetupLockHeaderHelper {
                         colorWithAlpha(color, 0.38f),
                         color
                 });
+    }
+
+    static void styleNavigationButtons(TemplateLayout layout) {
+        final FooterBarMixin mixin = layout.getMixin(FooterBarMixin.class);
+        if (mixin == null || mixin.getButtonContainer() == null) {
+            return;
+        }
+        final LinearLayout container = mixin.getButtonContainer();
+        final Context context = container.getContext();
+        final int backgroundColor = context.getColor(
+                com.android.settingslib.widget.theme.R.color
+                        .settingslib_materialColorSurfaceContainer);
+        container.setBackgroundColor(backgroundColor);
+        container.setElevation(0);
+        container.setStateListAnimator(null);
+        container.setForeground(null);
+        container.setOrientation(LinearLayout.VERTICAL);
+        container.setPadding(dp(context, BOTTOM_BUTTON_MARGIN_HORIZONTAL_DP), dp(context, 12),
+                dp(context, BOTTOM_BUTTON_MARGIN_HORIZONTAL_DP),
+                dp(context, BOTTOM_BUTTON_MARGIN_BOTTOM_DP));
+
+        final Button skip = mixin.getSecondaryButtonView();
+        final Button next = mixin.getPrimaryButtonView();
+        if (skip == null || next == null) {
+            return;
+        }
+        container.removeAllViews();
+        styleButton(skip, outlineButtonBackground(context), buttonTextColor(context));
+        styleButton(next, filledButtonBackground(context), filledButtonTextColor(context));
+        container.addView(skip);
+        container.addView(next);
+        refreshNavigationButtonLayout(layout);
+    }
+
+    static void refreshNavigationButtonLayout(TemplateLayout layout) {
+        final FooterBarMixin mixin = layout.getMixin(FooterBarMixin.class);
+        if (mixin == null || mixin.getButtonContainer() == null) {
+            return;
+        }
+        final LinearLayout container = mixin.getButtonContainer();
+        final Button skip = mixin.getSecondaryButtonView();
+        final Button next = mixin.getPrimaryButtonView();
+        if (skip == null || next == null) {
+            return;
+        }
+        final Context context = container.getContext();
+        applyFullWidthButtonLayout(context, container, skip, next);
+        container.post(() -> applyFullWidthButtonLayout(context, container, skip, next));
+    }
+
+    private static void styleButton(
+            Button button, Drawable background, ColorStateList textColor) {
+        button.setBackground(background);
+        button.setTextColor(textColor);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        button.setTypeface(Typeface.create(
+                button.getContext().getString(com.android.internal.R.string.config_bodyFontFamily),
+                Typeface.BOLD));
+        button.setGravity(Gravity.CENTER);
+        button.setAllCaps(false);
+    }
+
+    private static void applyFullWidthButtonLayout(
+            Context context, LinearLayout container, Button skip, Button next) {
+        if (container instanceof ButtonBarLayout buttonBar) {
+            buttonBar.setStackedButtonForExpressiveStyle(true);
+        }
+        container.setOrientation(LinearLayout.VERTICAL);
+        container.setPadding(dp(context, BOTTOM_BUTTON_MARGIN_HORIZONTAL_DP), dp(context, 12),
+                dp(context, BOTTOM_BUTTON_MARGIN_HORIZONTAL_DP),
+                dp(context, BOTTOM_BUTTON_MARGIN_BOTTOM_DP));
+
+        final LinearLayout.LayoutParams skipLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(context, BOTTOM_BUTTON_HEIGHT_DP));
+        skipLp.bottomMargin = dp(context, BOTTOM_BUTTON_SPACING_DP);
+        skip.setLayoutParams(skipLp);
+
+        final LinearLayout.LayoutParams nextLp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(context, BOTTOM_BUTTON_HEIGHT_DP));
+        next.setLayoutParams(nextLp);
+    }
+
+    private static Drawable filledButtonBackground(Context context) {
+        final int primary = context.getColor(com.android.settingslib.widget.theme.R.color
+                .settingslib_materialColorPrimary);
+        final float radius = dp(context, BOTTOM_BUTTON_HEIGHT_DP) / 2f;
+        final StateListDrawable content = new StateListDrawable();
+        content.addState(new int[] { -android.R.attr.state_enabled },
+                roundRect(colorWithAlpha(primary, 0.38f), radius));
+        content.addState(new int[] {}, roundRect(primary, radius));
+        return content;
+    }
+
+    private static ColorStateList filledButtonTextColor(Context context) {
+        final int color = context.getColor(com.android.settingslib.widget.theme.R.color
+                .settingslib_materialColorOnPrimary);
+        return new ColorStateList(
+                new int[][] {
+                        new int[] { -android.R.attr.state_enabled },
+                        new int[] {}
+                },
+                new int[] {
+                        colorWithAlpha(color, 0.38f),
+                        color
+                });
+    }
+
+    private static Activity findActivity(Context context) {
+        while (context instanceof ContextWrapper wrapper) {
+            if (context instanceof Activity activity) {
+                return activity;
+            }
+            context = wrapper.getBaseContext();
+        }
+        return context instanceof Activity activity ? activity : null;
     }
 
     private static void applyPageBackground(TemplateLayout layout) {

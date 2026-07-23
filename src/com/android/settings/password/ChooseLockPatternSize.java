@@ -33,7 +33,6 @@ import com.android.settings.R;
 import com.android.settings.SettingsActivity;
 import com.android.settings.SetupWizardUtils;
 import com.android.settings.SettingsPreferenceFragment;
-import com.android.settings.utils.SettingsDividerItemDecoration;
 
 import com.google.android.setupdesign.GlifPreferenceLayout;
 import com.google.android.setupdesign.util.ThemeHelper;
@@ -118,7 +117,6 @@ public class ChooseLockPatternSize extends SettingsActivity {
             }
 
             GlifPreferenceLayout layout = (GlifPreferenceLayout) view;
-            layout.setDividerItemDecoration(new SettingsDividerItemDecoration(getContext()));
 
             layout.setIcon(getContext().getDrawable(R.drawable.ic_lock));
 
@@ -131,8 +129,6 @@ public class ChooseLockPatternSize extends SettingsActivity {
                     layout, R.string.lock_settings_picker_pattern_size_message,
                     R.drawable.ic_setup_lock);
 
-            // Use the dividers in SetupWizardRecyclerLayout. Suppress the dividers in
-            // PreferenceFragment.
             setDivider(null);
         }
 

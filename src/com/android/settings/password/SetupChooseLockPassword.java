@@ -95,14 +95,16 @@ public class SetupChooseLockPassword extends ChooseLockPassword {
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
+            final Activity activity = getActivity();
             if (view instanceof GlifLayout layout) {
                 mSetupLockLayout = layout;
                 SetupLockHeaderHelper.apply(
                         layout, getActivity().getTitle(), "", R.drawable.ic_setup_lock);
                 movePasswordEntryUp(view);
+
+                SetupLockHeaderHelper.styleNavigationButtons(layout);
             }
 
-            final Activity activity = getActivity();
             ChooseLockGenericController chooseLockGenericController =
                     new ChooseLockGenericController.Builder(activity, mUserId)
                     .setHideInsecureScreenLockTypes(true)
@@ -225,6 +227,9 @@ public class SetupChooseLockPassword extends ChooseLockPassword {
             final View requirements = getPasswordRequirementsView();
             if (requirements != null) {
                 requirements.setVisibility(View.GONE);
+            }
+            if (mSetupLockLayout != null) {
+                SetupLockHeaderHelper.refreshNavigationButtonLayout(mSetupLockLayout);
             }
         }
 
