@@ -49,7 +49,6 @@ import com.android.settingslib.widget.SettingsThemeHelper;
 
 import com.google.android.setupcompat.template.FooterBarMixin;
 import com.google.android.setupdesign.GlifPreferenceLayout;
-import com.google.android.setupdesign.util.ThemeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,14 +100,12 @@ public class AccessibilitySettingsForSetupWizard extends DashboardFragment
             AccessibilitySetupWizardUtils.updateGlifPreferenceLayout(getContext(), layout, title,
                     description, icon);
 
-            if (!ThemeHelper.shouldApplyGlifExpressiveStyle(getContext())) {
-                final FooterBarMixin mixin = layout.getMixin(FooterBarMixin.class);
-                AccessibilitySetupWizardUtils.setPrimaryButton(getContext(), mixin, R.string.done,
-                        () -> {
-                            setResult(RESULT_CANCELED);
-                            finish();
-                        });
-            }
+            final FooterBarMixin mixin = layout.getMixin(FooterBarMixin.class);
+            AccessibilitySetupWizardUtils.setPrimaryButton(getContext(), mixin, R.string.done,
+                    () -> {
+                        setResult(RESULT_CANCELED);
+                        finish();
+                    });
         }
     }
 
