@@ -52,6 +52,15 @@
             settings:controller="com.android.settings.connecteddevice.TopLevelConnectedDevicesPreferenceController"/>
 
         <com.android.settings.widget.HomepagePreference
+            android:icon="@drawable/ic_homepage_uwu_settings_ext"
+            android:key="top_level_uwu_settings_ext"
+            android:order="-8"
+            android:title="@string/uwu_settings_ext_title"
+            android:summary="@string/uwu_settings_ext_summary"
+            settings:highlightableMenuKey="@string/menu_key_uwu_settings_ext"
+            settings:controller="com.android.settings.uwu.TopLevelUwuSettingsExtPreferenceController"/>
+
+        <com.android.settings.widget.HomepagePreference
             android:fragment="com.android.settings.device.DeviceDashboardFragment"
             android:icon="@drawable/ic_homepage_device"
             android:key="top_level_device_desktop"
@@ -266,4 +275,3 @@
             settings:controller="com.android.settings.support.SupportPreferenceController"/>
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 </PreferenceScreen>
-

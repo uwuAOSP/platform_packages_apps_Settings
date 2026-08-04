@@ -6231,6 +6231,6 @@
     <string name="permit_access_hid" msgid="870824396872060949">"允许应用发现人体学接口设备 (HID)"</string>
     <string name="allow_access_hid_description" msgid="5950783046013896271">"如果您允许访问，恶意应用可能会重新编写人体学接口设备的程序，从而危及您的系统。例如，应用可以在未运行的情况下，模拟键盘或鼠标输入来控制您的系统。请先确保信任应用，再授予访问权限。"</string>
     <string name="keywords_access_hid" msgid="682455265293135353">"人机交互设备, HID, 访问权限, 设备"</string>
-    <string name="uwu_settings_ext_title">uwuAOSP Plus!</string>
-    <string name="uwu_settings_ext_summary">uwuAOSP 功能与工具</string>
+    <string name="uwu_settings_ext_title">uwu 扩展设置</string>
+    <string name="uwu_settings_ext_summary">自定义 uwuAOSP 功能</string>
 </resources>

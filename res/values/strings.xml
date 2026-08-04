@@ -15590,6 +15590,6 @@
     <!-- Search keywords for Human interface device access setting -->
     <string name="keywords_access_hid">hid, human, access, device</string>
     <!-- Access HID end -->
-    <string name="uwu_settings_ext_title">uwu Extensions</string>
-    <string name="uwu_settings_ext_summary">More uwuAOSP features and tools</string>
+    <string name="uwu_settings_ext_title">uwu extensions</string>
+    <string name="uwu_settings_ext_summary">Customize uwuAOSP features</string>
 </resources>
