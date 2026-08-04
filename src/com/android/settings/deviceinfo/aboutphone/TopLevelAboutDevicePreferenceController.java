@@ -18,11 +18,12 @@ package com.android.settings.deviceinfo.aboutphone;
 
 import android.content.Context;
 
+import androidx.preference.Preference;
+
 import com.android.settings.core.BasePreferenceController;
 import com.android.settings.deviceinfo.DeviceNamePreferenceController;
 
 public class TopLevelAboutDevicePreferenceController extends BasePreferenceController {
-
     public TopLevelAboutDevicePreferenceController(Context context, String preferenceKey) {
         super(context, preferenceKey);
     }
@@ -37,5 +38,13 @@ public class TopLevelAboutDevicePreferenceController extends BasePreferenceContr
         final DeviceNamePreferenceController deviceNamePreferenceController =
                 new DeviceNamePreferenceController(mContext, "unused_key");
         return deviceNamePreferenceController.getSummary();
+    }
+
+    @Override
+    public boolean handlePreferenceTreeClick(Preference preference) {
+        if (!getPreferenceKey().equals(preference.getKey())) {
+            return false;
+        }
+        return AboutPhoneRouter.launchExternal(mContext);
     }
 }
