@@ -28,9 +28,7 @@ public class AboutPhoneRouteActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!AboutPhoneRouter.launchExternal(this)) {
-            AboutPhoneRouter.launchNative(this);
-        }
+        AboutPhoneRouter.launchNative(this);
         finish();
     }
 }

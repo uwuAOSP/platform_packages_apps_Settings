@@ -262,6 +262,7 @@ public class SettingsGateway {
             UserDictionarySettings.class.getName(),
             DisplaySettings.class.getName(),
             MyDeviceInfoFragment.class.getName(),
+            com.android.settings.deviceinfo.aboutphone.MoreDeviceInfoFragment.class.getName(),
             ModuleLicensesDashboard.class.getName(),
             ManageApplications.class.getName(),
             AppStorageSettings.class.getName(),

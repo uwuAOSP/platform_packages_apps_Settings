@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:id="@+id/aboutPhoneHeaderContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingStart="0dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="8dp">
+        <FrameLayout
+            android:id="@+id/headerCard"
+            android:layout_width="match_parent"
+            android:layout_height="168dp"
+            android:background="@drawable/about_phone_bg_header_md3"
+            android:clipToOutline="true">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/headerImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop" />
+
+                <View
+                    android:id="@+id/headerScrim"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#44000000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:gravity="start|center_vertical"
+                    android:orientation="vertical"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp">
+
+                    <ImageView
+                        android:id="@+id/titleImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="34sp"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@null"
+                        android:scaleType="fitStart"
+                        android:src="@drawable/about_phone_header_title" />
+
+                    <TextView
+                        android:id="@+id/titleText"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:ellipsize="marquee"
+                        android:fontFamily="google-sans"
+                        android:gravity="start"
+                        android:importantForAccessibility="no"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textAlignment="viewStart"
+                        android:textColor="@android:color/white"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/subtitleText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="end"
+                        android:fontFamily="google-sans"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textAlignment="viewStart"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </FrameLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/deviceNameCard"
+                android:layout_width="0dp"
+                android:layout_height="144dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/about_phone_bg_card_md3"
+                android:clickable="true"
+                android:clipToOutline="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/logo_devices"
+                    android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="google-sans"
+                    android:text="@string/my_device_info_device_name_preference_title"
+                    android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                    android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/deviceNameValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="google-sans"
+                    android:scrollHorizontally="false"
+                    android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                    android:textColor="@color/settingslib_materialColorOnSurface" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/storageCard"
+            android:layout_width="0dp"
+            android:layout_height="144dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/about_phone_bg_card_md3"
+            android:clickable="true"
+            android:clipToOutline="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/logo_storage"
+                    android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="google-sans"
+                    android:text="@string/storage_settings"
+                    android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                    android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/storageUsageBar"
+                    android:theme="@style/Theme.Material3.DynamicColors.DayNight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:max="1000"
+                    android:progress="0"
+                    app:trackCornerRadius="3dp"
+                    app:trackThickness="6dp"
+                    style="@style/Widget.Material3.LinearProgressIndicator" />
+
+                <TextView
+                    android:id="@+id/storageValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="google-sans"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                    android:textColor="@color/settingslib_materialColorOnSurface" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/detailsPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/about_phone_bg_panel_md3"
+        android:clipToOutline="true"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:id="@+id/androidVersionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/about_phone_card_ripple"
+                android:orientation="vertical"
+                android:padding="0dp">
+
+                <LinearLayout
+                    android:id="@+id/androidInfoStrip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="68dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="14dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="14dp"
+                        android:paddingBottom="10dp">
+
+                        <ImageView
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_android_vd_theme_24"
+                            android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="google-sans"
+                                android:maxLines="1"
+                                android:text="@string/firmware_version"
+                                android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                                android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                            <TextView
+                                android:id="@+id/androidVersionValue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="google-sans"
+                                android:scrollHorizontally="false"
+                                android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                                android:textColor="@color/settingslib_materialColorOnSurface" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/maintainerInfoStrip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="68dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="14dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="14dp"
+                        android:paddingBottom="10dp">
+
+                        <ImageView
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/logo_rom"
+                            android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="google-sans"
+                                android:maxLines="1"
+                                android:text="@string/about_phone_maintainer_label"
+                                android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                                android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                            <TextView
+                                android:id="@+id/maintainerValue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="google-sans"
+                                android:scrollHorizontally="false"
+                                android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                                android:textColor="@color/settingslib_materialColorOnSurface" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/deviceModelRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@drawable/about_phone_card_ripple"
+                    android:gravity="top"
+                    android:minHeight="120dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/logo_devices"
+                        android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="google-sans"
+                        android:text="@string/model_info"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/deviceValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="google-sans"
+                        android:scrollHorizontally="false"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurface" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:minHeight="120dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/logo_cpu"
+                        android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="google-sans"
+                        android:text="@string/about_phone_chipset_label"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/cpuValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="google-sans"
+                        android:scrollHorizontally="false"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurface" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:minHeight="120dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/logo_ram"
+                        android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="google-sans"
+                        android:text="@string/about_phone_memory_label"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/ramValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="google-sans"
+                        android:scrollHorizontally="false"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurface" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:minHeight="120dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/logo_screen"
+                        android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="google-sans"
+                        android:text="@string/screen_resolution_title"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/resolutionValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="google-sans"
+                        android:scrollHorizontally="false"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurface" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/batteryInfoRow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@drawable/about_phone_card_ripple"
+                    android:gravity="top"
+                    android:minHeight="120dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/logo_battery"
+                        android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="google-sans"
+                        android:text="@string/about_phone_battery_capacity_label"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/batteryValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="google-sans"
+                        android:scrollHorizontally="false"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurface" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:minHeight="120dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/logo_kernel"
+                        android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="google-sans"
+                        android:text="@string/kernel_version"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/kernelValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="google-sans"
+                        android:scrollHorizontally="false"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurface" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buildNumberRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/about_phone_bg_card_md3"
+            android:clickable="true"
+            android:clipToOutline="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:minHeight="68dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/logo_build"
+                    android:tint="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="google-sans"
+                        android:maxLines="1"
+                        android:text="@string/build_number"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurfaceVariant" />
+
+                    <TextView
+                        android:id="@+id/buildNumberValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="google-sans"
+                        android:scrollHorizontally="false"
+                        android:textAppearance="@style/TextAppearance.SettingsLib.TitleMedium"
+                        android:textColor="@color/settingslib_materialColorOnSurface" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
