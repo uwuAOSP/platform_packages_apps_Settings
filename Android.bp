@@ -121,6 +121,7 @@ android_library {
         "settings_connectivity_flags_lib",
         "Spa-search",
         "SettingsInterfaceLib",
+        "uwuSettingsTranslations",
 
         // app function dependencies
         "androidx.appsearch_appsearch",
