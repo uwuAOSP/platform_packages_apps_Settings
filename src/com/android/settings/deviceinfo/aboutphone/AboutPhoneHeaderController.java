@@ -165,8 +165,8 @@ public class AboutPhoneHeaderController extends BasePreferenceController
 
         ((TextView) mLayoutPreference.findViewById(R.id.androidVersionValue)).setText(
                 getAndroidVersionSummary());
-        ((TextView) mLayoutPreference.findViewById(R.id.maintainerValue)).setText(
-                getMaintainerSummary());
+        ((TextView) mLayoutPreference.findViewById(R.id.romVersionValue)).setText(
+                getUwuVersionSummary());
         ((TextView) mLayoutPreference.findViewById(R.id.buildNumberValue)).setText(
                 getBuildNumberSummary());
         ((TextView) mLayoutPreference.findViewById(R.id.deviceValue)).setText(
@@ -332,7 +332,7 @@ public class AboutPhoneHeaderController extends BasePreferenceController
     }
 
     @NonNull
-    private String getMaintainerSummary() {
+    private String getUwuVersionSummary() {
         final String uwuVersion = safeTrim(SystemProperties.get("ro.uwu.version", ""));
         if (!uwuVersion.isEmpty()) {
             return uwuVersion;
