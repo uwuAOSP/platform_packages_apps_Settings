@@ -6234,7 +6234,6 @@
     <string name="uwu_settings_ext_title">uwu 扩展设置</string>
     <string name="uwu_settings_ext_summary">自定义 uwuAOSP 功能</string>
     <string name="my_device_info_more_info_title" msgid="4110109468130342781">"更多信息"</string>
-    <string name="about_phone_rom_version_label">uwuAOSP 版本</string>
     <string name="about_phone_storage_summary">%1$s / %2$s</string>
     <string name="about_phone_android_version_value">Android %1$s\n%2$s</string>
     <string name="about_phone_resolution_value">%1$d × %2$d</string>
