@@ -36,5 +36,12 @@
                 android:data="https://play.google.com/apps" />
         </Preference>
 
+        <Preference
+            android:key="uwu_maintainer"
+            android:title="@string/software_update_maintainer_title"
+            android:icon="@drawable/ic_uwu_maintainer"
+            android:selectable="false"
+            settings:controller="com.google.android.settings.update.MaintainerPreferenceController" />
+
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 </PreferenceScreen>
