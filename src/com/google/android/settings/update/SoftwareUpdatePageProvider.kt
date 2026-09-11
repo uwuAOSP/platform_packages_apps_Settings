@@ -2,6 +2,7 @@ package com.google.android.settings.update
 
 import android.content.Context
 import android.os.Bundle
+import android.os.SystemProperties
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.settings.R
@@ -105,8 +107,24 @@ fun SoftwareUpdatePage(status: Int) {
                 SettingsCardContent {
                     AppUpdatesPreference()
                 }
+                MaintainerPreference()
             }
         }
+    }
+}
+
+@Composable
+private fun ColumnScope.MaintainerPreference() {
+    val maintainer = remember { SystemProperties.get("ro.uwu.maintainer", "").trim() }
+    if (maintainer.isEmpty()) return
+
+    SettingsCardContent {
+        PreferenceItem(
+            title = stringResource(R.string.software_update_maintainer_title),
+            summary = { maintainer },
+            icon = ImageVector.vectorResource(R.drawable.ic_uwu_maintainer),
+            onClick = null,
+        )
     }
 }
 
@@ -138,12 +156,12 @@ fun PreferenceItem(
     summary: () -> CharSequence,
     icon: ImageVector,
     statusIcon: Int = 2, // inferred sentinel meaning "no status badge"
-    onClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .then(if (onClick == null) Modifier else Modifier.clickable(onClick = onClick))
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -182,11 +200,13 @@ fun PreferenceItem(
                 SettingsBody(summary())
             }
         }
-        Box(
-            modifier = Modifier.size(40.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            SettingsIcon(Icons.AutoMirrored.Outlined.NavigateNext)
+        if (onClick != null) {
+            Box(
+                modifier = Modifier.size(40.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                SettingsIcon(Icons.AutoMirrored.Outlined.NavigateNext)
+            }
         }
     }
 }
