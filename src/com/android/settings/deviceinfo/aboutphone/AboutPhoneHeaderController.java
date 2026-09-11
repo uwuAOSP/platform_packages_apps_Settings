@@ -20,11 +20,13 @@ import android.app.ActivityManager;
 import android.app.WallpaperInfo;
 import android.app.WallpaperManager;
 import android.app.usage.StorageStatsManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.RenderEffect;
 import android.graphics.Shader;
@@ -39,8 +41,12 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.DisplayMetrics;
-import android.view.WindowManager;
+import android.view.PixelCopy;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -63,6 +69,7 @@ import com.android.settings.deviceinfo.hardwareinfo.HardwareInfoFragment;
 import com.android.settings.deviceinfo.storage.StorageUtils;
 import com.android.settingslib.DeviceInfoUtils;
 import com.android.settingslib.core.lifecycle.LifecycleObserver;
+import com.android.settingslib.core.lifecycle.events.OnDestroy;
 import com.android.settingslib.core.lifecycle.events.OnResume;
 import com.android.settingslib.deviceinfo.StorageManagerVolumeProvider;
 import com.android.settingslib.utils.ThreadUtils;
@@ -72,7 +79,7 @@ import java.io.IOException;
 
 /** Binds the migrated About page header layout. */
 public class AboutPhoneHeaderController extends BasePreferenceController
-        implements LifecycleObserver, OnResume {
+        implements LifecycleObserver, OnResume, OnDestroy {
 
     private static final String HEADER_ROM_TITLE = "uwuAOSP";
     private static final String KEY = "about_phone_custom_header";
@@ -82,6 +89,7 @@ public class AboutPhoneHeaderController extends BasePreferenceController
     private static final String KEY_DEVICE_NAME = "device_name";
     private static final String KEY_DEVICE_MODEL = "device_model";
     private static final String KEY_BRANDED_ACCOUNT = "branded_account";
+    private static final int INVALID_WALLPAPER_ID = -1;
 
     @Nullable
     private LayoutPreference mLayoutPreference;
@@ -89,6 +97,29 @@ public class AboutPhoneHeaderController extends BasePreferenceController
     private MyDeviceInfoFragment mHostFragment;
     @Nullable
     private PreferenceScreen mPreferenceScreen;
+    @Nullable
+    private Bitmap mWallpaperSnapshot;
+    @Nullable
+    private AboutPhoneWallpaperRenderer mWallpaperRenderer;
+    @Nullable
+    private SurfaceView mWallpaperSurface;
+    private boolean mWallpaperSnapshotRequested;
+    private int mWallpaperId = INVALID_WALLPAPER_ID;
+    private boolean mWallpaperReceiverRegistered;
+    private final BroadcastReceiver mWallpaperChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final int which = intent.getIntExtra(
+                    WallpaperManager.EXTRA_WHICH_WALLPAPER_CHANGED,
+                    WallpaperManager.FLAG_SYSTEM);
+            if (!Intent.ACTION_WALLPAPER_CHANGED.equals(intent.getAction())
+                    || (which & WallpaperManager.FLAG_SYSTEM) == 0) {
+                return;
+            }
+            resetWallpaperSnapshot();
+            bindLayout();
+        }
+    };
 
     public AboutPhoneHeaderController(Context context, String preferenceKey) {
         super(context, preferenceKey);
@@ -109,12 +140,63 @@ public class AboutPhoneHeaderController extends BasePreferenceController
         mPreferenceScreen = screen;
         mLayoutPreference = screen.findPreference(getPreferenceKey());
         hideDuplicatedPreferences(screen);
+        registerWallpaperReceiver();
         bindLayout();
     }
 
     @Override
     public void onResume() {
+        if (hasWallpaperChanged()) {
+            resetWallpaperSnapshot();
+        }
         bindLayout();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mWallpaperReceiverRegistered) {
+            mContext.unregisterReceiver(mWallpaperChangedReceiver);
+            mWallpaperReceiverRegistered = false;
+        }
+        resetWallpaperSnapshot();
+    }
+
+    private void registerWallpaperReceiver() {
+        if (mWallpaperReceiverRegistered) {
+            return;
+        }
+        mContext.registerReceiver(mWallpaperChangedReceiver,
+                new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED), Context.RECEIVER_NOT_EXPORTED);
+        mWallpaperReceiverRegistered = true;
+    }
+
+    private boolean hasWallpaperChanged() {
+        try {
+            final int wallpaperId = WallpaperManager.getInstance(mContext)
+                    .getWallpaperId(WallpaperManager.FLAG_SYSTEM);
+            return wallpaperId != mWallpaperId;
+        } catch (RuntimeException e) {
+            return true;
+        }
+    }
+
+    private void resetWallpaperSnapshot() {
+        if (mWallpaperRenderer != null) {
+            mWallpaperRenderer.destroy();
+            mWallpaperRenderer = null;
+        }
+        if (mWallpaperSurface != null) {
+            if (mWallpaperSurface.getParent() instanceof ViewGroup) {
+                ((ViewGroup) mWallpaperSurface.getParent()).removeView(mWallpaperSurface);
+            }
+            mWallpaperSurface = null;
+        }
+        if (mWallpaperSnapshot != null) {
+            mWallpaperSnapshot.recycle();
+            mWallpaperSnapshot = null;
+        }
+        mWallpaperSnapshotRequested = false;
+        mWallpaperId = INVALID_WALLPAPER_ID;
     }
 
     private void hideDuplicatedPreferences(@NonNull PreferenceScreen screen) {
@@ -154,7 +236,7 @@ public class AboutPhoneHeaderController extends BasePreferenceController
             return;
         }
 
-        applyHeaderWallpaper(headerImage);
+        applyHeaderWallpaper(headerCard, headerImage);
         applyHeaderContrast(titleText, subtitleText, headerScrim);
 
         titleText.setText(getHeaderTitle());
@@ -248,29 +330,147 @@ public class AboutPhoneHeaderController extends BasePreferenceController
         }
     }
 
-    private void applyHeaderWallpaper(@NonNull ImageView headerImage) {
+    private void applyHeaderWallpaper(
+            @NonNull FrameLayout headerCard, @NonNull ImageView headerImage) {
+        if (mWallpaperSnapshot != null) {
+            headerImage.setImageBitmap(mWallpaperSnapshot);
+            return;
+        }
+        if (mWallpaperSnapshotRequested) {
+            return;
+        }
         headerImage.setImageDrawable(null);
         headerImage.setRenderEffect(null);
         try {
             final WallpaperManager wallpaperManager = WallpaperManager.getInstance(mContext);
+            mWallpaperId = wallpaperManager.getWallpaperId(WallpaperManager.FLAG_SYSTEM);
             final WallpaperInfo wallpaperInfo = wallpaperManager.getWallpaperInfo(
                     WallpaperManager.FLAG_SYSTEM);
-            Drawable wallpaper = wallpaperInfo == null
-                    ? null : wallpaperInfo.loadThumbnail(mContext.getPackageManager());
-            if (wallpaper == null) {
-                wallpaper = wallpaperManager.getDrawable(WallpaperManager.FLAG_SYSTEM);
+            if (wallpaperInfo == null) {
+                final Drawable wallpaper = wallpaperManager.getDrawable(
+                        WallpaperManager.FLAG_SYSTEM);
+                if (wallpaper != null) {
+                    headerImage.setImageDrawable(wallpaper);
+                }
+                return;
             }
-            if (wallpaper != null) {
-                headerImage.setImageDrawable(wallpaper);
-            }
-        } catch (SecurityException | Resources.NotFoundException ignored) {
-            // Fall back to the card background if wallpaper access is unavailable.
+            mWallpaperSnapshotRequested = true;
+
+            final SurfaceView surfaceView = new SurfaceView(headerCard.getContext());
+            surfaceView.setVisibility(View.VISIBLE);
+            headerCard.addView(surfaceView, 0, new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT));
+            mWallpaperSurface = surfaceView;
+            final AboutPhoneWallpaperRenderer renderer = new AboutPhoneWallpaperRenderer(
+                    mContext, wallpaperInfo, surfaceView,
+                    new AboutPhoneWallpaperRenderer.Listener() {
+                        @Override
+                        public void onEngineReady() {
+                            final AboutPhoneWallpaperRenderer current = mWallpaperRenderer;
+                            if (current == null) {
+                                return;
+                            }
+                            captureWallpaperFrame(
+                                    headerCard, headerImage, surfaceView, current, 0);
+                        }
+
+                        @Override
+                        public void onConnectionFailed() {
+                            final AboutPhoneWallpaperRenderer current = mWallpaperRenderer;
+                            if (current != null) {
+                                removeWallpaperRenderer(headerCard, surfaceView, current);
+                            }
+                            try {
+                                final Drawable fallback = wallpaperManager.getDrawable(
+                                        WallpaperManager.FLAG_SYSTEM);
+                                if (fallback != null) {
+                                    headerImage.setImageDrawable(fallback);
+                                }
+                            } catch (RuntimeException ignored) {
+                            }
+                        }
+                    });
+            mWallpaperRenderer = renderer;
+            headerCard.post(() -> {
+                if (!renderer.connect()) {
+                    removeWallpaperRenderer(headerCard, surfaceView, renderer);
+                }
+            });
+        } catch (RuntimeException ignored) {
+            mWallpaperSnapshotRequested = false;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             final float blurRadius = isNightMode() ? 8f : 14f;
             headerImage.setRenderEffect(
                     RenderEffect.createBlurEffect(blurRadius, blurRadius, Shader.TileMode.CLAMP));
+        }
+    }
+
+    private void captureWallpaperFrame(
+            @NonNull FrameLayout headerCard,
+            @NonNull ImageView headerImage,
+            @NonNull SurfaceView surfaceView,
+            @NonNull AboutPhoneWallpaperRenderer renderer,
+            int attempt) {
+        if (mWallpaperRenderer != renderer || !surfaceView.isAttachedToWindow()
+                || surfaceView.getWidth() <= 0 || surfaceView.getHeight() <= 0) {
+            return;
+        }
+        final Bitmap bitmap = Bitmap.createBitmap(
+                surfaceView.getWidth(), surfaceView.getHeight(), Bitmap.Config.ARGB_8888);
+        try {
+            PixelCopy.request(surfaceView, bitmap, result -> {
+                if (mWallpaperRenderer != renderer) {
+                    bitmap.recycle();
+                    return;
+                }
+                if (result == PixelCopy.SUCCESS) {
+                    mWallpaperSnapshot = bitmap;
+                    headerImage.setImageBitmap(bitmap);
+                    removeWallpaperRenderer(headerCard, surfaceView, renderer);
+                    return;
+                }
+                bitmap.recycle();
+                retryOrRemoveWallpaperRenderer(
+                        headerCard, headerImage, surfaceView, renderer, attempt);
+            }, surfaceView.getHandler());
+        } catch (RuntimeException e) {
+            bitmap.recycle();
+            retryOrRemoveWallpaperRenderer(
+                    headerCard, headerImage, surfaceView, renderer, attempt);
+        }
+    }
+
+    private void retryOrRemoveWallpaperRenderer(
+            @NonNull FrameLayout headerCard,
+            @NonNull ImageView headerImage,
+            @NonNull SurfaceView surfaceView,
+            @NonNull AboutPhoneWallpaperRenderer renderer,
+            int attempt) {
+        if (attempt < 2 && mWallpaperRenderer == renderer) {
+            surfaceView.postDelayed(
+                    () -> captureWallpaperFrame(
+                            headerCard, headerImage, surfaceView, renderer, attempt + 1),
+                    80L);
+        } else {
+            removeWallpaperRenderer(headerCard, surfaceView, renderer);
+        }
+    }
+
+    private void removeWallpaperRenderer(
+            @NonNull FrameLayout headerCard,
+            @NonNull SurfaceView surfaceView,
+            @NonNull AboutPhoneWallpaperRenderer renderer) {
+        if (mWallpaperRenderer != renderer) {
+            return;
+        }
+        renderer.destroy();
+        mWallpaperRenderer = null;
+        headerCard.removeView(surfaceView);
+        if (mWallpaperSurface == surfaceView) {
+            mWallpaperSurface = null;
         }
     }
 
