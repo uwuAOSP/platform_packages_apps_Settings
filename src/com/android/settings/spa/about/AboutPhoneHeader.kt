@@ -12,11 +12,13 @@ import android.app.Activity
 import android.app.AlertDialog as FrameworkAlertDialog
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.res.Resources
 import android.text.InputType
 import android.widget.EditText
 import android.content.res.Configuration
 import android.graphics.RenderEffect
 import android.graphics.Shader
+import android.graphics.drawable.Drawable
 import android.os.BatteryManager
 import android.os.Build
 import android.os.SystemProperties
@@ -151,12 +153,7 @@ private fun HeaderCard(context: Context) {
             factory = { viewContext ->
                 ImageView(viewContext).apply {
                     scaleType = ImageView.ScaleType.CENTER_CROP
-                    setImageDrawable(
-                        runCatching {
-                            WallpaperManager.getInstance(viewContext)
-                                .getDrawable(WallpaperManager.FLAG_SYSTEM)
-                        }.getOrNull()
-                    )
+                    setImageDrawable(loadSystemWallpaper(viewContext))
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         setRenderEffect(
                             RenderEffect.createBlurEffect(
@@ -866,6 +863,19 @@ private fun kernelSummary(context: Context): String =
         .getOrDefault("")
         .ifEmpty { System.getProperty("os.version").orEmpty().trim() }
         .ifEmpty { stringResource(context, R.string.about_phone_unknown) }
+
+private fun loadSystemWallpaper(context: Context): Drawable? {
+    return try {
+        val wallpaperManager = WallpaperManager.getInstance(context)
+        val wallpaperInfo = wallpaperManager.getWallpaperInfo(WallpaperManager.FLAG_SYSTEM)
+        val thumbnail = wallpaperInfo?.loadThumbnail(context.packageManager)
+        thumbnail ?: wallpaperManager.getDrawable(WallpaperManager.FLAG_SYSTEM)
+    } catch (_: SecurityException) {
+        null
+    } catch (_: Resources.NotFoundException) {
+        null
+    }
+}
 
 // ─── utilities ──────────────────────────────────────────────────────────────
 
