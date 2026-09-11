@@ -24,11 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.android.settings.R
-import com.android.settings.deviceinfo.aboutphone.AboutPhoneRouter
 import com.android.settingslib.spa.framework.common.SettingsEntryBuilder
 import com.android.settingslib.spa.framework.common.SettingsPageProvider
 import com.android.settingslib.spa.framework.common.SpaEnvironmentFactory
 import com.android.settingslib.spa.framework.common.createSettingsPage
+import com.android.settingslib.spa.framework.compose.navigator
 import com.android.settingslib.spa.widget.preference.Preference
 import com.android.settingslib.spa.widget.preference.PreferenceModel
 import com.android.settingslib.spa.widget.scaffold.RegularScaffold
@@ -41,7 +41,7 @@ object AboutPhonePageProvider : SettingsPageProvider {
     @Composable
     override fun Page(arguments: Bundle?) {
         RegularScaffold(title = getTitle(arguments)) {
-            BasicInfoCategory.CategoryItems()
+            AboutPhoneHeaderPage()
         }
     }
 
@@ -56,9 +56,7 @@ object AboutPhonePageProvider : SettingsPageProvider {
                 Preference(object : PreferenceModel {
                     override val title = stringResource(R.string.about_settings)
                     override val summary = { deviceNamePresenter.deviceName }
-                    override val onClick = {
-                        context.startActivity(AboutPhoneRouter.getRouteIntent(context))
-                    }
+                    override val onClick = navigator(name)
                     override val icon = @Composable {
                         SettingsIcon(imageVector = Icons.Outlined.PermDeviceInformation)
                     }

@@ -21,8 +21,13 @@ import static com.android.settings.core.BasePreferenceController.AVAILABLE;
 import static com.google.common.truth.Truth.assertThat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings.Global;
+
+import androidx.preference.Preference;
+
+import com.android.settings.spa.SpaActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,5 +61,16 @@ public class TopLevelAboutDevicePreferenceControllerTest {
     public void getSummary_deviceNameSet_shouldReturnDeviceName() {
         Global.putString(mContext.getContentResolver(), Global.DEVICE_NAME, "Test");
         assertThat(mController.getSummary().toString()).isEqualTo("Test");
+    }
+
+    @Test
+    public void handlePreferenceTreeClick_aboutDevice_launchesSpaDirectly() {
+        final Preference preference = new Preference(mContext);
+        preference.setKey("test_key");
+
+        assertThat(mController.handlePreferenceTreeClick(preference)).isTrue();
+        final Intent intent = org.robolectric.Shadows.shadowOf(
+                (android.app.Application) mContext).getNextStartedActivity();
+        assertThat(intent.getComponent().getClassName()).isEqualTo(SpaActivity.class.getName());
     }
 }

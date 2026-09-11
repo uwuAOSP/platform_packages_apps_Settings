@@ -21,6 +21,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.android.settings.spa.SpaDestination;
+
 /**
  * No-display trampoline used by metadata/Catalyst callers which cannot handle launch failures.
  */
@@ -28,9 +30,15 @@ public class AboutPhoneRouteActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!AboutPhoneRouter.launchExternal(this)) {
+        try {
+            startSpaAboutPhone();
+        } catch (RuntimeException e) {
             AboutPhoneRouter.launchNative(this);
         }
         finish();
+    }
+
+    private void startSpaAboutPhone() {
+        new SpaDestination("AboutPhone", null, null).startFromExportedActivity(this);
     }
 }

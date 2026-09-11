@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res-auto"
+    android:key="more_device_info_pref_screen"
+    android:title="@string/about_phone_more_info">
+
+    <PreferenceCategory android:title="@string/my_device_info_legal_category_title">
+        <Preference
+            android:key="legal_container"
+            android:title="@string/legal_information"
+            android:fragment="com.android.settings.LegalSettings" />
+        <Preference
+            android:key="regulatory_info"
+            android:title="@string/regulatory_labels">
+            <intent
+                android:action="android.settings.SHOW_REGULATORY_INFO"
+                android:targetPackage="${applicationId}" />
+        </Preference>
+        <Preference
+            android:key="safety_info"
+            android:title="@string/safety_and_regulatory_info" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="device_detail_category"
+        android:title="@string/my_device_info_device_details_category_title">
+        <Preference
+            android:key="branded_account"
+            android:title="@string/my_device_info_account_preference_title"
+            android:summary="@string/summary_placeholder"
+            settings:enableCopying="true"
+            settings:controller="com.android.settings.deviceinfo.BrandedAccountPreferenceController" />
+        <Preference
+            android:key="radio_info_settings"
+            android:title="@string/radio_info_title">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="com.android.phone"
+                android:targetClass="com.android.phone.settings.RadioInfo" />
+        </Preference>
+        <Preference
+            android:key="sim_status"
+            android:title="@string/sim_status_title"
+            android:summary="@string/summary_placeholder"
+            settings:keywords="@string/keywords_sim_status"
+            settings:isPreferenceVisible="@bool/config_show_sim_info"
+            settings:controller="com.android.settings.deviceinfo.simstatus.SimStatusPreferenceController" />
+        <com.android.settings.deviceinfo.simstatus.SimEidInfoPreference
+            android:key="eid_info"
+            android:title="@string/status_eid"
+            android:positiveButtonText="@string/dlg_ok"
+            android:dialogLayout="@layout/dialog_eid_status"
+            settings:isPreferenceVisible="@bool/config_show_sim_info"
+            settings:enableCopying="true"
+            settings:controller="com.android.settings.deviceinfo.simstatus.SimEidPreferenceController" />
+        <Preference
+            android:key="imei_info"
+            android:title="@string/status_imei"
+            android:summary="@string/summary_placeholder"
+            settings:keywords="@string/keywords_imei_info"
+            settings:enableCopying="true"
+            settings:isPreferenceVisible="@bool/config_show_sim_info"
+            settings:controller="com.android.settings.deviceinfo.imei.ImeiInfoPreferenceController" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/my_device_info_device_identifiers_category_title">
+        <Preference
+            android:key="wifi_ip_address"
+            android:title="@string/wifi_ip_address"
+            android:summary="@string/summary_placeholder"
+            android:selectable="false"
+            settings:enableCopying="true" />
+        <Preference
+            android:key="saved_accesspoints_wifi_mac_address"
+            android:title="@string/status_wifi_mac_address"
+            android:summary="@string/view_saved_network"
+            android:fragment="com.android.settings.wifi.savedaccesspoints2.SavedAccessPointsWifiSettings2" />
+        <Preference
+            android:key="wifi_mac_address"
+            android:title="@string/status_device_wifi_mac_address"
+            android:summary="@string/summary_placeholder"
+            android:selectable="false"
+            settings:enableCopying="true" />
+        <Preference
+            android:key="bt_address"
+            android:title="@string/status_bt_address"
+            android:summary="@string/summary_placeholder"
+            android:selectable="false"
+            settings:enableCopying="true" />
+        <Preference
+            android:key="up_time"
+            android:title="@string/status_up_time"
+            android:summary="@string/summary_placeholder"
+            android:selectable="false" />
+        <Preference
+            android:key="manual"
+            android:title="@string/manual">
+            <intent
+                android:action="android.settings.SHOW_MANUAL"
+                android:targetPackage="${applicationId}" />
+        </Preference>
+        <Preference
+            android:key="device_feedback"
+            android:title="@string/device_feedback"
+            settings:keywords="@string/keywords_device_feedback" />
+        <Preference
+            android:key="fcc_equipment_id"
+            android:title="@string/fcc_equipment_id"
+            android:summary="@string/summary_placeholder" />
+    </PreferenceCategory>
+</PreferenceScreen>

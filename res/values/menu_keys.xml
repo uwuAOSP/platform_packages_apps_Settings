@@ -37,7 +37,6 @@
     <string name="menu_key_accounts" translatable="false">top_level_accounts</string>
     <string name="menu_key_accounts_and_backup" translatable="false">top_level_accounts_and_backup</string>
     <string name="menu_key_system" translatable="false">top_level_system</string>
-    <string name="menu_key_uwu_settings_ext" translatable="false">top_level_uwu_settings_ext</string>
     <string name="menu_key_about_device" translatable="false">top_level_about_device</string>
     <string name="menu_key_support" translatable="false">top_level_support</string>
     <string name="menu_key_supervision" translatable="false">top_level_supervision</string>

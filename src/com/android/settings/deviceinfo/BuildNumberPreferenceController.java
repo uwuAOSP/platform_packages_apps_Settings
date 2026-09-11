@@ -30,6 +30,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.VisibleForTesting;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.preference.Preference;
 
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
@@ -60,6 +61,10 @@ public class BuildNumberPreferenceController extends BasePreferenceController im
 
     private Activity mActivity;
     private InstrumentedPreferenceFragment mFragment;
+    private ActivityResultLauncher<Intent> mActivityResultLauncher;
+    private Runnable mBiometricLockoutCallback;
+    private int mMetricsCategory = SettingsEnums.PAGE_UNKNOWN;
+    private int mPendingRequestCode;
     private final UserManager mUm;
     private final MetricsFeatureProvider mMetricsFeatureProvider;
 
@@ -78,6 +83,16 @@ public class BuildNumberPreferenceController extends BasePreferenceController im
     public void setHost(InstrumentedPreferenceFragment fragment) {
         mFragment = fragment;
         mActivity = fragment.getActivity();
+        mMetricsCategory = fragment.getMetricsCategory();
+    }
+
+    /** Sets an activity-result host for non-Fragment surfaces such as SPA Compose pages. */
+    public void setHost(Activity activity, ActivityResultLauncher<Intent> activityResultLauncher,
+            int metricsCategory, Runnable biometricLockoutCallback) {
+        mActivity = activity;
+        mActivityResultLauncher = activityResultLauncher;
+        mMetricsCategory = metricsCategory;
+        mBiometricLockoutCallback = biometricLockoutCallback;
     }
 
     @Override
@@ -167,8 +182,11 @@ public class BuildNumberPreferenceController extends BasePreferenceController im
 
                 final String title = mContext
                         .getString(R.string.unlock_set_unlock_launch_picker_title);
-                final ChooseLockSettingsHelper.Builder builder =
-                        new ChooseLockSettingsHelper.Builder(mActivity, mFragment);
+                final ChooseLockSettingsHelper.Builder builder = mFragment != null
+                        ? new ChooseLockSettingsHelper.Builder(mActivity, mFragment)
+                        : new ChooseLockSettingsHelper.Builder(mActivity)
+                                .setActivityResultLauncher(mActivityResultLauncher);
+                mPendingRequestCode = REQUEST_CONFIRM_PASSWORD_FOR_DEV_PREF;
                 mProcessingLastDevHit = builder
                         .setRequestCode(REQUEST_CONFIRM_PASSWORD_FOR_DEV_PREF)
                         .setTitle(title)
@@ -180,7 +198,7 @@ public class BuildNumberPreferenceController extends BasePreferenceController im
                 mMetricsFeatureProvider.action(
                         mMetricsFeatureProvider.getAttribution(mActivity),
                         MetricsEvent.FIELD_SETTINGS_BUILD_NUMBER_DEVELOPER_MODE_ENABLED,
-                        mFragment.getMetricsCategory(),
+                        mMetricsCategory,
                         null,
                         mProcessingLastDevHit ? 0 : 1);
             } else if (mDevHitCountdown > 0
@@ -198,7 +216,7 @@ public class BuildNumberPreferenceController extends BasePreferenceController im
             mMetricsFeatureProvider.action(
                     mMetricsFeatureProvider.getAttribution(mActivity),
                     MetricsEvent.FIELD_SETTINGS_BUILD_NUMBER_DEVELOPER_MODE_ENABLED,
-                    mFragment.getMetricsCategory(),
+                    mMetricsCategory,
                     null,
                     0);
         } else if (mDevHitCountdown < 0) {
@@ -211,7 +229,7 @@ public class BuildNumberPreferenceController extends BasePreferenceController im
             mMetricsFeatureProvider.action(
                     mMetricsFeatureProvider.getAttribution(mActivity),
                     MetricsEvent.FIELD_SETTINGS_BUILD_NUMBER_DEVELOPER_MODE_ENABLED,
-                    mFragment.getMetricsCategory(),
+                    mMetricsCategory,
                     null,
                     1);
         }
@@ -236,9 +254,15 @@ public class BuildNumberPreferenceController extends BasePreferenceController im
                             false /* biometricsAuthenticationRequested */,
                             userId);
             if (biometricAuthStatus != Utils.BiometricStatus.NOT_ACTIVE) {
-                Utils.launchBiometricPromptForMandatoryBiometrics(mFragment,
-                        REQUEST_IDENTITY_CHECK_FOR_DEV_PREF,
-                        userId, false /* hideBackground */);
+                mPendingRequestCode = REQUEST_IDENTITY_CHECK_FOR_DEV_PREF;
+                if (mFragment != null) {
+                    Utils.launchBiometricPromptForMandatoryBiometrics(mFragment,
+                            REQUEST_IDENTITY_CHECK_FOR_DEV_PREF,
+                            userId, false /* hideBackground */);
+                } else {
+                    Utils.launchBiometricPromptForMandatoryBiometrics(mActivity,
+                            mActivityResultLauncher, userId, false /* hideBackground */);
+                }
             } else {
                 enableDevelopmentSettings();
             }
@@ -247,12 +271,24 @@ public class BuildNumberPreferenceController extends BasePreferenceController im
                 enableDevelopmentSettings();
             } else if (resultCode
                     == ConfirmDeviceCredentialActivity.BIOMETRIC_LOCKOUT_ERROR_RESULT) {
-                IdentityCheckBiometricErrorDialog.showBiometricErrorDialog(mFragment.getActivity(),
-                        Utils.BiometricStatus.LOCKOUT, true /* twoFactorAuthentication */);
+                if (mFragment != null) {
+                    IdentityCheckBiometricErrorDialog.showBiometricErrorDialog(
+                            mFragment.getActivity(), Utils.BiometricStatus.LOCKOUT,
+                            true /* twoFactorAuthentication */);
+                } else if (mBiometricLockoutCallback != null) {
+                    mBiometricLockoutCallback.run();
+                }
             }
         }
         mProcessingLastDevHit = false;
         return true;
+    }
+
+    /** Handles a result delivered by the Activity Result API. */
+    public boolean onActivityResult(int resultCode, Intent data) {
+        final int requestCode = mPendingRequestCode;
+        mPendingRequestCode = 0;
+        return onActivityResult(requestCode, resultCode, data);
     }
 
     /**

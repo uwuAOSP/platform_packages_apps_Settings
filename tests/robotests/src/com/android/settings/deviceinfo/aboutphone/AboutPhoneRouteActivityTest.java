@@ -22,7 +22,7 @@ import static org.robolectric.Shadows.shadowOf;
 
 import android.content.Intent;
 
-import com.android.settings.Settings;
+import com.android.settings.spa.SpaActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,14 +32,14 @@ import org.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class AboutPhoneRouteActivityTest {
     @Test
-    public void create_settingsExtMissing_launchesNativeAboutPhoneAndFinishes() {
+    public void create_launchesOnlySpaAboutPhoneAndFinishes() {
         final AboutPhoneRouteActivity activity =
                 Robolectric.buildActivity(AboutPhoneRouteActivity.class).create().get();
 
         final Intent intent = shadowOf(activity).getNextStartedActivity();
         assertThat(intent).isNotNull();
         assertThat(intent.getComponent().getClassName())
-                .isEqualTo(Settings.MyDeviceInfoActivity.class.getName());
+                .isEqualTo(SpaActivity.class.getName());
         assertThat(activity.isFinishing()).isTrue();
     }
 }

@@ -114,6 +114,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.core.graphics.Insets;
 import androidx.core.graphics.drawable.IconCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
@@ -1691,6 +1692,15 @@ public final class Utils extends com.android.settingslib.Utils {
         activity.startActivityForResult(getIntentForBiometricAuthentication(
                 activity.getResources(), getEffectiveUserId(userManager, userId),
                 hideBackground, null /* data */), requestCode);
+    }
+
+    /** Launches mandatory biometric confirmation through the Activity Result API. */
+    public static void launchBiometricPromptForMandatoryBiometrics(@NonNull Activity activity,
+            @NonNull ActivityResultLauncher<Intent> launcher, int userId, boolean hideBackground) {
+        final UserManager userManager = activity.getSystemService(UserManager.class);
+        launcher.launch(getIntentForBiometricAuthentication(
+                activity.getResources(), getEffectiveUserId(userManager, userId),
+                hideBackground, null /* data */));
     }
 
     /**

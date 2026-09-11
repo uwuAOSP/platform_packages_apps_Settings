@@ -46,15 +46,21 @@
             android:summary="@string/connected_devices_dashboard_default_summary"
             settings:highlightableMenuKey="@string/menu_key_connected_devices"
             settings:controller="com.android.settings.connecteddevice.TopLevelConnectedDevicesPreferenceController"/>
+    </com.android.settingslib.widget.UntitledPreferenceCategory>
 
+    <com.android.settingslib.widget.UntitledPreferenceCategory
+        android:order="-125"
+        android:key="top_level_uwu_category">
         <com.android.settings.widget.HomepagePreference
             android:icon="@drawable/ic_homepage_uwu_settings_ext"
             android:key="top_level_uwu_settings_ext"
-            android:order="-5"
-            android:title="@string/uwu_settings_ext_title"
             android:summary="@string/uwu_settings_ext_summary"
-            settings:highlightableMenuKey="@string/menu_key_uwu_settings_ext"
-            settings:controller="com.android.settings.uwu.TopLevelUwuSettingsExtPreferenceController"/>
+            android:title="@string/uwu_settings_ext_title">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="org.uwuaosp.settingsext"
+                android:targetClass="org.uwuaosp.settingsext.SettingsExtActivity" />
+        </com.android.settings.widget.HomepagePreference>
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory
@@ -167,11 +173,7 @@
             android:title="@string/about_settings"
             android:summary="@string/summary_placeholder"
             settings:highlightableMenuKey="@string/menu_key_about_device"
-            settings:controller="com.android.settings.deviceinfo.aboutphone.TopLevelAboutDevicePreferenceController">
-            <intent
-                android:targetClass="com.android.settings.deviceinfo.aboutphone.AboutPhoneRouteActivity"
-                android:targetPackage="com.android.settings"/>
-        </com.android.settings.widget.HomepagePreference>
+            settings:controller="com.android.settings.deviceinfo.aboutphone.TopLevelAboutDevicePreferenceController"/>
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory

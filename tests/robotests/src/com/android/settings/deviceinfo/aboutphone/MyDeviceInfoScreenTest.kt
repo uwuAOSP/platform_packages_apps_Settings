@@ -67,7 +67,6 @@ class MyDeviceInfoScreenTest : SettingsCatalystTestCase() {
     fun getLaunchIntent_routesThroughFallbackActivity() {
         val intent = preferenceScreenCreator.getLaunchIntent(appContext, null)
 
-        assertThat(intent?.component?.className)
-            .isEqualTo(AboutPhoneRouteActivity::class.java.name)
+        assertThat(intent?.component?.className).isEqualTo(AboutPhoneRouteActivity::class.java.name)
     }
 }

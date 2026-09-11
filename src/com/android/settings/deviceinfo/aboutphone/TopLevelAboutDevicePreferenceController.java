@@ -22,6 +22,7 @@ import androidx.preference.Preference;
 
 import com.android.settings.core.BasePreferenceController;
 import com.android.settings.deviceinfo.DeviceNamePreferenceController;
+import com.android.settings.spa.SpaActivity;
 
 public class TopLevelAboutDevicePreferenceController extends BasePreferenceController {
     public TopLevelAboutDevicePreferenceController(Context context, String preferenceKey) {
@@ -45,6 +46,8 @@ public class TopLevelAboutDevicePreferenceController extends BasePreferenceContr
         if (!getPreferenceKey().equals(preference.getKey())) {
             return false;
         }
-        return AboutPhoneRouter.launchExternal(mContext);
+        SpaActivity.startSpaActivity(mContext, "AboutPhone");
+        return true;
     }
+
 }
