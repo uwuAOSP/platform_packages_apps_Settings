@@ -23,7 +23,6 @@ import android.os.Build
 import android.provider.Settings
 import androidx.fragment.app.Fragment
 import com.android.settings.R
-import com.android.settings.Settings.MyDeviceInfoActivity
 import com.android.settings.core.PreferenceScreenMixin
 import com.android.settings.deviceinfo.firmwareversion.FirmwareVersionScreen
 import com.android.settings.deviceinfo.hardwareinfo.HardwareInfoScreen
@@ -31,7 +30,6 @@ import com.android.settings.deviceinfo.imei.ImeiPreference
 import com.android.settings.deviceinfo.imei.getImeiList
 import com.android.settings.deviceinfo.simstatus.SimEidPreference
 import com.android.settings.flags.Flags
-import com.android.settings.utils.makeLaunchIntent
 import com.android.settings.wifi.utils.activeModemCount
 import com.android.settingslib.metadata.PreferenceCategory
 import com.android.settingslib.metadata.PreferenceIconProvider
@@ -81,7 +79,7 @@ open class MyDeviceInfoScreen :
     override fun fragmentClass(): Class<out Fragment>? = MyDeviceInfoFragment::class.java
 
     override fun getLaunchIntent(context: Context, metadata: PreferenceMetadata?): Intent? =
-        makeLaunchIntent(context, MyDeviceInfoActivity::class.java, metadata?.key)
+        AboutPhoneRouter.getRouteIntent(context)
 
     override fun getPreferenceHierarchy(context: Context, coroutineScope: CoroutineScope) =
         preferenceHierarchy(context) {

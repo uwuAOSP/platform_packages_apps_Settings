@@ -1801,24 +1801,32 @@
 
         <activity android:name=".Settings$MyDeviceInfoActivity"
                   android:label="@string/about_settings"
-                  android:exported="true"
+                  android:exported="false"
                   android:icon="@drawable/ic_homepage_about">
-            <intent-filter android:priority="1">
-                <action android:name="android.settings.DEVICE_INFO_SETTINGS" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <action android:name="android.settings.DEVICE_NAME" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <intent-filter android:priority="71">
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="com.android.settings.SHORTCUT" />
-            </intent-filter>
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
                        android:value="com.android.settings.deviceinfo.aboutphone.MyDeviceInfoFragment" />
             <meta-data android:name="com.android.settings.HIGHLIGHT_MENU_KEY"
                        android:value="@string/menu_key_about_device"/>
             <meta-data android:name="com.android.settings.PRIMARY_PROFILE_CONTROLLED"
                        android:value="true" />
+        </activity>
+
+        <activity
+            android:name=".deviceinfo.aboutphone.AboutPhoneRouteActivity"
+            android:exported="true"
+            android:icon="@drawable/ic_homepage_about"
+            android:label="@string/about_settings"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter android:priority="1">
+                <action android:name="android.settings.DEVICE_INFO_SETTINGS" />
+                <action android:name="android.settings.DEVICE_NAME" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter android:priority="71">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.android.settings.SHORTCUT" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".Settings$FirmwareVersionActivity"

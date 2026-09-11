@@ -17,4 +17,15 @@
 <resources>
     <string name="uwu_settings_ext_title">uwuAOSP Plus!</string>
     <string name="uwu_settings_ext_summary">uwuAOSP features and tools</string>
+    <!-- About phone custom UI labels -->
+    <string name="about_phone_unknown">Unknown</string>
+    <string name="about_phone_more_info">More device information</string>
+    <string name="about_phone_maintainer_label">ROM version</string>
+    <string name="about_phone_storage_summary">%1$s / %2$s</string>
+    <string name="about_phone_resolution_value">%1$d × %2$d</string>
+    <string name="about_phone_chipset_label">Chipset</string>
+    <string name="about_phone_memory_label">Memory</string>
+    <string name="about_phone_battery_capacity_label">Battery capacity</string>
+    <string name="about_phone_battery_capacity_value">%1$d mAh</string>
+    <string name="about_phone_unavailable">This detail page is unavailable.</string>
 </resources>

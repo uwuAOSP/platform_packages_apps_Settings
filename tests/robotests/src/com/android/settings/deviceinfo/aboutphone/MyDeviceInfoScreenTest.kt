@@ -62,4 +62,11 @@ class MyDeviceInfoScreenTest : SettingsCatalystTestCase() {
 
         assertThat(preferenceScreenCreator.getSummary(appContext)).isEqualTo("Test")
     }
+
+    @Test
+    fun getLaunchIntent_routesThroughFallbackActivity() {
+        val intent = preferenceScreenCreator.getLaunchIntent(appContext, null)
+
+        assertThat(intent?.component?.className).isEqualTo(AboutPhoneRouteActivity::class.java.name)
+    }
 }

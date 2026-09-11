@@ -16,6 +16,7 @@
 
 package com.android.settings.spa.about
 
+import android.app.settings.SettingsEnums
 import android.os.Bundle
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.PermDeviceInformation
@@ -36,12 +37,13 @@ import com.android.settingslib.spa.widget.ui.SettingsIcon
 
 object AboutPhonePageProvider : SettingsPageProvider {
     override val name = "AboutPhone"
+    override val metricsCategory = SettingsEnums.DEVICEINFO
     private val owner = createSettingsPage()
 
     @Composable
     override fun Page(arguments: Bundle?) {
         RegularScaffold(title = getTitle(arguments)) {
-            BasicInfoCategory.CategoryItems()
+            AboutPhoneHeaderPage()
         }
     }
 
