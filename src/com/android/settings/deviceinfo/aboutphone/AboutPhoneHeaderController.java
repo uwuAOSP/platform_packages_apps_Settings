@@ -17,6 +17,7 @@
 package com.android.settings.deviceinfo.aboutphone;
 
 import android.app.ActivityManager;
+import android.app.WallpaperInfo;
 import android.app.WallpaperManager;
 import android.app.usage.StorageStatsManager;
 import android.content.Context;
@@ -251,12 +252,18 @@ public class AboutPhoneHeaderController extends BasePreferenceController
         headerImage.setImageDrawable(null);
         headerImage.setRenderEffect(null);
         try {
-            final Drawable wallpaper = WallpaperManager.getInstance(mContext)
-                    .getDrawable(WallpaperManager.FLAG_SYSTEM);
+            final WallpaperManager wallpaperManager = WallpaperManager.getInstance(mContext);
+            final WallpaperInfo wallpaperInfo = wallpaperManager.getWallpaperInfo(
+                    WallpaperManager.FLAG_SYSTEM);
+            Drawable wallpaper = wallpaperInfo == null
+                    ? null : wallpaperInfo.loadThumbnail(mContext.getPackageManager());
+            if (wallpaper == null) {
+                wallpaper = wallpaperManager.getDrawable(WallpaperManager.FLAG_SYSTEM);
+            }
             if (wallpaper != null) {
                 headerImage.setImageDrawable(wallpaper);
             }
-        } catch (SecurityException ignored) {
+        } catch (SecurityException | Resources.NotFoundException ignored) {
             // Fall back to the card background if wallpaper access is unavailable.
         }
 
