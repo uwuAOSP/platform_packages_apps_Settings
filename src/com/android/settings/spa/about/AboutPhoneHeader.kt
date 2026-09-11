@@ -300,7 +300,7 @@ private fun VersionStrip(context: Context) {
             )
             StripItem(
                 icon = R.drawable.logo_rom,
-                label = stringResource(R.string.about_phone_maintainer_label),
+                label = stringResource(R.string.about_phone_rom_version_label),
                 value = romVersion(context),
             )
         }

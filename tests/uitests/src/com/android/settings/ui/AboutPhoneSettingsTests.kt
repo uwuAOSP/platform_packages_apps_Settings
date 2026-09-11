@@ -46,6 +46,7 @@ class AboutPhoneSettingsTests {
     private companion object {
         val ON_SCREEN_TEXTS = listOf(
             "Device name",
+            "uwuAOSP version",
             "Legal information",
             "Regulatory labels"
         )

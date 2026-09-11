@@ -20,7 +20,7 @@
     <!-- About phone custom UI labels -->
     <string name="about_phone_unknown">未知</string>
     <string name="about_phone_more_info">更多设备信息</string>
-    <string name="about_phone_maintainer_label">ROM 版本</string>
+    <string name="about_phone_rom_version_label">uwuAOSP 版本</string>
     <string name="about_phone_storage_summary">%1$s / %2$s</string>
     <string name="about_phone_resolution_value">%1$d × %2$d</string>
     <string name="about_phone_chipset_label">芯片组</string>
