@@ -220,7 +220,7 @@ public class AboutPhoneHeaderController extends BasePreferenceController
             return;
         }
 
-        final View headerCard = mLayoutPreference.findViewById(R.id.headerCard);
+        final FrameLayout headerCard = mLayoutPreference.findViewById(R.id.headerCard);
         if (headerCard == null) {
             return;
         }
