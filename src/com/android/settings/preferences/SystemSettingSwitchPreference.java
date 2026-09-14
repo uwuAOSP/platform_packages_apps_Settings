@@ -16,13 +16,13 @@
 package com.android.settings.preferences;
 
 import android.content.Context;
-import android.provider.Settings;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 
-import com.android.settings.custom.preference.SelfRemovingSwitchPreference;
+import androidx.preference.SwitchPreferenceCompat;
 
-public class SystemSettingSwitchPreference extends SelfRemovingSwitchPreference {
+public class SystemSettingSwitchPreference extends SwitchPreferenceCompat {
 
     public SystemSettingSwitchPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -37,18 +37,14 @@ public class SystemSettingSwitchPreference extends SelfRemovingSwitchPreference 
     }
 
     @Override
-    protected boolean isPersisted() {
-        return Settings.System.getString(getContext().getContentResolver(), getKey()) != null;
+    protected boolean persistBoolean(boolean value) {
+        return Settings.System.putIntForUser(getContext().getContentResolver(), getKey(),
+                value ? 1 : 0, UserHandle.USER_CURRENT);
     }
 
     @Override
-    protected void putBoolean(String key, boolean value) {
-        Settings.System.putIntForUser(getContext().getContentResolver(), key, value ? 1 : 0, UserHandle.USER_CURRENT);
-    }
-
-    @Override
-    protected boolean getBoolean(String key, boolean defaultValue) {
+    protected boolean getPersistedBoolean(boolean defaultValue) {
         return Settings.System.getIntForUser(getContext().getContentResolver(),
-                key, defaultValue ? 1 : 0, UserHandle.USER_CURRENT) != 0;
+                getKey(), defaultValue ? 1 : 0, UserHandle.USER_CURRENT) != 0;
     }
 }
