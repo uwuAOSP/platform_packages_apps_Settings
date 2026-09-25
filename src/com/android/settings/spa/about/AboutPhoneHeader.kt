@@ -64,15 +64,18 @@ import androidx.preference.Preference
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.android.internal.os.PowerProfile
 import com.android.settings.R
@@ -145,8 +148,8 @@ private fun HeaderCard(context: Context) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(168.dp)
-            .clip(RoundedCornerShape(24.dp))
+            .height(184.dp)
+            .clip(RoundedCornerShape(32.dp))
             .background(MaterialTheme.colorScheme.surfaceContainerHigh),
     ) {
         AndroidView(
@@ -165,35 +168,61 @@ private fun HeaderCard(context: Context) {
             modifier = Modifier.fillMaxSize(),
         )
 
-        Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.28f)))
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.horizontalGradient(
+                        0f to Color.Black.copy(alpha = 0.20f),
+                        0.62f to Color.Black.copy(alpha = 0.08f),
+                        1f to Color.Black.copy(alpha = 0.14f),
+                    )
+                )
+        )
 
         val subtitleColor =
             if (isNightMode(context)) Color.White.copy(alpha = 0.92f)
-            else Color.White.copy(alpha = 0.80f)
+            else Color.White.copy(alpha = 0.88f)
 
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 24.dp, end = 24.dp),
-            verticalArrangement = Arrangement.Center,
+                .padding(horizontal = 20.dp),
+            contentAlignment = Alignment.CenterStart,
         ) {
-            Image(
-                painter = painterResource(R.drawable.about_phone_header_title),
-                contentDescription = null,
+            Column(
                 modifier = Modifier
-                    .height(34.dp)
-                    .widthIn(max = 220.dp),
-                alignment = Alignment.CenterStart,
-                contentScale = ContentScale.Fit,
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                text = headerSubtitle(context),
-                color = subtitleColor,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+                    .widthIn(max = 300.dp)
+                    .semantics(mergeDescendants = true) {},
+            ) {
+                Text(
+                    text = "uwuAOSP",
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        brush = Brush.horizontalGradient(
+                            listOf(
+                                Color(0xFF8DE3FD),
+                                Color(0xFF92D8FC),
+                                Color(0xFF97CEFB),
+                                Color(0xFF9BC3FB),
+                                Color(0xFFA6CBFC),
+                                Color(0xFFB1D3FC),
+                                Color(0xFFBCDBFD),
+                            )
+                        ),
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = (-0.8).sp,
+                    ),
+                    maxLines = 1,
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    text = headerSubtitle(context),
+                    color = subtitleColor,
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
     }
 }
@@ -285,7 +314,7 @@ private fun VersionStrip(context: Context) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(28.dp))
             .background(MaterialTheme.colorScheme.surfaceBright),
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
@@ -326,14 +355,7 @@ private fun StripItem(
             .padding(horizontal = 14.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            painter = painterResource(icon),
-            contentDescription = null,
-            modifier = Modifier.size(34.dp),
-            colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(
-                MaterialTheme.colorScheme.onSurfaceVariant
-            ),
-        )
+        InfoIcon(icon = icon, containerSize = 42.dp, iconSize = 24.dp)
         Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
             Text(
@@ -350,6 +372,10 @@ private fun StripItem(
                 overflow = TextOverflow.Ellipsis,
             )
         }
+        if (onClick != null) {
+            Spacer(Modifier.width(8.dp))
+            NavigationChevron()
+        }
     }
 }
 
@@ -360,7 +386,7 @@ private fun DetailsGrid(context: Context) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(28.dp))
             .background(MaterialTheme.colorScheme.surfaceBright),
     ) {
         BoxWithConstraints(Modifier.padding(8.dp)) {
@@ -455,14 +481,16 @@ private fun GridCell(
             )
             .padding(12.dp),
     ) {
-        Image(
-            painter = painterResource(icon),
-            contentDescription = null,
-            modifier = Modifier.size(28.dp),
-            colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(
-                MaterialTheme.colorScheme.onSurfaceVariant
-            ),
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            InfoIcon(icon = icon)
+            if (onClick != null) {
+                NavigationChevron()
+            }
+        }
         Spacer(Modifier.height(10.dp))
         Text(
             text = label,
@@ -534,7 +562,7 @@ private fun BuildNumberRow(context: Context) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(22.dp))
+            .clip(RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.surfaceBright)
             .semantics(mergeDescendants = true) {}
             .clickable { controller.handlePreferenceTreeClick(preference) },
@@ -545,14 +573,7 @@ private fun BuildNumberRow(context: Context) {
                 .padding(horizontal = 14.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                painter = painterResource(R.drawable.logo_build),
-                contentDescription = null,
-                modifier = Modifier.size(28.dp),
-                colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(
-                    MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-            )
+            InfoIcon(icon = R.drawable.logo_build)
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(
@@ -595,10 +616,10 @@ private fun MoreInfoRow(context: Context) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(22.dp))
+            .clip(RoundedCornerShape(32.dp))
             .background(MaterialTheme.colorScheme.surfaceBright)
             .semantics(mergeDescendants = true) {}
-            .height(48.dp)
+            .heightIn(min = 64.dp)
             .clickable { launchMoreDeviceInfo(context) },
     ) {
         Row(
@@ -607,13 +628,18 @@ private fun MoreInfoRow(context: Context) {
                 .padding(horizontal = 14.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            InfoIcon(icon = R.drawable.ic_info_outline_24dp)
+            Spacer(Modifier.width(12.dp))
             Text(
                 text = stringResource(R.string.about_phone_more_info),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.weight(1f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
+            Spacer(Modifier.width(8.dp))
+            NavigationChevron()
         }
     }
 }
@@ -631,8 +657,8 @@ private fun Card(
 ) {
     Box(
         modifier = modifier
-            .heightIn(min = 144.dp)
-            .clip(RoundedCornerShape(22.dp))
+            .heightIn(min = 160.dp)
+            .clip(RoundedCornerShape(28.dp))
             .background(MaterialTheme.colorScheme.surfaceBright)
             .then(
                 if (onClick != null) {
@@ -645,14 +671,16 @@ private fun Card(
             ),
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(14.dp)) {
-            Image(
-                painter = painterResource(icon),
-                contentDescription = null,
-                modifier = Modifier.size(30.dp),
-                colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(
-                    MaterialTheme.colorScheme.onSurfaceVariant
-                ),
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                InfoIcon(icon = icon)
+                if (onClick != null) {
+                    NavigationChevron()
+                }
+            }
             Spacer(Modifier.height(10.dp))
             Text(
                 text = label,
@@ -674,6 +702,42 @@ private fun Card(
             }
         }
     }
+}
+
+@Composable
+private fun InfoIcon(
+    icon: Int,
+    containerSize: Dp = 40.dp,
+    iconSize: Dp = 24.dp,
+) {
+    Box(
+        modifier = Modifier
+            .size(containerSize)
+            .clip(RoundedCornerShape(14.dp))
+            .background(MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.78f)),
+        contentAlignment = Alignment.Center,
+    ) {
+        Image(
+            painter = painterResource(icon),
+            contentDescription = null,
+            modifier = Modifier.size(iconSize),
+            colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(
+                MaterialTheme.colorScheme.onSecondaryContainer
+            ),
+        )
+    }
+}
+
+@Composable
+private fun NavigationChevron() {
+    Image(
+        painter = painterResource(R.drawable.ic_chevron_right_24dp),
+        contentDescription = null,
+        modifier = Modifier.size(18.dp),
+        colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(
+            MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+    )
 }
 
 private fun showDeviceNameEditDialog(

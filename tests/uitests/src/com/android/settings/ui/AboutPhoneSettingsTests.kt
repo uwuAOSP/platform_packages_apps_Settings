@@ -20,8 +20,10 @@ import android.provider.Settings
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import com.android.settings.ui.testutils.SettingsTestUtils.assertHasTexts
+import com.android.settings.ui.testutils.SettingsTestUtils.clickObject
 import com.android.settings.ui.testutils.SettingsTestUtils.startMainActivityFromHomeScreen
 import org.junit.Before
 import org.junit.Test
@@ -40,15 +42,20 @@ class AboutPhoneSettingsTests {
 
     @Test
     fun testAllMenuEntriesExist() {
-        device.assertHasTexts(ON_SCREEN_TEXTS)
+        device.assertHasTexts(OVERVIEW_TEXTS)
+        device.clickObject(By.text("More device information"))
+        device.assertHasTexts(MORE_INFO_TEXTS)
     }
 
     private companion object {
-        val ON_SCREEN_TEXTS = listOf(
+        val OVERVIEW_TEXTS = listOf(
             "Device name",
             "uwuAOSP version",
+            "More device information",
+        )
+        val MORE_INFO_TEXTS = listOf(
             "Legal information",
-            "Regulatory labels"
+            "Regulatory labels",
         )
     }
 }
