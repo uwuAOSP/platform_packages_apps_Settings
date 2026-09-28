@@ -14,6 +14,9 @@
          but a dedicated one, i.e. not embedded in the power button. -->
     <bool name="config_is_side_fps" translatable="false">false</bool>
 
+    <!-- Whether the face HAL supports the require attention feature -->
+    <bool name="config_face_attention_supported">true</bool>
+
     <!-- Uses the legacy UDFPS enrollment UI with side text instead of a footer button. -->
     <bool name="config_useLegacyUdfpsUi" translatable="false">false</bool>
 
