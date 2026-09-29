@@ -866,10 +866,12 @@ private fun preferredDeviceLabel(context: Context): String =
 
 private fun romVersion(context: Context): String =
     firstSystemProperty(
+        // Show the canonical release version, without build date/device suffixes.
+        "ro.uwu.release",
+        "ro.uwu.build.version",
         "org.uwuaosp.version",
         "ro.uwu.version",
         "ro.uwuaosp.version",
-        "ro.uwu.build.version",
         "ro.lineage.version",
     ).ifEmpty { nonEmpty(Build.DISPLAY, context) }
 
