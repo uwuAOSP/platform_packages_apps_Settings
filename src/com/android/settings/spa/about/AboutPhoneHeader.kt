@@ -5,20 +5,17 @@
 package com.android.settings.spa.about
 
 import android.app.ActivityManager
-import android.app.WallpaperManager
 import android.app.settings.SettingsEnums
 import android.app.usage.StorageStatsManager
 import android.app.Activity
 import android.app.AlertDialog as FrameworkAlertDialog
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.res.Resources
 import android.text.InputType
 import android.widget.EditText
 import android.content.res.Configuration
 import android.graphics.RenderEffect
 import android.graphics.Shader
-import android.graphics.drawable.Drawable
 import android.os.BatteryManager
 import android.os.Build
 import android.os.SystemProperties
@@ -142,6 +139,7 @@ fun AboutPhoneHeaderPage() {
 
 @Composable
 private fun HeaderCard(context: Context) {
+    val wallpaper = rememberAboutHeaderWallpaper(context)
     val blurRadius = with(LocalDensity.current) {
         (if (isNightMode(context)) 8.dp else 14.dp).toPx()
     }
@@ -156,13 +154,15 @@ private fun HeaderCard(context: Context) {
             factory = { viewContext ->
                 ImageView(viewContext).apply {
                     scaleType = ImageView.ScaleType.CENTER_CROP
-                    setImageDrawable(loadSystemWallpaper(viewContext))
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        setRenderEffect(
-                            RenderEffect.createBlurEffect(
-                                blurRadius, blurRadius, Shader.TileMode.CLAMP)
-                        )
-                    }
+                }
+            },
+            update = { view ->
+                view.setImageDrawable(wallpaper)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    view.setRenderEffect(
+                        RenderEffect.createBlurEffect(
+                            blurRadius, blurRadius, Shader.TileMode.CLAMP)
+                    )
                 }
             },
             modifier = Modifier.fillMaxSize(),
@@ -921,19 +921,6 @@ private fun kernelSummary(context: Context): String =
         .getOrDefault("")
         .ifEmpty { System.getProperty("os.version").orEmpty().trim() }
         .ifEmpty { stringResource(context, R.string.about_phone_unknown) }
-
-private fun loadSystemWallpaper(context: Context): Drawable? {
-    return try {
-        val wallpaperManager = WallpaperManager.getInstance(context)
-        val wallpaperInfo = wallpaperManager.getWallpaperInfo(WallpaperManager.FLAG_SYSTEM)
-        val thumbnail = wallpaperInfo?.loadThumbnail(context.packageManager)
-        thumbnail ?: wallpaperManager.getDrawable(WallpaperManager.FLAG_SYSTEM)
-    } catch (_: SecurityException) {
-        null
-    } catch (_: Resources.NotFoundException) {
-        null
-    }
-}
 
 // ─── utilities ──────────────────────────────────────────────────────────────
 
