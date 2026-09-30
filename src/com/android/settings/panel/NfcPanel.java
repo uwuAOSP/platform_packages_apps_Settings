@@ -58,13 +58,13 @@ public class NfcPanel implements PanelContent {
     @Override
     public Intent getSeeMoreIntent() {
         final String screenTitle =
-                mContext.getText(R.string.connected_device_connections_title).toString();
+                mContext.getText(R.string.uwu_more_connection_settings_title).toString();
         Intent intent = SliceBuilderUtils.buildSearchResultPageIntent(mContext,
                 AdvancedConnectedDeviceDashboardFragment.class.getName(),
                 null /* key */,
                 screenTitle,
                 SettingsEnums.SETTINGS_CONNECTED_DEVICE_CATEGORY,
-                R.string.menu_key_connected_devices);
+                R.string.menu_key_more_connection_settings);
         intent.setClassName(mContext.getPackageName(), SubSettings.class.getName());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;

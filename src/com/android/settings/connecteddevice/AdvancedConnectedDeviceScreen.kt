@@ -45,15 +45,15 @@ open class AdvancedConnectedDeviceScreen : PreferenceScreenMixin, PreferenceSumm
 
     // TODO(b/462618020) Catalyst-purpose: replace default purpose with 2 line description
     override val purpose: Int
-        get() = R.string.connection_preferences_purpose
+        get() = R.string.uwu_more_connection_settings_purpose
 
     override val title: Int
-        get() = R.string.connected_device_connections_title
+        get() = R.string.uwu_more_connection_settings_title
 
     override fun getMetricsCategory() = SettingsEnums.CONNECTION_DEVICE_ADVANCED
 
     override val highlightMenuKey
-        get() = R.string.menu_key_connected_devices
+        get() = R.string.menu_key_more_connection_settings
 
     override fun hasCompleteHierarchy() = false
 
@@ -64,9 +64,7 @@ open class AdvancedConnectedDeviceScreen : PreferenceScreenMixin, PreferenceSumm
         preferenceHierarchy(context) {}
 
     override fun getSummary(context: Context): CharSequence? =
-        context.getText(
-            AdvancedConnectedDeviceController.getConnectedDevicesSummaryResourceId(context)
-        )
+        context.getText(R.string.uwu_more_connection_settings_summary)
 
     override fun getLaunchIntent(context: Context, metadata: PreferenceMetadata?) =
         makeLaunchIntent(context, AdvancedConnectedDeviceActivity::class.java, metadata?.key)

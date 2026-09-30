@@ -68,7 +68,7 @@ public class LaunchSettingsTest {
         PAGES = new Page[]{
                 new Page("android.settings.SETTINGS", "Search settings", "Settings"),
                 new Page("android.settings.WIFI_SETTINGS", "Use Wi‑Fi", "Wi-Fi"),
-                new Page("android.settings.BLUETOOTH_SETTINGS", "Connected devices", "BlueTooth"),
+                new Page("android.settings.BLUETOOTH_SETTINGS", "Bluetooth", "BlueTooth"),
                 new Page("android.settings.APPLICATION_SETTINGS", "App info", "Application"),
                 new Page("android.intent.action.POWER_USAGE_SUMMARY", "Battery", "Battery"),
                 new Page("android.settings.INTERNAL_STORAGE_SETTINGS", "Storage", "Storage")

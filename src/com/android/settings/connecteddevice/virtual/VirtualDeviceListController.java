@@ -163,7 +163,7 @@ public class VirtualDeviceListController extends BasePreferenceController
             String deviceName = device.getDeviceName(mContext).toString();
             data.key = device.getPersistentDeviceId() + "_" + deviceName;
             data.title = deviceName;
-            data.summaryOn = mContext.getString(R.string.connected_device_connections_title);
+            data.summaryOn = mContext.getString(R.string.uwu_more_connection_settings_title);
             rawData.add(data);
         }
     }

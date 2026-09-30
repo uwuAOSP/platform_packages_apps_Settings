@@ -329,7 +329,7 @@ public class ConnectedDeviceGroupController extends BasePreferenceController
             // Include the identity address as well to ensure the key is unique.
             data.key = cachedDevice.getName() + cachedDevice.getIdentityAddress();
             data.title = cachedDevice.getName();
-            data.summaryOn = mContext.getString(R.string.connected_devices_dashboard_title);
+            data.summaryOn = mContext.getString(R.string.bluetooth_settings_title);
             rawData.add(data);
         }
     }

@@ -52,33 +52,6 @@
         android:title="@string/connected_device_other_device_title"
         settings:controller="com.android.settings.connecteddevice.ConnectedDeviceGroupController" />
 
-    <com.android.settingslib.widget.UntitledPreferenceCategory>
-      <com.android.settingslib.RestrictedPreference
-          android:fragment="com.android.settings.bluetooth.BluetoothPairingDetail"
-          android:icon="@drawable/ic_add_24dp"
-          android:key="add_bt_devices"
-          android:summary="@string/connected_device_add_device_summary"
-          android:title="@string/bluetooth_pairing_pref_title"
-          settings:controller="com.android.settings.connecteddevice.AddDevicePreferenceController"
-          settings:keywords="@string/keywords_add_bt_device"
-          settings:useAdminDisabledSummary="true"
-          settings:userRestriction="no_config_bluetooth" />
-    </com.android.settingslib.widget.UntitledPreferenceCategory>
-
-    <PreferenceCategory
-        android:key="previously_connected_devices"
-        android:title="@string/connected_device_saved_title"
-        settings:controller="com.android.settings.connecteddevice.PreviouslyConnectedDevicePreferenceController">
-
-        <Preference
-            android:fragment="com.android.settings.connecteddevice.PreviouslyConnectedDeviceDashboardFragment"
-            android:icon="@drawable/ic_chevron_right_24dp"
-            android:key="previously_connected_devices_see_all"
-            android:order="10"
-            android:title="@string/previous_connected_see_all"
-            settings:searchable="false" />
-    </PreferenceCategory>
-
     <PreferenceCategory
         android:key="fast_pair_devices"
         android:title="@string/connected_device_previously_associated_fast_pair_device_title"
@@ -99,8 +72,8 @@
       <Preference
           android:fragment="com.android.settings.connecteddevice.AdvancedConnectedDeviceDashboardFragment"
           android:key="connection_preferences"
-          android:summary="@string/summary_placeholder"
-          android:title="@string/connected_device_connections_title"
+          android:summary="@string/uwu_more_connection_settings_summary"
+          android:title="@string/uwu_more_connection_settings_title"
           settings:allowDividerAbove="true"
           settings:controller="com.android.settings.connecteddevice.AdvancedConnectedDeviceController" />
     </com.android.settingslib.widget.UntitledPreferenceCategory>

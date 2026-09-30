@@ -33,7 +33,7 @@ import com.android.settings.R
 import com.android.settings.SettingsActivity
 import com.android.settings.SubSettings
 import com.android.settings.bluetooth.ui.model.FragmentTypeModel
-import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment
+import com.android.settings.connecteddevice.BluetoothDashboardFragment
 import com.android.settings.flags.Flags
 import com.android.settings.testutils.FakeFeatureFactory
 import com.android.settings.testutils.shadow.ShadowBluetoothUtils
@@ -127,7 +127,7 @@ class BluetoothDetailsConfigurableFragmentTest {
             val shadowIntent = shadowOf(startedIntent)
             assertThat(shadowIntent.intentClass).isEqualTo(SubSettings::class.java)
             assertThat(startedIntent.getStringExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT))
-                .isEqualTo(ConnectedDeviceDashboardFragment::class.java.name)
+                .isEqualTo(BluetoothDashboardFragment::class.java.name)
         }
 
     @Test
@@ -138,7 +138,7 @@ class BluetoothDetailsConfigurableFragmentTest {
             val shadowIntent = shadowOf(startedIntent)
             assertThat(shadowIntent.intentClass).isEqualTo(SubSettings::class.java)
             assertThat(startedIntent.getStringExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT))
-                .isEqualTo(ConnectedDeviceDashboardFragment::class.java.name)
+                .isEqualTo(BluetoothDashboardFragment::class.java.name)
         }
 
     @Test

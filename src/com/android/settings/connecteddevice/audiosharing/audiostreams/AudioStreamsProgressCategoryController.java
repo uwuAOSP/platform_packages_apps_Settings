@@ -47,7 +47,7 @@ import androidx.preference.PreferenceScreen;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.settings.R;
 import com.android.settings.bluetooth.Utils;
-import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
+import com.android.settings.connecteddevice.BluetoothDashboardFragment;
 import com.android.settings.connecteddevice.audiosharing.AudioSharingUtils;
 import com.android.settings.core.BasePreferenceController;
 import com.android.settings.core.SubSettingLauncher;
@@ -793,7 +793,7 @@ public class AudioStreamsProgressCategoryController extends BasePreferenceContro
                         dialog -> {
                             new SubSettingLauncher(mContext)
                                     .setDestination(
-                                            ConnectedDeviceDashboardFragment.class.getName())
+                                            BluetoothDashboardFragment.class.getName())
                                     .setSourceMetricsCategory(
                                             SettingsEnums.DIALOG_AUDIO_STREAM_MAIN_NO_LE_DEVICE)
                                     .launch();

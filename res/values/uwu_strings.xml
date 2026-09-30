@@ -17,6 +17,9 @@
 <resources>
     <string name="uwu_settings_ext_title">uwuAOSP Plus!</string>
     <string name="uwu_settings_ext_summary">uwuAOSP features and tools</string>
+    <string name="uwu_more_connection_settings_title">More connection settings</string>
+    <string name="uwu_more_connection_settings_summary">NFC, Cast, printing and other connection options</string>
+    <string name="uwu_more_connection_settings_purpose" translatable="false">Manage connection options for services and devices other than Bluetooth</string>
     <!-- About phone custom UI labels -->
     <string name="about_phone_unknown">Unknown</string>
     <string name="about_phone_more_info">More device information</string>

@@ -24,7 +24,7 @@ import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.android.settings.backup.UserBackupSettingsActivity;
-import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
+import com.android.settings.connecteddevice.AdvancedConnectedDeviceDashboardFragment;
 import com.android.settings.connecteddevice.usb.UsbDetailsFragment;
 import com.android.settings.fuelgauge.batteryusage.PowerUsageAdvanced;
 import com.android.settings.fuelgauge.batteryusage.PowerUsageSummary;
@@ -69,7 +69,7 @@ public class CustomSiteMapRegistryTest {
     public void shouldContainUsbDetailsFragmentPairs() {
         assertThat(CustomSiteMapRegistry.CUSTOM_SITE_MAP.get(
                 UsbDetailsFragment.class.getName())).isEqualTo(
-                ConnectedDeviceDashboardFragment.class.getName());
+                AdvancedConnectedDeviceDashboardFragment.class.getName());
     }
 
     @Test

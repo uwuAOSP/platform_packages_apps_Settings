@@ -86,7 +86,7 @@ open class PreviouslyConnectedDeviceScreen :
         PreviouslyConnectedDeviceDashboardFragment::class.java
 
     override val highlightMenuKey: Int
-        get() = R.string.menu_key_connected_devices
+        get() = R.string.menu_key_bluetooth
 
     override fun getPreferenceHierarchy(context: Context, coroutineScope: CoroutineScope) =
         preferenceHierarchy(context) {}

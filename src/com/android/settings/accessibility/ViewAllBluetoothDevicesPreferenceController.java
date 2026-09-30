@@ -22,7 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.preference.PreferenceScreen;
 
-import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
+import com.android.settings.connecteddevice.BluetoothDashboardFragment;
 import com.android.settings.core.BasePreferenceController;
 import com.android.settings.core.SubSettingLauncher;
 import com.android.settings.dashboard.DashboardFragment;
@@ -67,7 +67,7 @@ public class ViewAllBluetoothDevicesPreferenceController extends BasePreferenceC
     @VisibleForTesting
     void launchConnectedDevicePage() {
         new SubSettingLauncher(mContext)
-                .setDestination(ConnectedDeviceDashboardFragment.class.getName())
+                .setDestination(BluetoothDashboardFragment.class.getName())
                 .setSourceMetricsCategory(mFragment.getMetricsCategory())
                 .launch();
     }

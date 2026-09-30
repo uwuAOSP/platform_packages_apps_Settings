@@ -51,7 +51,7 @@ open class BluetoothDashboardScreen : PreferenceScreenMixin {
     override fun getMetricsCategory() = SettingsEnums.BLUETOOTH_FRAGMENT
 
     override val highlightMenuKey: Int
-        get() = R.string.menu_key_connected_devices
+        get() = R.string.menu_key_bluetooth
 
     override fun isFlagEnabled(context: Context) = Flags.catalystBluetoothSwitchbarScreen()
 

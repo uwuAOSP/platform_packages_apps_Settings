@@ -17,14 +17,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:settings="http://schemas.android.com/apk/res-auto"
-    android:title="@string/connected_device_connections_title">
-
-    <Preference
-        android:fragment="com.android.settings.connecteddevice.BluetoothDashboardFragment"
-        android:icon="@*android:drawable/ic_settings_bluetooth"
-        android:key="bluetooth_switchbar_screen"
-        android:order="-11"
-        android:title="@string/bluetooth_settings_title" />
+    android:title="@string/uwu_more_connection_settings_title">
 
     <Preference
         android:fragment="com.android.settings.connecteddevice.audiosharing.AudioSharingDashboardFragment"

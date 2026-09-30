@@ -370,18 +370,18 @@
 
         <activity
             android:name=".Settings$ConnectedDeviceDashboardActivity"
-            android:label="@string/connected_devices_dashboard_title"
+            android:label="@string/bluetooth_settings_title"
             android:exported="true"
-            android:icon="@drawable/ic_homepage_connected_device">
+            android:icon="@drawable/ic_settings_bluetooth">
             <intent-filter android:priority="1">
                 <action android:name="android.settings.BLUETOOTH_SETTINGS" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
-                android:value="com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment"/>
+                android:value="com.android.settings.connecteddevice.BluetoothDashboardFragment"/>
             <meta-data android:name="com.android.settings.HIGHLIGHT_MENU_KEY"
-                android:value="@string/menu_key_connected_devices"/>
+                android:value="@string/menu_key_bluetooth"/>
             <meta-data android:name="com.android.settings.PRIMARY_PROFILE_CONTROLLED"
                 android:value="true" />
         </activity>
@@ -772,7 +772,7 @@
         <!-- Keep compatibility with old shortcuts. -->
         <activity-alias
             android:name="Settings$BluetoothSettingsActivity"
-            android:label="@string/devices_title"
+            android:label="@string/bluetooth_settings_title"
             android:targetActivity=".Settings$ConnectedDeviceDashboardActivity"
             android:exported="true">
             <intent-filter android:priority="10">
@@ -780,21 +780,21 @@
                 <category android:name="com.android.settings.SHORTCUT" />
             </intent-filter>
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
-                android:value="com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment" />
+                android:value="com.android.settings.connecteddevice.BluetoothDashboardFragment" />
             <meta-data android:name="com.android.settings.HIGHLIGHT_MENU_KEY"
-                       android:value="@string/menu_key_connected_devices"/>
+                       android:value="@string/menu_key_bluetooth"/>
         </activity-alias>
 
         <!-- Keep compatibility with old shortcuts. -->
         <activity-alias android:name=".bluetooth.BluetoothSettings"
-                        android:label="@string/devices_title"
+                        android:label="@string/bluetooth_settings_title"
                         android:targetActivity="Settings$BluetoothSettingsActivity"
                         android:exported="true"
                         android:clearTaskOnLaunch="true">
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
-                       android:value="com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment" />
+                       android:value="com.android.settings.connecteddevice.BluetoothDashboardFragment" />
             <meta-data android:name="com.android.settings.HIGHLIGHT_MENU_KEY"
-                       android:value="@string/menu_key_connected_devices"/>
+                       android:value="@string/menu_key_bluetooth"/>
         </activity-alias>
 
         <activity android:name="Settings$FaceSettingsActivity"
@@ -1884,7 +1884,7 @@
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
                        android:value="com.android.settings.bluetooth.BluetoothPairingDetail" />
             <meta-data android:name="com.android.settings.HIGHLIGHT_MENU_KEY"
-                       android:value="@string/menu_key_connected_devices"/>
+                       android:value="@string/menu_key_bluetooth"/>
             <meta-data android:name="com.android.settings.PRIMARY_PROFILE_CONTROLLED"
                        android:value="true" />
         </activity>
@@ -5489,7 +5489,7 @@
 
         <activity android:name="Settings$AdvancedConnectedDeviceActivity"
                   android:exported="true"
-                  android:label="@string/connected_device_connections_title">
+                  android:label="@string/uwu_more_connection_settings_title">
             <intent-filter android:priority="1">
                 <action android:name="com.android.settings.ADVANCED_CONNECTED_DEVICE_SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -5497,7 +5497,7 @@
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
                        android:value="com.android.settings.connecteddevice.AdvancedConnectedDeviceDashboardFragment" />
             <meta-data android:name="com.android.settings.HIGHLIGHT_MENU_KEY"
-                       android:value="@string/menu_key_connected_devices"/>
+                       android:value="@string/menu_key_more_connection_settings"/>
             <meta-data android:name="com.android.settings.PRIMARY_PROFILE_CONTROLLED"
                        android:value="true" />
         </activity>
@@ -5528,7 +5528,7 @@
             <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
                        android:value="com.android.settings.bluetooth.BluetoothDeviceDetailsFragment" />
             <meta-data android:name="com.android.settings.HIGHLIGHT_MENU_KEY"
-                       android:value="@string/menu_key_connected_devices"/>
+                       android:value="@string/menu_key_bluetooth"/>
             <meta-data android:name="com.android.settings.PRIMARY_PROFILE_CONTROLLED"
                        android:value="true" />
         </activity>

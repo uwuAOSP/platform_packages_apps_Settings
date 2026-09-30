@@ -41,7 +41,7 @@ import com.android.settings.bluetooth.ui.model.DeviceSettingPreferenceModel
 import com.android.settings.bluetooth.ui.model.FragmentTypeModel
 import com.android.settings.bluetooth.ui.view.DeviceDetailsMoreSettingsFragment
 import com.android.settings.bluetooth.ui.viewmodel.BluetoothDeviceDetailsViewModel
-import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment
+import com.android.settings.connecteddevice.BluetoothDashboardFragment
 import com.android.settings.core.SubSettingLauncher
 import com.android.settings.dashboard.RestrictedDashboardFragment
 import com.android.settings.flags.Flags
@@ -688,8 +688,8 @@ abstract class BluetoothDetailsConfigurableFragment :
 
     private fun launchConnectedDevicesScreen() {
         SubSettingLauncher(context)
-            .setDestination(ConnectedDeviceDashboardFragment::class.java.getName())
-            .setTitleRes(R.string.connected_devices_dashboard_title)
+            .setDestination(BluetoothDashboardFragment::class.java.getName())
+            .setTitleRes(R.string.bluetooth_settings_title)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             .setSourceMetricsCategory(SettingsEnums.BLUETOOTH_DEVICE_DETAILS)
             .launch()

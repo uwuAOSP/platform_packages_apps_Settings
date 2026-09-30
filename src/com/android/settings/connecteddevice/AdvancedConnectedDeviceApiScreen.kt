@@ -41,7 +41,7 @@ class AdvancedConnectedDeviceApiScreen :
         key = KEY,
         topLevelSettingsCategory = Category.CONNECTED_DEVICES,
         fragment = AdvancedConnectedDeviceDashboardFragment::class,
-        purpose = R.string.connection_preferences_purpose,
+        purpose = R.string.uwu_more_connection_settings_purpose,
         alreadyPartiallyMigrated = AdvancedConnectedDeviceScreen::class,
     ) {
     init {

@@ -18,7 +18,9 @@
 
     <string name="menu_key_network" translatable="false">top_level_network</string>
     <string name="menu_key_communal" translatable="false">top_level_communal</string>
-    <string name="menu_key_connected_devices" translatable="false">top_level_connected_devices</string>
+    <string name="menu_key_connected_devices" translatable="false">top_level_more_connection_settings</string>
+    <string name="menu_key_bluetooth" translatable="false">top_level_bluetooth</string>
+    <string name="menu_key_more_connection_settings" translatable="false">top_level_more_connection_settings</string>
     <string name="menu_key_device" translatable="false">top_level_device</string>
     <string name="menu_key_apps" translatable="false">top_level_apps</string>
     <string name="menu_key_notifications" translatable="false">top_level_notifications</string>

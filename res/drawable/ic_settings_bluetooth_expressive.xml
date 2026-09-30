@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The uwuAOSP Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<com.android.settings.widget.TintDrawable
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_settings_bluetooth"
+    android:tint="@color/homepage_connected_device_foreground" />

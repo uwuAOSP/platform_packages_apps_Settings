@@ -17,6 +17,9 @@
 <resources>
     <string name="uwu_settings_ext_title">uwuAOSP Plus!</string>
     <string name="uwu_settings_ext_summary">uwuAOSP 功能与工具</string>
+    <string name="uwu_more_connection_settings_title">更多连接设置</string>
+    <string name="uwu_more_connection_settings_summary">NFC、投屏、打印及其他连接选项</string>
+    <string name="uwu_more_connection_settings_purpose" translatable="false">管理蓝牙以外的服务和设备连接选项</string>
     <!-- About phone custom UI labels -->
     <string name="about_phone_unknown">未知</string>
     <string name="about_phone_more_info">更多设备信息</string>

@@ -38,14 +38,23 @@
             settings:controller="com.android.settings.network.TopLevelNetworkEntryPreferenceController"/>
 
         <com.android.settings.widget.HomepagePreference
-            android:fragment="com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment"
+            android:fragment="com.android.settings.connecteddevice.BluetoothDashboardFragment"
+            android:icon="@drawable/ic_homepage_bluetooth"
+            android:key="top_level_bluetooth"
+            android:order="-15"
+            android:title="@string/bluetooth_settings_title"
+            settings:highlightableMenuKey="@string/menu_key_bluetooth"
+            settings:controller="com.android.settings.connecteddevice.TopLevelBluetoothPreferenceController"/>
+
+        <com.android.settings.widget.HomepagePreference
+            android:fragment="com.android.settings.connecteddevice.AdvancedConnectedDeviceDashboardFragment"
             android:icon="@drawable/ic_homepage_connected_device"
-            android:key="top_level_connected_devices"
+            android:key="top_level_more_connection_settings"
             android:order="-10"
-            android:title="@string/connected_devices_dashboard_title"
-            android:summary="@string/connected_devices_dashboard_default_summary"
-            settings:highlightableMenuKey="@string/menu_key_connected_devices"
-            settings:controller="com.android.settings.connecteddevice.TopLevelConnectedDevicesPreferenceController"/>
+            android:title="@string/uwu_more_connection_settings_title"
+            android:summary="@string/uwu_more_connection_settings_summary"
+            settings:highlightableMenuKey="@string/menu_key_more_connection_settings"
+            settings:controller="com.android.settings.connecteddevice.AdvancedConnectedDeviceController"/>
     </com.android.settingslib.widget.UntitledPreferenceCategory>
 
     <com.android.settingslib.widget.UntitledPreferenceCategory

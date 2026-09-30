@@ -41,7 +41,7 @@ import com.android.settings.bluetooth.AvailableMediaBluetoothDeviceUpdater;
 import com.android.settings.bluetooth.BluetoothDeviceDetailsFragment;
 import com.android.settings.bluetooth.BluetoothPairingDetail;
 import com.android.settings.bluetooth.SavedBluetoothDeviceUpdater;
-import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
+import com.android.settings.connecteddevice.BluetoothDashboardFragment;
 import com.android.settings.core.SubSettingLauncher;
 import com.android.settings.slices.CustomSliceRegistry;
 import com.android.settings.slices.CustomSliceable;
@@ -124,11 +124,11 @@ public class BluetoothDevicesSlice implements CustomSliceable {
 
     @Override
     public Intent getIntent() {
-        final String screenTitle = mContext.getText(R.string.connected_devices_dashboard_title)
+        final String screenTitle = mContext.getText(R.string.bluetooth_settings_title)
                 .toString();
 
         return SliceBuilderUtils.buildSearchResultPageIntent(mContext,
-                ConnectedDeviceDashboardFragment.class.getName(), "" /* key */,
+                BluetoothDashboardFragment.class.getName(), "" /* key */,
                 screenTitle,
                 SettingsEnums.SLICE,
                 this)
@@ -138,7 +138,7 @@ public class BluetoothDevicesSlice implements CustomSliceable {
 
     @Override
     public int getSliceHighlightMenuRes() {
-        return R.string.menu_key_connected_devices;
+        return R.string.menu_key_bluetooth;
     }
 
     @Override

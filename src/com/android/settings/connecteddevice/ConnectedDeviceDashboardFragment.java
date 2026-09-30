@@ -38,10 +38,8 @@ import com.android.settings.slices.SlicePreferenceController;
 import com.android.settingslib.bluetooth.BluetoothUtils;
 import com.android.settingslib.bluetooth.hearingdevices.metrics.HearingDeviceStatsLogUtils;
 import com.android.settingslib.core.instrumentation.MetricsFeatureProvider;
-import com.android.settingslib.search.SearchIndexable;
 
 // LINT.IfChange
-@SearchIndexable(forTarget = SearchIndexable.ALL & ~SearchIndexable.ARC)
 public class ConnectedDeviceDashboardFragment extends DashboardFragment {
 
     private static final String TAG = "ConnectedDeviceFrag";
@@ -96,7 +94,6 @@ public class ConnectedDeviceDashboardFragment extends DashboardFragment {
         }
         use(AvailableMediaDeviceGroupController.class).init(this);
         use(ConnectedDeviceGroupController.class).init(this);
-        use(PreviouslyConnectedDevicePreferenceController.class).init(this);
         use(SlicePreferenceController.class)
                 .setSliceUri(Uri.parse(getString(R.string.config_nearby_devices_slice_uri)));
         use(DiscoverableFooterPreferenceController.class)
@@ -170,8 +167,9 @@ public class ConnectedDeviceDashboardFragment extends DashboardFragment {
         }
     }
 
-    /** For Search. */
+    /** Retained for in-package tests and legacy metadata; this fragment is no longer indexed. */
     public static final BaseSearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
             new BaseSearchIndexProvider(R.xml.connected_devices);
+
 }
 // LINT.ThenChange(ConnectedDeviceDashboardScreen.kt)

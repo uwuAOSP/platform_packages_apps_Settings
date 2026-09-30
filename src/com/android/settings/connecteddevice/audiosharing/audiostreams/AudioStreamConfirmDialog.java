@@ -36,7 +36,7 @@ import androidx.annotation.VisibleForTesting;
 
 import com.android.settings.R;
 import com.android.settings.bluetooth.Utils;
-import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
+import com.android.settings.connecteddevice.BluetoothDashboardFragment;
 import com.android.settings.core.SubSettingLauncher;
 import com.android.settings.core.instrumentation.InstrumentedDialogFragment;
 import com.android.settingslib.bluetooth.BluetoothLeBroadcastMetadataExt;
@@ -241,7 +241,7 @@ public class AudioStreamConfirmDialog extends InstrumentedDialogFragment {
                         dialog -> {
                             new SubSettingLauncher(mContext)
                                     .setDestination(
-                                            ConnectedDeviceDashboardFragment.class.getName())
+                                            BluetoothDashboardFragment.class.getName())
                                     .setSourceMetricsCategory(
                                             SettingsEnums.DIALOG_AUDIO_STREAM_CONFIRM_NO_LE_DEVICE)
                                     .launch();

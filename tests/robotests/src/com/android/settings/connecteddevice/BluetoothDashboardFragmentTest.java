@@ -17,6 +17,10 @@ package com.android.settings.connecteddevice;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.android.settings.dashboard.DashboardFragmentRegistry;
+import com.android.settings.homepage.TopLevelSettings;
+import com.android.settingslib.drawer.CategoryKey;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,5 +61,16 @@ public class BluetoothDashboardFragmentTest {
     @Test
     public void isAlwaysDiscoverable_actionIsFromSlice_returnsFalse() {
         assertThat(mFragment.isAlwaysDiscoverable(SYSTEMUI_PACKAGE_NAME, SLICE_ACTION)).isFalse();
+    }
+
+    @Test
+    public void getCategoryKey_doesNotInjectHomepageTiles() {
+        assertThat(mFragment.getCategoryKey()).isNull();
+    }
+
+    @Test
+    public void homepageCategory_remainsOwnedByTopLevelSettings() {
+        assertThat(DashboardFragmentRegistry.CATEGORY_KEY_TO_PARENT_MAP.get(
+                CategoryKey.CATEGORY_HOMEPAGE)).isEqualTo(TopLevelSettings.class.getName());
     }
 }

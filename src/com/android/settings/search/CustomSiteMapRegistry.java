@@ -19,7 +19,7 @@ package com.android.settings.search;
 import android.util.ArrayMap;
 
 import com.android.settings.backup.UserBackupSettingsActivity;
-import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
+import com.android.settings.connecteddevice.AdvancedConnectedDeviceDashboardFragment;
 import com.android.settings.connecteddevice.usb.UsbDetailsFragment;
 import com.android.settings.fuelgauge.batteryusage.PowerUsageAdvanced;
 import com.android.settings.fuelgauge.batteryusage.PowerUsageSummary;
@@ -50,7 +50,7 @@ public class CustomSiteMapRegistry {
         CUSTOM_SITE_MAP.put(RecentLocationAccessSeeAllFragment.class.getName(),
                 LocationSettings.class.getName());
         CUSTOM_SITE_MAP.put(UsbDetailsFragment.class.getName(),
-                ConnectedDeviceDashboardFragment.class.getName());
+                AdvancedConnectedDeviceDashboardFragment.class.getName());
         CUSTOM_SITE_MAP.put(UserBackupSettingsActivity.class.getName(),
                 SystemDashboardFragment.class.getName());
         CUSTOM_SITE_MAP.put(GestureNavigationSettingsFragment.class.getName(),

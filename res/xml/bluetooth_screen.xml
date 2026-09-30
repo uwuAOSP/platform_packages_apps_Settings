@@ -43,6 +43,25 @@
         settings:searchable="false"
         settings:controller="com.android.settings.connecteddevice.AddDevicePreferenceController"/>
 
+    <PreferenceCategory
+        android:key="bluetooth_connected_device_list"
+        android:title="@string/connected_device_other_device_title"
+        settings:controller="com.android.settings.connecteddevice.BluetoothConnectedDevicePreferenceController"/>
+
+    <PreferenceCategory
+        android:key="previously_connected_devices"
+        android:title="@string/connected_device_saved_title"
+        settings:controller="com.android.settings.connecteddevice.PreviouslyConnectedDevicePreferenceController">
+
+        <Preference
+            android:fragment="com.android.settings.connecteddevice.PreviouslyConnectedDeviceDashboardFragment"
+            android:icon="@drawable/ic_chevron_right_24dp"
+            android:key="previously_connected_devices_see_all"
+            android:order="10"
+            android:title="@string/previous_connected_see_all"
+            settings:searchable="false" />
+    </PreferenceCategory>
+
     <com.android.settingslib.widget.FooterPreference
         android:key="bluetooth_screen_footer"
         settings:searchable="false"/>
