@@ -56,7 +56,7 @@ class ShadePanelsPreferenceController(context: Context, key: String) :
 
         /** Retrieve the preference value from secure settings. */
         fun ContentResolver.isDualShadeEnabled(): Boolean {
-            return Settings.Secure.getInt(this, Settings.Secure.DUAL_SHADE, ON) == ON
+            return Settings.Secure.getInt(this, Settings.Secure.DUAL_SHADE, OFF) == ON
         }
 
         /** Persist the preference value to secure settings. */
