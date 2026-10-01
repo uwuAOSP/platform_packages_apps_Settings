@@ -290,16 +290,22 @@ public class FingerprintEnrollEnrolling extends BiometricsEnrollEnrolling {
         mProgressBar = findViewById(R.id.fingerprint_progress_bar);
         mVibrator = getSystemService(Vibrator.class);
 
+        final int exitButtonText = mIsSetupWizard
+                ? R.string.security_settings_fingerprint_enroll_enrolling_skip : R.string.cancel;
+        final View.OnClickListener exitButtonListener = mIsSetupWizard
+                ? this::onSkipButtonClick : this::onCancelButtonClick;
         if (useLegacyUdfpsUi) {
             mShouldSetFooterBarBackground = false;
-            ((UdfpsEnrollEnrollingView) getLayout()).showSideSkipButton(this::onSkipButtonClick);
+            ((UdfpsEnrollEnrollingView) getLayout()).showSideSkipButton(
+                    exitButtonText, exitButtonListener);
         } else {
             mFooterBarMixin = getLayout().getMixin(FooterBarMixin.class);
             mFooterBarMixin.setSecondaryButton(
                     new FooterButton.Builder(this)
-                            .setText(R.string.security_settings_fingerprint_enroll_enrolling_skip)
-                            .setListener(this::onSkipButtonClick)
-                            .setButtonType(FooterButton.ButtonType.SKIP)
+                            .setText(exitButtonText)
+                            .setListener(exitButtonListener)
+                            .setButtonType(mIsSetupWizard
+                                    ? FooterButton.ButtonType.SKIP : FooterButton.ButtonType.CANCEL)
                             .setTheme(com.google.android.setupdesign.R.style.SudGlifButton_Secondary)
                             .build()
             );
@@ -352,6 +358,13 @@ public class FingerprintEnrollEnrolling extends BiometricsEnrollEnrolling {
 
         final Configuration config = getApplicationContext().getResources().getConfiguration();
         maybeHideSfpsText(config);
+    }
+
+    private void onCancelButtonClick(View view) {
+        mIsCanceled = true;
+        cancelEnrollment();
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     private void setHelpAnimation() {
@@ -457,7 +470,7 @@ public class FingerprintEnrollEnrolling extends BiometricsEnrollEnrolling {
     @Override
     protected void onStop() {
         if (!isChangingConfigurations()) {
-            if (!WizardManagerHelper.isAnySetupWizard(getIntent())
+            if (!isFinishing() && !WizardManagerHelper.isAnySetupWizard(getIntent())
                     && !BiometricUtils.isAnyMultiBiometricFlow(this)
                     && !mFromSettingsSummary) {
                 setResult(RESULT_TIMEOUT);
