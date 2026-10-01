@@ -46,6 +46,7 @@ import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 
 import com.android.settings.R;
@@ -280,9 +281,16 @@ public class UdfpsEnrollEnrollingView extends GlifLayout {
     }
 
     void showSideSkipButton(@NonNull View.OnClickListener onClickListener) {
+        showSideSkipButton(R.string.security_settings_fingerprint_enroll_enrolling_skip,
+                onClickListener);
+    }
+
+    void showSideSkipButton(@StringRes int textResId,
+            @NonNull View.OnClickListener onClickListener) {
         if (mIsLandscape || mSideSkipTextView == null) {
             return;
         }
+        mSideSkipTextView.setText(textResId);
         mSideSkipTextView.setOnClickListener(onClickListener);
         mSideSkipTextView.setVisibility(View.VISIBLE);
         mSideSkipTextView.bringToFront();
