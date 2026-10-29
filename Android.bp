@@ -103,6 +103,7 @@ android_library {
         "MediaDrmSettingsFlagsLib",
         "Settings-change-ids",
         "SettingsLib",
+        "uwuComposeSettingsLib",
         "SettingsLibActivityEmbedding",
         "SettingsLibService",
         "aconfig_settings_flags_lib",

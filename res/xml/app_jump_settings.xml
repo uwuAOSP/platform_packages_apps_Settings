@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: The uwuAOSP Project
+    SPDX-License-Identifier: Apache-2.0
+-->
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/app_jump_settings_title">
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="app_jump_enabled"
+        android:summary="@string/app_jump_enabled_summary"
+        android:title="@string/app_jump_enabled_title" />
+
+    <Preference
+        android:key="app_jump_all_apps"
+        android:summary="@string/app_jump_all_apps_summary_fallback"
+        android:title="@string/app_jump_all_apps_title" />
+
+    <PreferenceCategory
+        android:key="app_jump_section_outgoing"
+        android:title="@string/app_jump_section_outgoing">
+        <Preference
+            android:key="app_jump_always_allow"
+            android:summary="@string/app_jump_category_source_always_allow_summary"
+            android:title="@string/app_jump_category_source_always_allow_title" />
+
+        <Preference
+            android:key="app_jump_always_block"
+            android:summary="@string/app_jump_category_source_always_block_summary"
+            android:title="@string/app_jump_category_source_always_block_title" />
+
+        <Preference
+            android:key="app_jump_ask"
+            android:summary="@string/app_jump_category_source_ask_summary"
+            android:title="@string/app_jump_category_source_ask_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="app_jump_section_incoming"
+        android:title="@string/app_jump_section_incoming">
+        <Preference
+            android:key="app_jump_target_allow"
+            android:summary="@string/app_jump_category_target_always_allow_summary"
+            android:title="@string/app_jump_category_target_always_allow_title" />
+
+        <Preference
+            android:key="app_jump_target_ask"
+            android:summary="@string/app_jump_category_target_ask_summary"
+            android:title="@string/app_jump_category_target_ask_title" />
+
+        <Preference
+            android:key="app_jump_target_block"
+            android:summary="@string/app_jump_category_target_always_block_summary"
+            android:title="@string/app_jump_category_target_always_block_title" />
+    </PreferenceCategory>
+
+    <com.android.settingslib.widget.FooterPreference
+        android:key="app_jump_settings_footer"
+        android:title="@string/app_jump_settings_footer" />
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: The uwuAOSP Project
+    SPDX-License-Identifier: Apache-2.0
+-->
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="app_jump_category_apps"
+        android:title="@string/app_jump_category_apps_title" />
+
+    <com.android.settingslib.widget.FooterPreference
+        android:key="app_jump_category_empty"
+        android:title="@string/app_jump_category_empty"
+        android:visible="false" />
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,216 @@
+/*
+ * SPDX-FileCopyrightText: The uwuAOSP Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+package org.uwuaosp.appops
+
+import android.app.UwuAppPolicyManager
+import android.content.Context
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.database.MatrixCursor
+import android.os.Bundle
+import android.os.CancellationSignal
+import android.os.UserHandle
+import com.android.settings.R
+import org.uwuaosp.appops.appjump.AppJumpPolicyBackend
+import org.uwuaosp.appops.clipboard.ClipboardPolicySecureSettings
+import org.uwuaosp.appops.sensors.SensorPolicySecureSettings
+
+internal object AppPolicyRepository {
+    const val AUTHORITY = "org.uwuaosp.appops"
+    const val ACTION = "org.uwuaosp.appops.action.MANAGE_APP_POLICY"
+    const val EXTRA_FEATURE = "feature"
+    val features = listOf("clipboard", "jump", "sensor")
+
+    fun requireApp(context: Context, name: String): ApplicationInfo {
+        require(name.isNotBlank())
+        val info =
+            context.packageManager.getApplicationInfo(
+                name,
+                PackageManager.MATCH_DISABLED_COMPONENTS,
+            )
+        require(info.uid >= 0 && UserHandle.getUserId(info.uid) == UserHandle.myUserId())
+        return info
+    }
+
+    fun snapshot(): Bundle =
+        UwuAppPolicyManager.snapshot(UserHandle.myUserId()).also {
+            check(it.getInt(UwuAppPolicyManager.MIGRATIONS) and 7 == 7) {
+                "App policies not initialized"
+            }
+        }
+
+    fun clipboardLabel(policy: Int): Int =
+        when (policy) {
+            0 -> R.string.clipboard_policy_allow
+            1 -> R.string.clipboard_policy_ask
+            2 -> R.string.clipboard_policy_deny
+            else -> error("Invalid clipboard policy")
+        }
+
+    fun sensorLabel(policy: Int): Int =
+        when (policy) {
+            0 -> R.string.sensor_policy_allow
+            1 -> R.string.sensor_policy_deny_on_launch
+            2 -> R.string.sensor_policy_deny_always
+            else -> error("Invalid sensor policy")
+        }
+
+    fun jumpLabel(policy: Int): Int =
+        when (policy) {
+            0 -> R.string.app_jump_mode_ask_summary
+            1 -> R.string.app_jump_mode_allow_summary
+            2 -> R.string.app_jump_mode_block_summary
+            else -> error("Invalid jump policy")
+        }
+
+    fun clipboardPolicy(context: Context, info: ApplicationInfo, state: Bundle, type: Int): Int {
+        val explicit = UwuAppPolicyManager.policy(state, info.packageName, type)
+        return if (explicit != UwuAppPolicyManager.INHERIT) explicit
+        else
+            ClipboardPolicySecureSettings.getDefaultPolicy(
+                ClipboardPolicySecureSettings.isPromptEnabled(context),
+                info,
+            )
+    }
+
+    fun clipboardEditable(context: Context, app: ApplicationInfo): Boolean {
+        val ime =
+            android.content.ComponentName.unflattenFromString(
+                android.provider.Settings.Secure.getString(
+                    context.contentResolver,
+                    android.provider.Settings.Secure.DEFAULT_INPUT_METHOD,
+                ) ?: ""
+            )
+        return UserHandle.isApp(app.uid) && ime?.packageName != app.packageName
+    }
+
+    private fun category(
+        context: Context,
+        app: ApplicationInfo,
+        state: Bundle,
+        feature: String,
+    ): String =
+        when (feature) {
+            "clipboard" -> {
+                val read = clipboardPolicy(context, app, state, UwuAppPolicyManager.CLIPBOARD_READ)
+                val write =
+                    clipboardPolicy(context, app, state, UwuAppPolicyManager.CLIPBOARD_WRITE)
+                when {
+                    !clipboardEditable(context, app) -> "allowed"
+                    read == 2 || write == 2 -> "denied"
+                    read == 1 || write == 1 -> "ask"
+                    else -> "allowed"
+                }
+            }
+            "jump" ->
+                when (
+                    android.app.ActivityTaskManager.getService()
+                        .getAppJumpPermissionMode(app.packageName, UserHandle.myUserId())
+                ) {
+                    android.app.ActivityTaskManager.APP_JUMP_SOURCE_MODE_ALLOW -> "allowed"
+                    android.app.ActivityTaskManager.APP_JUMP_SOURCE_MODE_ASK -> "ask"
+                    else -> "denied"
+                }
+            "sensor" ->
+                if (
+                    UwuAppPolicyManager.policy(
+                        state,
+                        app.packageName,
+                        UwuAppPolicyManager.SENSOR,
+                    ) == 0
+                )
+                    "allowed"
+                else "denied"
+            else -> error("Unknown app policy feature")
+        }
+
+    fun queryApps(context: Context, feature: String, signal: CancellationSignal?): MatrixCursor {
+        require(feature in features)
+        signal?.throwIfCanceled()
+        val state = snapshot()
+        val cursor = MatrixCursor(arrayOf("package_name", "category"))
+        try {
+            for (info in
+                context.packageManager.getInstalledApplications(
+                    PackageManager.MATCH_DISABLED_COMPONENTS
+                )) {
+                signal?.throwIfCanceled()
+                if (
+                    !UserHandle.isApp(info.uid) ||
+                        UserHandle.getUserId(info.uid) != UserHandle.myUserId()
+                )
+                    continue
+                cursor.addRow(arrayOf(info.packageName, category(context, info, state, feature)))
+            }
+            return cursor
+        } catch (e: Exception) {
+            cursor.close()
+            throw e
+        }
+    }
+
+    fun summaries(context: Context, name: String): Bundle {
+        val app = requireApp(context, name)
+        val state = snapshot()
+        val backend = AppJumpPolicyBackend(context)
+        val read = clipboardPolicy(context, app, state, UwuAppPolicyManager.CLIPBOARD_READ)
+        val write = clipboardPolicy(context, app, state, UwuAppPolicyManager.CLIPBOARD_WRITE)
+        val clipboard =
+            context.getString(
+                R.string.app_policy_clipboard_summary,
+                context.getString(clipboardLabel(read)),
+                context.getString(clipboardLabel(write)),
+            )
+        val clipboardEditable = clipboardEditable(context, app)
+        return Bundle().apply {
+            putBoolean("clipboard_editable", clipboardEditable)
+            for (feature in features) {
+                putString(feature + "_category", category(context, app, state, feature))
+            }
+            putString(
+                "clipboard",
+                if (ClipboardPolicySecureSettings.isPromptEnabled(context)) clipboard
+                else context.getString(R.string.app_policy_prompt_off_summary, clipboard),
+            )
+            if (!clipboardEditable)
+                putString("clipboard", context.getString(R.string.app_policy_system_managed))
+            val jumpSummary =
+                context.getString(
+                    R.string.app_policy_jump_summary,
+                    context.getString(
+                        jumpLabel(
+                            UwuAppPolicyManager.policy(state, name, UwuAppPolicyManager.JUMP_SOURCE)
+                        )
+                    ),
+                    context.getString(
+                        jumpLabel(
+                            UwuAppPolicyManager.policy(state, name, UwuAppPolicyManager.JUMP_TARGET)
+                        )
+                    ),
+                    backend.getPairRuleCount(name),
+                )
+            putString(
+                "jump",
+                if (backend.isEnabled) jumpSummary
+                else context.getString(R.string.app_policy_disabled_summary, jumpSummary),
+            )
+            putString(
+                "sensor",
+                context.getString(
+                    sensorLabel(UwuAppPolicyManager.policy(state, name, UwuAppPolicyManager.SENSOR))
+                ),
+            )
+        }
+    }
+
+    fun set(context: Context, name: String, type: Int, value: Int): Boolean {
+        requireApp(context, name)
+        return if (type == UwuAppPolicyManager.SENSOR) {
+            SensorPolicySecureSettings.setPolicy(context, name, value)
+        } else {
+            ClipboardPolicySecureSettings.setPolicy(context, name, type, value)
+        }
+    }
+}

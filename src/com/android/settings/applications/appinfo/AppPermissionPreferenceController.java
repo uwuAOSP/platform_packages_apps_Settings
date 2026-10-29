@@ -69,7 +69,8 @@ public class AppPermissionPreferenceController extends AppInfoPreferenceControll
             if (requestedPermissionCount == 0) {
                 summary = res.getString(
                         R.string.runtime_permissions_summary_no_permissions_requested);
-                mPreference.setEnabled(false);
+                mPreference.setEnabled(true);
+                summary = res.getString(R.string.uwu_system_controls);
             } else {
                 final ArrayList<CharSequence> list = new ArrayList<>(grantedGroupLabels);
                 if (additionalGrantedPermissionCount > 0) {
