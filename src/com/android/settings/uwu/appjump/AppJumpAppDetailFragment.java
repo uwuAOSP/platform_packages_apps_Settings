@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.preference.Preference;
 
 import com.android.settings.R;
+import com.android.settings.uwu.apppolicies.UwUAppPolicyAppsActivity;
 import com.android.settingslib.widget.AppPreference;
 import com.android.settingslib.widget.FooterPreference;
 import com.android.settingslib.widget.SelectorWithWidgetPreference;
@@ -62,6 +63,14 @@ public class AppJumpAppDetailFragment extends SettingsBasePreferenceFragment {
         mSourceRulesPreference = findPreference("app_jump_detail_source_rules");
         mTargetRulesPreference = findPreference("app_jump_detail_target_rules");
         mFooterPreference = findPreference("app_jump_detail_footer");
+        if (mFooterPreference != null) {
+            mFooterPreference.setLearnMoreText(getString(R.string.app_policy_see_all_apps));
+            mFooterPreference.setLearnMoreAction(
+                    view ->
+                            startActivity(
+                                    UwUAppPolicyAppsActivity.createIntent(
+                                            requireContext(), "jump")));
+        }
 
         bindActions();
     }
