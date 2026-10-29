@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: The uwuAOSP Project
+    SPDX-License-Identifier: Apache-2.0
+-->
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="app_jump_target_rules_blocked"
+        android:title="@string/app_jump_pair_mode_block_title" />
+
+    <PreferenceCategory
+        android:key="app_jump_target_rules_allowed"
+        android:title="@string/app_jump_pair_mode_allow_title" />
+
+    <PreferenceCategory
+        android:key="app_jump_target_rules_default"
+        android:title="@string/app_jump_pair_mode_inherit_title" />
+
+    <com.android.settingslib.widget.FooterPreference
+        android:key="app_jump_target_rules_empty"
+        android:title="@string/app_jump_target_rules_empty"
+        android:visible="false" />
+</androidx.preference.PreferenceScreen>
