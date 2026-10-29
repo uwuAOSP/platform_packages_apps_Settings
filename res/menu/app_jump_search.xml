@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SPDX-FileCopyrightText: The uwuAOSP Project
+    SPDX-License-Identifier: Apache-2.0
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/app_jump_search_menu"
+        android:title="@string/app_jump_search_title"
+        android:icon="@drawable/ic_search_24"
+        android:showAsAction="always|collapseActionView"
+        android:actionViewClass="android.widget.SearchView" />
+    <item
+        android:id="@+id/app_jump_system_apps_menu"
+        android:title="@string/app_jump_show_system_apps_title"
+        android:showAsAction="never" />
+</menu>
