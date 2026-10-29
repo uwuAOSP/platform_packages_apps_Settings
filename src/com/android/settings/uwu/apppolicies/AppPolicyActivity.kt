@@ -23,6 +23,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -251,6 +252,14 @@ private fun AppPolicyScreen(name: String, feature: String, refresh: Int, onBack:
                     }
                 }
             }
+        }
+        TextButton(
+            onClick = {
+                context.startActivity(UwUAppPolicyAppsActivity.createIntent(context, feature))
+            },
+            modifier = Modifier.align(Alignment.Start),
+        ) {
+            Text(stringResource(R.string.app_policy_see_all_apps))
         }
     }
 }

@@ -8,12 +8,24 @@ import android.app.UwuAppPolicyManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.UserHandle
+import androidx.core.graphics.drawable.toBitmap
 import com.android.settings.R
 import com.android.settings.uwu.appjump.AppJumpPolicyBackend
 import com.android.settings.uwu.clipboard.ClipboardPolicySecureSettings
 import com.android.settings.uwu.sensors.SensorPolicySecureSettings
+import java.text.Collator
+import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.ensureActive
+
+internal data class AppPolicyAppEntry(
+    val packageName: String,
+    val label: String,
+    val icon: Bitmap,
+    val category: String,
+)
 
 internal object AppPolicyRepository {
     const val AUTHORITY = "com.android.settings.uwu.apppolicies"
@@ -84,6 +96,82 @@ internal object AppPolicyRepository {
         return UserHandle.isApp(app.uid) && ime?.packageName != app.packageName
     }
 
+    private fun category(
+        context: Context,
+        app: ApplicationInfo,
+        state: Bundle,
+        feature: String,
+    ): String =
+        when (feature) {
+            "clipboard" -> {
+                val read = clipboardPolicy(context, app, state, UwuAppPolicyManager.CLIPBOARD_READ)
+                val write =
+                    clipboardPolicy(context, app, state, UwuAppPolicyManager.CLIPBOARD_WRITE)
+                when {
+                    !clipboardEditable(context, app) -> "allowed"
+                    read == 2 || write == 2 -> "denied"
+                    read == 1 || write == 1 -> "ask"
+                    else -> "allowed"
+                }
+            }
+            "jump" ->
+                when (
+                    android.app.ActivityTaskManager.getService()
+                        .getAppJumpPermissionMode(app.packageName, UserHandle.myUserId())
+                ) {
+                    android.app.ActivityTaskManager.APP_JUMP_SOURCE_MODE_ALLOW -> "allowed"
+                    android.app.ActivityTaskManager.APP_JUMP_SOURCE_MODE_ASK -> "ask"
+                    else -> "denied"
+                }
+            "sensor" ->
+                if (
+                    UwuAppPolicyManager.policy(
+                        state,
+                        app.packageName,
+                        UwuAppPolicyManager.SENSOR,
+                    ) == 0
+                )
+                    "allowed"
+                else "denied"
+            else -> error("Unknown app policy feature")
+        }
+
+    suspend fun loadApps(context: Context, feature: String): List<AppPolicyAppEntry> {
+        require(feature in features)
+        val state = snapshot()
+        val manager = context.packageManager
+        val size = (48 * context.resources.displayMetrics.density).toInt().coerceAtLeast(1)
+        val user = UserHandle.of(UserHandle.myUserId())
+        val apps = mutableListOf<AppPolicyAppEntry>()
+        for (info in manager.getInstalledApplications(PackageManager.MATCH_DISABLED_COMPONENTS)) {
+            coroutineContext.ensureActive()
+            if (!UserHandle.isApp(info.uid) || UserHandle.getUserId(info.uid) != user.identifier) {
+                continue
+            }
+            val icon =
+                runCatching {
+                        manager.getUserBadgedIcon(info.loadIcon(manager), user).toBitmap(size, size)
+                    }
+                    .getOrElse {
+                        manager
+                            .getUserBadgedIcon(manager.defaultActivityIcon, user)
+                            .toBitmap(size, size)
+                    }
+            apps +=
+                AppPolicyAppEntry(
+                    info.packageName,
+                    info.loadLabel(manager).toString().ifBlank { info.packageName },
+                    icon,
+                    category(context, info, state, feature),
+                )
+        }
+        val collator = Collator.getInstance()
+        return apps.sortedWith { first, second ->
+            val order = collator.compare(first.label, second.label)
+            if (order != 0) order else first.packageName.compareTo(second.packageName)
+        }
+    }
+
     fun summaries(context: Context, name: String): Bundle {
         val app = requireApp(context, name)
         val state = snapshot()
@@ -99,32 +187,9 @@ internal object AppPolicyRepository {
         val clipboardEditable = clipboardEditable(context, app)
         return Bundle().apply {
             putBoolean("clipboard_editable", clipboardEditable)
-            putString(
-                "clipboard_category",
-                when {
-                    !clipboardEditable -> "allowed"
-                    read == 2 || write == 2 -> "denied"
-                    read == 1 || write == 1 -> "ask"
-                    else -> "allowed"
-                },
-            )
-            putString(
-                "jump_category",
-                when (
-                    android.app.ActivityTaskManager.getService()
-                        .getAppJumpPermissionMode(name, UserHandle.myUserId())
-                ) {
-                    android.app.ActivityTaskManager.APP_JUMP_SOURCE_MODE_ALLOW -> "allowed"
-                    android.app.ActivityTaskManager.APP_JUMP_SOURCE_MODE_ASK -> "ask"
-                    else -> "denied"
-                },
-            )
-            putString(
-                "sensor_category",
-                if (UwuAppPolicyManager.policy(state, name, UwuAppPolicyManager.SENSOR) == 0)
-                    "allowed"
-                else "denied",
-            )
+            for (feature in features) {
+                putString(feature + "_category", category(context, app, state, feature))
+            }
             putString(
                 "clipboard",
                 if (ClipboardPolicySecureSettings.isPromptEnabled(context)) clipboard

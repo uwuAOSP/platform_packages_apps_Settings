@@ -6443,6 +6443,10 @@
                 android:value="@string/menu_key_system"/>
         </activity>
 
+        <activity
+            android:name=".uwu.apppolicies.UwUAppPolicyAppsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Settings.NoActionBar" />
         <provider
             android:name=".uwu.apppolicies.AppPolicySummaryProvider"
             android:authorities="com.android.settings.uwu.apppolicies"

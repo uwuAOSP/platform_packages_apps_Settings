@@ -138,4 +138,9 @@
     <string name="app_policy_disabled_summary">已关闭 - %1$s</string>
     <string name="app_policy_system_managed">由系统管理</string>
     <string name="uwu_system_controls">系统管控</string>
+    <string name="app_policy_see_all_apps">查看具有此权限的所有应用</string>
+    <string name="app_policy_allowed_header">已允许</string>
+    <string name="app_policy_ask_header">每次都询问</string>
+    <string name="app_policy_denied_header">不允许</string>
+    <string name="app_policy_no_apps">未找到应用</string>
 </resources>
