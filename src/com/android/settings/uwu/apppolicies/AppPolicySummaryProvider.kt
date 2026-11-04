@@ -8,11 +8,13 @@ import android.Manifest
 import android.app.UwuAppPolicyManager
 import android.content.ContentProvider
 import android.content.ContentValues
+import android.content.Context
 import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
 import android.os.Binder
 import android.os.Bundle
+import android.os.CancellationSignal
 import android.os.Handler
 import android.os.Looper
 import android.os.UserHandle
@@ -48,6 +50,17 @@ class AppPolicySummaryProvider : ContentProvider() {
     }
 
     override fun call(method: String, arg: String?, extras: Bundle?): Bundle {
+        val ctx = enforceReader()
+        require(method == "get_app_policy_summary" && arg != null)
+        val identity = Binder.clearCallingIdentity()
+        try {
+            return AppPolicyRepository.summaries(ctx, arg)
+        } finally {
+            Binder.restoreCallingIdentity(identity)
+        }
+    }
+
+    private fun enforceReader(): Context {
         val ctx = requireNotNull(context)
         ctx.enforceCallingOrSelfPermission(
             Manifest.permission.MANAGE_APP_OPS_MODES,
@@ -59,13 +72,7 @@ class AppPolicySummaryProvider : ContentProvider() {
                 "Read another user's app policies",
             )
         }
-        require(method == "get_app_policy_summary" && arg != null)
-        val identity = Binder.clearCallingIdentity()
-        try {
-            return AppPolicyRepository.summaries(ctx, arg)
-        } finally {
-            Binder.restoreCallingIdentity(identity)
-        }
+        return ctx
     }
 
     override fun query(
@@ -74,7 +81,36 @@ class AppPolicySummaryProvider : ContentProvider() {
         selection: String?,
         selectionArgs: Array<out String>?,
         sortOrder: String?,
-    ): Cursor? = null
+    ): Cursor = query(uri, projection, selection, selectionArgs, sortOrder, null)
+
+    override fun query(
+        uri: Uri,
+        projection: Array<out String>?,
+        selection: String?,
+        selectionArgs: Array<out String>?,
+        sortOrder: String?,
+        cancellationSignal: CancellationSignal?,
+    ): Cursor {
+        val ctx = enforceReader()
+        val path = uri.pathSegments
+        require(
+            uri.authority == AppPolicyRepository.AUTHORITY &&
+                path.size == 2 &&
+                path[0] == "apps" &&
+                path[1] in AppPolicyRepository.features
+        )
+        require(
+            projection == null && selection == null && selectionArgs == null && sortOrder == null
+        )
+        val identity = Binder.clearCallingIdentity()
+        try {
+            return AppPolicyRepository.queryApps(ctx, path[1], cancellationSignal).apply {
+                setNotificationUri(ctx.contentResolver, this@AppPolicySummaryProvider.uri)
+            }
+        } finally {
+            Binder.restoreCallingIdentity(identity)
+        }
+    }
 
     override fun getType(uri: Uri): String? = null
 

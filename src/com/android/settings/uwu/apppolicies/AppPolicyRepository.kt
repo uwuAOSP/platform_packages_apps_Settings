@@ -8,24 +8,14 @@ import android.app.UwuAppPolicyManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.database.MatrixCursor
 import android.os.Bundle
+import android.os.CancellationSignal
 import android.os.UserHandle
-import androidx.core.graphics.drawable.toBitmap
 import com.android.settings.R
 import com.android.settings.uwu.appjump.AppJumpPolicyBackend
 import com.android.settings.uwu.clipboard.ClipboardPolicySecureSettings
 import com.android.settings.uwu.sensors.SensorPolicySecureSettings
-import java.text.Collator
-import kotlin.coroutines.coroutineContext
-import kotlinx.coroutines.ensureActive
-
-internal data class AppPolicyAppEntry(
-    val packageName: String,
-    val label: String,
-    val icon: Bitmap,
-    val category: String,
-)
 
 internal object AppPolicyRepository {
     const val AUTHORITY = "com.android.settings.uwu.apppolicies"
@@ -136,39 +126,28 @@ internal object AppPolicyRepository {
             else -> error("Unknown app policy feature")
         }
 
-    suspend fun loadApps(context: Context, feature: String): List<AppPolicyAppEntry> {
+    fun queryApps(context: Context, feature: String, signal: CancellationSignal?): MatrixCursor {
         require(feature in features)
+        signal?.throwIfCanceled()
         val state = snapshot()
-        val manager = context.packageManager
-        val size = (48 * context.resources.displayMetrics.density).toInt().coerceAtLeast(1)
-        val user = UserHandle.of(UserHandle.myUserId())
-        val apps = mutableListOf<AppPolicyAppEntry>()
-        for (info in manager.getInstalledApplications(PackageManager.MATCH_DISABLED_COMPONENTS)) {
-            coroutineContext.ensureActive()
-            if (!UserHandle.isApp(info.uid) || UserHandle.getUserId(info.uid) != user.identifier) {
-                continue
-            }
-            val icon =
-                runCatching {
-                        manager.getUserBadgedIcon(info.loadIcon(manager), user).toBitmap(size, size)
-                    }
-                    .getOrElse {
-                        manager
-                            .getUserBadgedIcon(manager.defaultActivityIcon, user)
-                            .toBitmap(size, size)
-                    }
-            apps +=
-                AppPolicyAppEntry(
-                    info.packageName,
-                    info.loadLabel(manager).toString().ifBlank { info.packageName },
-                    icon,
-                    category(context, info, state, feature),
+        val cursor = MatrixCursor(arrayOf("package_name", "category"))
+        try {
+            for (info in
+                context.packageManager.getInstalledApplications(
+                    PackageManager.MATCH_DISABLED_COMPONENTS
+                )) {
+                signal?.throwIfCanceled()
+                if (
+                    !UserHandle.isApp(info.uid) ||
+                        UserHandle.getUserId(info.uid) != UserHandle.myUserId()
                 )
-        }
-        val collator = Collator.getInstance()
-        return apps.sortedWith { first, second ->
-            val order = collator.compare(first.label, second.label)
-            if (order != 0) order else first.packageName.compareTo(second.packageName)
+                    continue
+                cursor.addRow(arrayOf(info.packageName, category(context, info, state, feature)))
+            }
+            return cursor
+        } catch (e: Exception) {
+            cursor.close()
+            throw e
         }
     }
 
