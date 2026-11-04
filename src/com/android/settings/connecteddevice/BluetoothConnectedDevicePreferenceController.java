@@ -32,7 +32,8 @@ public class BluetoothConnectedDevicePreferenceController extends BasePreference
 
     public void init(DashboardFragment fragment) {
         mBluetoothDeviceUpdater = new ConnectedBluetoothDeviceUpdater(
-                fragment.getContext(), this, fragment.getMetricsCategory());
+                fragment.getContext(), this, fragment.getMetricsCategory(),
+                /* showAudioDevices= */ true);
     }
 
     @Override
