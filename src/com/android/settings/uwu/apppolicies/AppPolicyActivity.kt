@@ -254,9 +254,7 @@ private fun AppPolicyScreen(name: String, feature: String, refresh: Int, onBack:
             }
         }
         TextButton(
-            onClick = {
-                context.startActivity(UwUAppPolicyAppsActivity.createIntent(context, feature))
-            },
+            onClick = { context.startActivity(UwUAppPolicyApps.createIntent(context, feature)) },
             modifier = Modifier.align(Alignment.Start),
         ) {
             Text(stringResource(R.string.app_policy_see_all_apps))
