@@ -39,12 +39,23 @@ public class ConnectedBluetoothDeviceUpdater extends BluetoothDeviceUpdater {
 
     private static final String PREF_KEY_PREFIX = "connected_bt_";
     private AtomicBoolean mIsOngoingCall = new AtomicBoolean(false);
+    private final boolean mShowAudioDevices;
 
     public ConnectedBluetoothDeviceUpdater(
             @NonNull Context context,
             @NonNull DevicePreferenceCallback devicePreferenceCallback,
             int metricsCategory) {
+        this(context, devicePreferenceCallback, metricsCategory, false);
+    }
+
+    /** Includes audio devices when the page has no separate media device group. */
+    public ConnectedBluetoothDeviceUpdater(
+            @NonNull Context context,
+            @NonNull DevicePreferenceCallback devicePreferenceCallback,
+            int metricsCategory,
+            boolean showAudioDevices) {
         super(context, devicePreferenceCallback, metricsCategory);
+        mShowAudioDevices = showAudioDevices;
         var unused =
                 ThreadUtils.postOnBackgroundThread(
                         () -> mIsOngoingCall.set(isAudioModeOngoingCall(mContext)));
@@ -61,6 +72,12 @@ public class ConnectedBluetoothDeviceUpdater extends BluetoothDeviceUpdater {
 
     @Override
     public boolean isFilterMatched(CachedBluetoothDevice cachedDevice) {
+        if (mShowAudioDevices) {
+            return isDeviceConnected(cachedDevice)
+                    && isDeviceInCachedDevicesList(cachedDevice)
+                    && !BluetoothUtils.isExclusivelyManagedBluetoothDevice(
+                            mContext, cachedDevice.getDevice());
+        }
         final int currentAudioProfile;
 
         if (mIsOngoingCall.get()) {
