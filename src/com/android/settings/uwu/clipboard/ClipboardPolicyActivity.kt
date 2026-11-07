@@ -22,10 +22,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -54,8 +51,10 @@ import org.uwuaosp.compose.widget.app.AppListError
 import org.uwuaosp.compose.widget.app.AppListItem
 import org.uwuaosp.compose.widget.app.AppListLoading
 import org.uwuaosp.compose.widget.app.AppListScaffold
+import org.uwuaosp.compose.widget.menu.SettingsDropdownMenu
+import org.uwuaosp.compose.widget.menu.SettingsMenuGroup
+import org.uwuaosp.compose.widget.menu.SettingsMenuItem
 import org.uwuaosp.compose.widget.preference.MainSwitchPreference
-import org.uwuaosp.compose.widget.preference.RadioPreferenceRow
 import org.uwuaosp.compose.widget.preference.SettingsSectionHeader
 
 class ClipboardPolicyActivity : ComponentActivity() {
@@ -278,17 +277,10 @@ private fun ClipboardPolicyMenu(
                 modifier = Modifier.size(20.dp),
             )
         }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { onExpandedChange(false) },
-            modifier = Modifier.widthIn(min = 180.dp),
-            shape = RoundedCornerShape(16.dp),
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-            tonalElevation = 0.dp,
-            shadowElevation = 3.dp,
-        ) {
+        SettingsDropdownMenu(expanded = expanded, onDismissRequest = { onExpandedChange(false) }) {
             ClipboardPolicyMenuSection(
                 label = stringResource(R.string.clipboard_policy_read),
+                groupIndex = 0,
                 operation = ClipboardPolicySecureSettings.OPERATION_READ,
                 policy = readPolicy,
                 onPolicySelected = { operation, policy ->
@@ -296,9 +288,9 @@ private fun ClipboardPolicyMenu(
                     onPolicySelected(operation, policy)
                 },
             )
-            HorizontalDivider(modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp))
             ClipboardPolicyMenuSection(
                 label = stringResource(R.string.clipboard_policy_write),
+                groupIndex = 1,
                 operation = ClipboardPolicySecureSettings.OPERATION_WRITE,
                 policy = writePolicy,
                 onPolicySelected = { operation, policy ->
@@ -313,28 +305,27 @@ private fun ClipboardPolicyMenu(
 @Composable
 private fun ClipboardPolicyMenuSection(
     label: String,
+    groupIndex: Int,
     operation: Int,
     policy: Int,
     onPolicySelected: (Int, Int) -> Unit,
 ) {
-    Text(
-        text = label,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        style = MaterialTheme.typography.labelLarge,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-    )
     val policies =
         listOf(
             ClipboardPolicySecureSettings.POLICY_ALLOW,
             ClipboardPolicySecureSettings.POLICY_ASK,
             ClipboardPolicySecureSettings.POLICY_DENY,
         )
-    policies.forEach { choice ->
-        RadioPreferenceRow(
-            title = clipboardPolicyLabel(choice),
-            selected = policy == choice,
-            onSelect = { onPolicySelected(operation, choice) },
-        )
+    SettingsMenuGroup(index = groupIndex, groupCount = 2, title = label) {
+        policies.forEachIndexed { index, choice ->
+            SettingsMenuItem(
+                text = clipboardPolicyLabel(choice),
+                selected = policy == choice,
+                onClick = { onPolicySelected(operation, choice) },
+                index = index,
+                itemCount = policies.size,
+            )
+        }
     }
 }
 

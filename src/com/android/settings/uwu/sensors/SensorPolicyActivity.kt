@@ -12,23 +12,15 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -43,7 +35,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,6 +49,9 @@ import org.uwuaosp.compose.widget.app.AppListError
 import org.uwuaosp.compose.widget.app.AppListItem
 import org.uwuaosp.compose.widget.app.AppListLoading
 import org.uwuaosp.compose.widget.app.AppListScaffold
+import org.uwuaosp.compose.widget.menu.SettingsDropdownMenu
+import org.uwuaosp.compose.widget.menu.SettingsMenuGroup
+import org.uwuaosp.compose.widget.menu.SettingsMenuItem
 import org.uwuaosp.compose.widget.preference.SettingsSectionHeader
 
 class SensorPolicyActivity : ComponentActivity() {
@@ -208,102 +202,29 @@ private fun SensorPolicyRow(
                     modifier = Modifier.size(24.dp),
                 )
             }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.widthIn(min = 180.dp),
-                shape = RoundedCornerShape(16.dp),
-                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                tonalElevation = 0.dp,
-                shadowElevation = 3.dp,
-            ) {
+            SettingsDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 val policies =
                     listOf(
                         SensorPolicySecureSettings.POLICY_ALLOW,
                         SensorPolicySecureSettings.POLICY_DENY_ON_LAUNCH,
                         SensorPolicySecureSettings.POLICY_DENY_ALWAYS,
                     )
-                policies.forEachIndexed { index, policy ->
-                    ExpressivePolicyMenuItem(
-                        text = sensorPolicyLabel(policy),
-                        selected = app.policy == policy,
-                        position = index,
-                        itemCount = policies.size,
-                        onClick = {
-                            expanded = false
-                            onPolicySelected(policy)
-                        },
-                    )
+                SettingsMenuGroup {
+                    policies.forEachIndexed { index, policy ->
+                        SettingsMenuItem(
+                            text = sensorPolicyLabel(policy),
+                            selected = app.policy == policy,
+                            index = index,
+                            itemCount = policies.size,
+                            onClick = {
+                                expanded = false
+                                onPolicySelected(policy)
+                            },
+                        )
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun ExpressivePolicyMenuItem(
-    text: String,
-    selected: Boolean,
-    position: Int,
-    itemCount: Int,
-    onClick: () -> Unit,
-) {
-    val shape =
-        if (selected) {
-            RoundedCornerShape(12.dp)
-        } else {
-            when (position) {
-                0 ->
-                    RoundedCornerShape(
-                        topStart = 12.dp,
-                        topEnd = 12.dp,
-                        bottomStart = 4.dp,
-                        bottomEnd = 4.dp,
-                    )
-                itemCount - 1 ->
-                    RoundedCornerShape(
-                        topStart = 4.dp,
-                        topEnd = 4.dp,
-                        bottomStart = 12.dp,
-                        bottomEnd = 12.dp,
-                    )
-                else -> RoundedCornerShape(4.dp)
-            }
-        }
-    val contentColor =
-        if (selected) {
-            MaterialTheme.colorScheme.onPrimaryContainer
-        } else {
-            MaterialTheme.colorScheme.onSurface
-        }
-
-    Row(
-        modifier =
-            Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
-                .fillMaxWidth()
-                .clip(shape)
-                .background(
-                    if (selected) {
-                        MaterialTheme.colorScheme.primaryContainer
-                    } else {
-                        Color.Transparent
-                    }
-                )
-                .selectable(selected = selected, role = Role.RadioButton, onClick = onClick)
-                .heightIn(min = 44.dp)
-                .padding(horizontal = 12.dp, vertical = 10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        if (selected) {
-            Icon(
-                imageVector = Icons.Filled.Check,
-                contentDescription = null,
-                tint = contentColor,
-                modifier = Modifier.size(20.dp),
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-        }
-        Text(text = text, color = contentColor, style = MaterialTheme.typography.bodyLarge)
     }
 }
 
