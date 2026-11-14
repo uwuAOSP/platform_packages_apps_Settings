@@ -63,6 +63,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -139,6 +143,21 @@ fun AboutPhoneHeaderPage() {
 
 @Composable
 private fun HeaderCard(context: Context) {
+    val beanHostContext = LocalView.current.context
+    val beanLifecycle = LocalLifecycleOwner.current.lifecycle
+    DisposableEffect(beanHostContext, beanLifecycle) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_PAUSE || event == Lifecycle.Event.ON_STOP
+                    || event == Lifecycle.Event.ON_DESTROY) {
+                KtmBeanRain.dismiss(beanHostContext)
+            }
+        }
+        beanLifecycle.addObserver(observer)
+        onDispose {
+            beanLifecycle.removeObserver(observer)
+            KtmBeanRain.dismiss(beanHostContext)
+        }
+    }
     val wallpaper = rememberAboutHeaderWallpaper(context)
     val blurRadius = with(LocalDensity.current) {
         (if (isNightMode(context)) 8.dp else 14.dp).toPx()
@@ -197,6 +216,11 @@ private fun HeaderCard(context: Context) {
             ) {
                 Text(
                     text = "uwuAOSP",
+                    modifier = Modifier.clickable {
+                        if (beanLifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                            KtmBeanRain.tap(beanHostContext)
+                        }
+                    },
                     style = MaterialTheme.typography.headlineLarge.copy(
                         brush = Brush.horizontalGradient(
                             listOf(
